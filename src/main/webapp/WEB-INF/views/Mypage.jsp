@@ -173,7 +173,7 @@
         </div>
         <h1 class ="h1">마이페이지</h1>
         <h1 class ="name" >님😊</h1>
-        <button class="edit-profile-btn" onclick="location.href='editProfile.jsp'">회원정보 수정</button>
+        <button class="edit-profile-btn" onclick="location.href='GoInformation1'">회원정보 수정</button>
         <h class ="h">추천받은 정보 확인하기 </h>
         <ul class="supplement-list" id="supplementList">
             <!-- 영양제 목록이 동적으로 추가됩니다 -->
