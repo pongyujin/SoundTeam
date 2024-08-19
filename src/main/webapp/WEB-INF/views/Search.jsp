@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@page import="com.sound.entity.Users"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,44 +9,84 @@
     <title>영양제 검색 페이지</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
+	font-family: Arial, sans-serif;
+	background-color: #ffffff;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	flex-direction: column;
+	padding: 0 10px;
+}
+
+.container {
+	background-color: #ffffff;
+	width: 430px;
+	max-width: 800px;
+	padding: 10px 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 0;
+}
+
+.logo img {
+	width: 100px; /* 로고 이미지 크기 조정 */
+}
+
+  .menu-icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .menu-icon div {
+    width: 100%;
+    height: 4px;
+    background-color: #000; 
+  }
+  .dropdown-menu {
+    display: none; /* 기본적으로 숨김 */
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1000;
+  }
+  .dropdown-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #000;
+    border-bottom: 1px solid #ddd;
+  }
+  .dropdown-menu a:last-child {
+    border-bottom: none;
+  }
+  .dropdown-menu a:hover {
+    background-color: #f0f0f0;
+  }
+
+.main-section {
+            margin: 20px 0;
+            height: 200px;
+            background-color: #e0e0e0; /* 임시 배경 색 */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            box-sizing: border-box;
-        }
-        .container {
-            background-color: #ffffff;
-            width: 100%;
-            max-width: 360px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            justify-content: space-between;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-        }
-        .logo img {
-            width: 100px; /* 로고 이미지 크기 조정 */
-        }
-        .menu a {
-            margin-left: 1em;
-            text-decoration: none;
-            color: #000;
-            font-size: 1.2em;
-        }
+            position: relative;
+            overflow: hidden;
+}
         .content {
             margin-top: 20px;
             width: 100%;
@@ -53,16 +94,15 @@
             box-sizing: border-box;
             text-align: center;
             flex-grow: 1;
-             font-size: 0.8em; 
-        } 
+            font-size: 10px;
+        }
         .search-bar {
             margin-bottom: 20px;
-            
         }
         .search-bar input {
-            width: 90%;
+            width: 100%;
             padding: 10px;
-            font-size: 0.8em; 
+            font-size: 1em;
             border: 1px solid #ddd;
             border-radius: 8px;
         }
@@ -185,13 +225,30 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                <a href="index.html"><img src="img/로고.png" alt="로고"></a>
+                <a href="GoMain"><img src="img/로고.png" alt="로고"></a>
             </div>
-            <div class="menu">
-                <a href="#">로그인</a>
-                <a href="#">회원가입</a>
-            </div>
-        </div>
+            <%
+        // 세션값 가져오기
+        Users user = (Users) session.getAttribute("user");
+      %>
+
+      <% if (user == null) { %>
+      <div class="menu">
+        <a href="Gologin">로그인</a>
+        <a href="GoJoinPage">회원가입</a>
+      </div>
+      <% } else { %>
+      <div class="menu-icon" onclick="toggleDropdown()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="mypage.jsp">마이페이지</a>
+        <a href="GoBoard">게시판</a>
+      </div>
+      <% } %>
+    </div>
 
         <div class="content">
             <h1>어떤 영양제를 찾으세요?</h1>
@@ -397,4 +454,4 @@
     </script>
 </body>
 </html>
->>>>>>> branch 'master' of https://github.com/2024-SMHRD-KDT-BigData-24/SoundTeam.git
+
