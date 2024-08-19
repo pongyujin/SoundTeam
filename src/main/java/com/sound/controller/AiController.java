@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.gson.Gson;
 import com.sound.DAO.Ai_AnalysisDAO;
 import com.sound.entity.Ai_Analysis;
 
@@ -79,10 +80,20 @@ public class AiController extends HttpServlet {
 			nutrition[0] = StringUtils.substringBetween(aiData[0], "1.", "2.");
 			nutrition[1] = StringUtils.substringBetween(aiData[0], "2.", "3.");
 			nutrition[2] = StringUtils.substringBetween(aiData[0], "3.", "식품");
-
+			
+			//식품: 이후부터 1. 2. 3. 추출
+			String foodData = StringUtils.substringAfter(aiData[0], "식품:");
+			String[] food = new String[3];
+			food[0] = StringUtils.substringBetween(foodData, "1.", "2.");
+			food[1] = StringUtils.substringBetween(foodData, "2.", "3.");
+			food[2] = StringUtils.substringAfter(foodData, "3.");
+			
 			System.out.println(nutrition[0]);
 			System.out.println(nutrition[1]);
 			System.out.println(nutrition[2]);
+			System.out.println(food[0]);
+			System.out.println(food[1]);
+			System.out.println(food[2]);
 			
 			String naverApiUrl = "http://localhost:8081/ST/NaverApiController?query=";
 
@@ -123,6 +134,13 @@ public class AiController extends HttpServlet {
 
 			// 클라이언트에 반환함
 			response.getWriter().write(resultNode.toString());
+			
+			//food 데이터를 jsonFood으로
+			Gson gson = new Gson();
+			String jsonFood = gson.toJson(food);
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jsonFood);
 
 			
 			
@@ -141,9 +159,9 @@ public class AiController extends HttpServlet {
 		OkHttpClient client = new OkHttpClient();
 
 		prompt = prompt + "\r\n" + " 그럴때 추천 영양성분 3가지와 식품 3가지를 ai_result: \r\n"
-				+ "영양성분: 1,2,3 식품:1,2,3  sugg_reason: 추천이유 \r\n"
+				+ "영양성분: 1., 2., 3. 식품: 1., 2., 3.  sugg_reason: 추천이유 \r\n"
 				+ "으로 영양성분과 식품이 서로 상호작용으로 어떤 영향이 없는지를  inter_actions: \r\n"
-				+ " 으로 답변할때 JSON형식 앞에 영어든 한국어든 어떤 언급도 하지 말고 바로 다음의 JSON 형식으로 답변  {\"ai_result\": \" \", \"sugg_reason\": \" \", \"inter_actions\": \" \"}";
+				+ "으로 하고, 답변할때 JSON형식 앞에 영어든 한국어든 어떤 언급도 하지 말고 바로 다음의 JSON 형식으로 답변  {\"ai_result\": \" \", \"sugg_reason\": \" \", \"inter_actions\": \" \"}";
 
 		JSONObject jsonBody = new JSONObject();
 		jsonBody.put("model", "claude-3-5-sonnet-20240620");
