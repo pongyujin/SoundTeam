@@ -126,33 +126,54 @@ body {
 			</h2>
 			<p>제품을 눌러 영양정보 확인하기</p>
 
+			<%
+				List<String> links = (List<String>) request.getAttribute("links");
+				List<String> images = (List<String>) request.getAttribute("images");
+				List<String> titles = (List<String>) request.getAttribute("titles");
+				String suggReason = (String) request.getAttribute("suggReason");
+				String aiResult = (String) request.getAttribute("aiResult");
+				String interActions = (String) request.getAttribute("interActions");
 
-		
+				if (links != null && !links.isEmpty() && images != null && !images.isEmpty() && titles != null && !titles.isEmpty()) {
+			%>
+
 			<!-- 영양제 -->
 			<div class="product-item" data-title="영양제">
-				<a href="<%=((List<String>) request.getAttribute("links")).get(0)%>">
-					<img
-					src="<%=((List<String>) request.getAttribute("images")).get(0)%>"
-					alt="영양제 이미지">
-					<p><%=((List<String>) request.getAttribute("titles")).get(0)%></p>
+				<a href="<%= links.get(0) %>">
+					<img src="<%= images.get(0) %>" alt="영양제 이미지">
+					<p><%= titles.get(0) %></p>
 				</a>
 				<p>
 					<strong>추천 이유:</strong>
-					<%=request.getAttribute("suggReason")%></p>
+					<%= suggReason %>
+				</p>
 			</div>
+
+			<% } else { %>
+			<!-- 기본 콘텐츠 -->
+			<div class="product-item" data-title="영양제">
+				<a href="#">
+					<img src="/path/to/default/image.jpg" alt="기본 이미지">
+					<p>추천된 영양제가 없습니다.</p>
+				</a>
+				<p><strong>추천 이유:</strong> 추천된 이유가 없습니다.</p>
+			</div>
+			<% } %>
 
 			<!-- 영양식품 -->
 			<div class="product-item" data-title="영양식품">
 				<p>
 					<strong>AI 결과:</strong>
-					<%=request.getAttribute("aiResult")%></p>
+					<%= aiResult != null ? aiResult : "AI 결과가 없습니다." %>
+				</p>
 			</div>
 
 			<!-- 상호작용 -->
 			<div class="product-item" data-title="상호작용">
 				<p>
 					<strong>상호작용:</strong>
-					<%=request.getAttribute("interActions")%></p>
+					<%= interActions != null ? interActions : "상호작용 정보가 없습니다." %>
+				</p>
 			</div>
 		</div>
 	</div>

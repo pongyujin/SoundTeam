@@ -34,37 +34,26 @@ public class AiController extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			// POST 요청으로 전달된 JSON 데이터를 받아오기
 			request.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
 
-			// JSON 데이터 파싱
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode requestData = objectMapper.readTree(request.getReader());
 
-			// 'prompt' 필드를 추출
 			JsonNode promptNode = requestData.get("prompt");
 			if (promptNode == null) {
 				throw new RuntimeException("prompt 필드가 요청 데이터에 존재하지 않습니다.");
 			}
 			String prompt = promptNode.asText();
 
-			// AI API 호출
 			String[] aiData = ai_access(prompt);
 
-			// 'userId' 필드를 추출
-			String userId = null;
-
-			userId = requestData.get("userId").asText();
-
+			String userId = requestData.get("userId").asText();
 			if (userId == null) {
 				throw new RuntimeException("userId가 전송되지 않았습니다.");
 			}
 
-			System.out.println("Received userId: " + userId);
-
-			// DB 저장하기
 			Ai_Analysis ai_analysis = new Ai_Analysis();
 			ai_analysis.setAiResult(aiData[0]);
 			ai_analysis.setUserId(userId);
@@ -76,39 +65,37 @@ public class AiController extends HttpServlet {
 			if (cnt > 0) {
 				System.out.println("ai DB테이블 저장완료!!");
 			} else {
-				System.out.println("ai DB테이블 저장완료!!");
+				System.out.println("ai DB테이블 저장실패!!");
 			}
 
-			// AI API 결과를 JSON으로 응답
 			ObjectNode resultNode = objectMapper.createObjectNode();
 			resultNode.put("ai_result", aiData[0]);
 			resultNode.put("sugg_reason", aiData[1]);
 			resultNode.put("inter_actions", aiData[2]);
 
-			// JSON 응답 전송
-			response.getWriter().write(resultNode.toString());
-
-			// 네이버 검색 기능!!!
-			// 영양성분 1, 2, 3 추출
 			String[] nutrition = new String[3];
-
 			nutrition[0] = StringUtils.substringBetween(aiData[0], "1.", "2.");
 			nutrition[1] = StringUtils.substringBetween(aiData[0], "2.", "3.");
 			nutrition[2] = StringUtils.substringBetween(aiData[0], "3.", "식품");
 
-			String naverApiUrl = "http://localhost:8081/SoundTeam/NaverApiController?query=";
-			 //
+			String naverApiUrl = "http://localhost:8081/ST/NaverApiController?query=";
+
+			JSONArray itemsArray = new JSONArray();
+			JSONArray linksArray = new JSONArray();
+			JSONArray imagesArray = new JSONArray();
 
 			for (String nutritionItem : nutrition) {
 				String naverResponse = callNaverApi(naverApiUrl + nutritionItem);
-				
 				JSONObject naverJson = new JSONObject(naverResponse);
-				
-				resultNode.put(nutritionItem + "_link",
-						naverJson.getJSONArray("items").getJSONObject(0).getString("link"));
-				resultNode.put(nutritionItem + "_image",
-						naverJson.getJSONArray("items").getJSONObject(0).getString("image"));
+
+				itemsArray.put(nutritionItem);
+				linksArray.put(naverJson.getJSONArray("items").getJSONObject(0).getString("link"));
+				imagesArray.put(naverJson.getJSONArray("items").getJSONObject(0).getString("image"));
 			}
+
+			resultNode.put("items", itemsArray.toString());
+			resultNode.put("links", linksArray.toString());
+			resultNode.put("images", imagesArray.toString());
 
 			response.getWriter().write(resultNode.toString());
 

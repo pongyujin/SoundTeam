@@ -69,7 +69,6 @@ public class ChecklistController extends HttpServlet {
 				System.out.println(userCheck.getListIdent() + "저장완료");
 			} else {
 				System.out.println(userCheck.getListIdent() + "저장실패");
-
 			}
 		}
 
@@ -80,13 +79,10 @@ public class ChecklistController extends HttpServlet {
 			String responseText = node.get("response").asText();
 
 			if (id == 0) {
-				// 아무런 추가 조치를 하지 않고 responseText를 그대로 사용하거나, 다른 형식으로 추가
 				promptBuilder.append("id").append(responseText);
 			} else {
-				// 기본 처리
 				promptBuilder.append("문항 번호: ").append(id).append(", 응답: ").append(responseText).append("\n");
 			}
-
 		}
 
 		// AiController로 데이터 전달
@@ -95,35 +91,42 @@ public class ChecklistController extends HttpServlet {
 
 		// JSON 응답을 ObjectMapper로 다시 파싱해서 필요한 데이터 추출
 		JsonNode aiResponseData = objectMapper.readTree(aiResponse);
+
 		// Naver API 결과들을 설정합니다.
 		JsonNode itemsNode = aiResponseData.get("items");
 		JsonNode linksNode = aiResponseData.get("links");
 		JsonNode imagesNode = aiResponseData.get("images");
-		
-		// JSON 배열을 Java List로 변환하여 JSP로 전달할 수 있습니다.
+
 		List<String> items = new ArrayList<>();
 		List<String> links = new ArrayList<>();
 		List<String> images = new ArrayList<>();
 
-		for (int i = 0; i < itemsNode.size(); i++) {
-			items.add(itemsNode.get(i).asText());
-			links.add(linksNode.get(i).asText());
-			images.add(imagesNode.get(i).asText());
+		// Null 체크 추가
+		if (itemsNode != null && linksNode != null && imagesNode != null) {
+			for (int i = 0; i < itemsNode.size(); i++) {
+				items.add(itemsNode.get(i).asText());
+				links.add(linksNode.get(i).asText());
+				images.add(imagesNode.get(i).asText());
+			}
+		} else {
+			// 로그 추가
+			System.out.println("One or more JSON nodes are null.");
+			// 기본 값 설정
+			items.add("기본 아이템");
+			links.add("#");
+			images.add("/path/to/default/image.jpg");
 		}
 
-		
-		// 필요한 데이터들을 JSP로 전달하기 위해 Request 객체에 속성으로 설정
-		request.setAttribute("ai_result", aiResponseData.get("ai_result").asText());
-		request.setAttribute("sugg_reason", aiResponseData.get("sugg_reason").asText());
-		request.setAttribute("inter_actions", aiResponseData.get("inter_actions").asText());
-		
-		request.setAttribute("items", items);
-		request.setAttribute("links", links);
-		request.setAttribute("images", images);
-		
-		// JSP 페이지로 포워딩
-		RequestDispatcher dispatcher = request.getRequestDispatcher("GoRecommendPage");
-		dispatcher.forward(request, response);
+		// JSON으로 응답을 반환
+		ObjectNode jsonResponse = objectMapper.createObjectNode();
+		jsonResponse.put("ai_result", aiResponseData.get("ai_result").asText());
+		jsonResponse.put("sugg_reason", aiResponseData.get("sugg_reason").asText());
+		jsonResponse.put("inter_actions", aiResponseData.get("inter_actions").asText());
+		jsonResponse.putPOJO("items", items);
+		jsonResponse.putPOJO("links", links);
+		jsonResponse.putPOJO("images", images);
+
+		response.getWriter().write(jsonResponse.toString());
 	}
 
 	private String sendToAiController(String prompt, String userId) throws IOException {

@@ -163,14 +163,14 @@ body {
 <body>
 
 	<%
-		Users user = (Users) session.getAttribute("user");
-		System.out.print("세션 값있냐?" + user);
-		System.out.println("세션 ID: " + session.getId());
-		
+	Users user = (Users) session.getAttribute("user");
+	System.out.print("세션 값있냐?" + user);
+	System.out.println("세션 ID: " + session.getId());
 	%>
 
 	<script>
-    var userId = '<%= user.getUsrId() %>';
+    var userId = '<%=user.getUsrId()%>
+		';
 	</script>
 
 
