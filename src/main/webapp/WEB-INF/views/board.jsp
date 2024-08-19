@@ -181,8 +181,8 @@ table th {
                 <div></div>
             </div>
             <div class="dropdown-menu" id="dropdownMenu">
-                <a href="mypage.jsp">마이페이지</a>
-                <a href="board.jsp">게시판</a>
+                <a href="GoMyPage1">마이페이지</a>
+                <a href="GoBoard">게시판</a>
             </div>
         </div>
 
