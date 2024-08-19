@@ -18,11 +18,15 @@ public class BoardViewController extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int idx = Integer.parseInt(request.getParameter("idx"));
+        int postId = Integer.parseInt(request.getParameter("postId"));
 
         BoardDAO dao = new BoardDAO();
-        Board board = dao.view(idx);
-
+        
+        // 조회수 증가
+        dao.increaseViewCount(postId);
+        
+        // 게시글 조회
+        Board board = dao.view(postId);
         request.setAttribute("board", board);
 
         String url = ""; 

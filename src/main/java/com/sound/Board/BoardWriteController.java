@@ -32,24 +32,24 @@ public class BoardWriteController extends HttpServlet {
         MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, encoding, new DefaultFileRenamePolicy());
 
         String title = multi.getParameter("title");
-        String writer = multi.getParameter("writer");
         String content = multi.getParameter("content");
         String img = multi.getFilesystemName("file");
+        String usrId = multi.getParameter("usrId");
 
         Board board = new Board();
-        board.setTitle(title);
-        board.setWriter(writer);
-        board.setContent(content);
-        board.setImg(img);
+        board.setPostTitle(title);
+        board.setPostContent(content);
+        board.setPostFile(img);
+        board.setUsrId(usrId);
 
         BoardDAO dao = new BoardDAO();
         int cnt = dao.writer(board);
 
         if (cnt > 0) {
-            response.sendRedirect("board.jsp"); // 게시글 목록 페이지로 리다이렉트
+            response.sendRedirect("WEB-INF/views/Board.jsp"); // 게시글 목록 페이지로 리다이렉트
         } else {
             request.setAttribute("error", "게시글 작성에 실패했습니다.");
-            request.getRequestDispatcher("board.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/views/Board.jsp").forward(request, response);
         }
     }
 }

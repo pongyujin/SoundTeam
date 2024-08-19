@@ -3,48 +3,55 @@
 <mapper namespace="com.sound.DAO.BoardMapper">
 
     <select id="listWithPagination" resultType="com.sound.entity.Board">
-        select * from Board
-        order by idx desc
+        select POST_ID as postId, POST_TITLE as postTitle, POST_CONTENT as postContent, 
+               POST_FILE as postFile, VIEW_COUNT as viewCount, USR_ID as usrId, 
+               CREATED_AT as createdAt, UPDATED_AT as updatedAt
+        from POST
+        order by POST_ID desc
         offset #{offset} rows
         fetch next #{limit} rows only
     </select>
 
     <insert id="writer" parameterType="com.sound.entity.Board">
-        insert into Board(idx, title, writer, content, img)
-        values(
-        idx_seq.nextval,
-        #{title},
-        #{writer},
-        #{content},
-        #{img, jdbcType=VARCHAR}
-        )
+        insert into POST (POST_ID, POST_TITLE, POST_CONTENT, POST_FILE, VIEW_COUNT, USR_ID, CREATED_AT, UPDATED_AT)
+        values (POST_SEQ.nextval, #{postTitle}, #{postContent}, #{postFile, jdbcType=VARCHAR}, 0, #{usrId}, SYSDATE, SYSDATE)
     </insert>
 
     <select id="view" resultType="com.sound.entity.Board">
-        select * from Board
-        where idx=#{idx}
+        select POST_ID as postId, POST_TITLE as postTitle, POST_CONTENT as postContent, 
+               POST_FILE as postFile, VIEW_COUNT as viewCount, USR_ID as usrId, 
+               CREATED_AT as createdAt, UPDATED_AT as updatedAt
+        from POST
+        where POST_ID = #{postId}
     </select>
 
     <select id="search" resultType="com.sound.entity.Board">
-        select * from Board
-        where title like '%' || #{search} || '%'
-        or writer like '%' || #{search} || '%'
-        or content like '%' || #{search} || '%'
+        select POST_ID as postId, POST_TITLE as postTitle, POST_CONTENT as postContent, 
+               POST_FILE as postFile, VIEW_COUNT as viewCount, USR_ID as usrId, 
+               CREATED_AT as createdAt, UPDATED_AT as updatedAt
+        from POST
+        where POST_TITLE like '%' || #{search} || '%'
+        or USR_ID like '%' || #{search} || '%'
+        or POST_CONTENT like '%' || #{search} || '%'
     </select>
 
     <update id="update" parameterType="com.sound.entity.Board">
-        update Board
-        set
-        title = #{title},
-        writer = #{writer},
-        content = #{content},
-        img = #{img, jdbcType=VARCHAR}
-        where
-        idx = #{idx}
+        update POST
+        set POST_TITLE = #{postTitle}, 
+            POST_CONTENT = #{postContent},
+            POST_FILE = #{postFile, jdbcType=VARCHAR},
+            UPDATED_AT = SYSDATE
+        where POST_ID = #{postId}
+    </update>
+
+    <update id="increaseViewCount" parameterType="int">
+        update POST
+        set VIEW_COUNT = VIEW_COUNT + 1
+        where POST_ID = #{postId}
     </update>
 
     <delete id="delete" parameterType="com.sound.entity.Board">
-        delete from Board
-        where idx = #{idx}
+        delete from POST
+        where POST_ID = #{postId}
     </delete>
 </mapper>

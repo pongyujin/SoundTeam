@@ -23,7 +23,7 @@ public class BoardDAO {
         session.close();
         return list;
     }
-    
+
     // 2. 게시글 작성하기
     public int writer(Board board) {
         SqlSession session = factory.openSession(true);
@@ -31,15 +31,15 @@ public class BoardDAO {
         session.close();
         return cnt;
     }
-    
+
     // 3. 게시글 상세보기
-    public Board view(int idx) {
+    public Board view(int postId) {
         SqlSession session = factory.openSession(true);
-        Board board = session.selectOne("view", idx);
+        Board board = session.selectOne("view", postId);
         session.close();
         return board;
     }
-    
+
     // 4. 게시글 검색 (검색 대상 확장 및 검증 추가)
     public List<Board> search(String search) {
         SqlSession session = factory.openSession(true);
@@ -47,7 +47,7 @@ public class BoardDAO {
         session.close();
         return list;
     }
-    
+
     // 5. 게시글 수정
     public int update(Board board) {
         SqlSession session = factory.openSession(true);
@@ -55,11 +55,19 @@ public class BoardDAO {
         session.close();
         return cnt;
     }
-    
+
     // 6. 게시글 삭제
-    public int delete(int idx) {
+    public int delete(int postId) {
         SqlSession session = factory.openSession(true);
-        int cnt = session.delete("delete", idx);
+        int cnt = session.delete("delete", postId);
+        session.close();
+        return cnt;
+    }
+
+    // 7. 조회수 증가
+    public int increaseViewCount(int postId) {
+        SqlSession session = factory.openSession(true);
+        int cnt = session.update("increaseViewCount", postId);
         session.close();
         return cnt;
     }

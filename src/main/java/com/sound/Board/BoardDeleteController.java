@@ -19,17 +19,17 @@ public class BoardDeleteController extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
-        int idx = Integer.parseInt(request.getParameter("idx"));
+        int postId = Integer.parseInt(request.getParameter("postId"));
 
         BoardDAO dao = new BoardDAO();
-        int cnt = dao.delete(idx);
+        int cnt = dao.delete(postId);
 
         String url = "";
 
         if (cnt > 0) {
-            url = "";  // 삭제 성공 시 게시글 목록 페이지로 이동
+            url = "WEB-INF/views/Board.jsp";  // 삭제 성공 시 게시글 목록 페이지로 이동
         } else {
-            url = "";  // 삭제 실패 시 오류 페이지로 이동
+            url = "WEB-INF/views/Board.jsp";  // 삭제 실패 시 오류 페이지로 이동
             request.setAttribute("error", "삭제에 실패했습니다.");
         }
 
