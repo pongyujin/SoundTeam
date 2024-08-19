@@ -204,97 +204,9 @@ table th {
                     <th>작성일</th>
                 </tr>
             </thead>
-            <tbody id="boardList">
-                <% 
-                    Connection conn = null;
-                    PreparedStatement stmt = null;
-                    ResultSet rs = null;
-
-                    int postsPerPage = 5;
-                    int currentPage = 1;
-                    int totalPosts = 0;
-
-                    try {
-                        // 데이터베이스 연결
-                        Class.forName("com.mysql.cj.jdbc.Driver");
-                        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/your_database", "username", "password");
-
-                        // 현재 페이지 가져오기
-                        String pageParam = request.getParameter("page");
-                        if (pageParam != null && !pageParam.isEmpty()) {
-                            currentPage = Integer.parseInt(pageParam);
-                        }
-
-                        // 검색어 처리
-                        String search = request.getParameter("search");
-                        String sql = "SELECT COUNT(*) FROM posts";
-                        if (search != null && !search.trim().isEmpty()) {
-                            sql += " WHERE title LIKE ?";
-                        }
-                        stmt = conn.prepareStatement(sql);
-                        if (search != null && !search.trim().isEmpty()) {
-                            stmt.setString(1, "%" + search + "%");
-                        }
-                        rs = stmt.executeQuery();
-                        if (rs.next()) {
-                            totalPosts = rs.getInt(1);
-                        }
-
-                        // 게시글 조회
-                        sql = "SELECT * FROM posts";
-                        if (search != null && !search.trim().isEmpty()) {
-                            sql += " WHERE title LIKE ?";
-                        }
-                        sql += " ORDER BY created_at DESC LIMIT ?, ?";
-                        stmt = conn.prepareStatement(sql);
-                        if (search != null && !search.trim().isEmpty()) {
-                            stmt.setString(1, "%" + search + "%");
-                            stmt.setInt(2, (currentPage - 1) * postsPerPage);
-                            stmt.setInt(3, postsPerPage);
-                        } else {
-                            stmt.setInt(1, (currentPage - 1) * postsPerPage);
-                            stmt.setInt(2, postsPerPage);
-                        }
-                        rs = stmt.executeQuery();
-
-                        while (rs.next()) {
-                            int id = rs.getInt("id");
-                            String title = rs.getString("title");
-                            String writer = rs.getString("writer");
-                            Timestamp createdAt = rs.getTimestamp("created_at");
-                %>
-                <tr>
-                    <td><%= id %></td>
-                    <td><a href="post.jsp?id=<%= id %>"><%= title %></a></td>
-                    <td><%= writer %></td>
-                    <td><%= createdAt %></td>
-                </tr>
-                <% 
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        // 자원 해제
-                        try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-                        try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-                        try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
-                    }
-
-                    int pageCount = (int) Math.ceil(totalPosts / (double) postsPerPage);
-                %>
-            </tbody>
+           
         </table>
 
-        <div class="pagination">
-            <% 
-                for (int i = 1; i <= pageCount; i++) {
-                    String activeClass = (i == currentPage) ? "active" : "";
-            %>
-            <a href="board.jsp?page=<%= i %>" class="<%= activeClass %>"><%= i %></a>
-            <% 
-                }
-            %>
-        </div>
 
         <a href="GoBoardPost" class="write-btn">글쓰기</a>
     </div>
