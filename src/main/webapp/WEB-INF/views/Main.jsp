@@ -149,7 +149,7 @@
     flex-wrap: wrap;
   }
   .category-button {
-    background-color: #e0e0e0;
+    background-color:C3F7FC;
     padding: 10px 15px;
     margin: 5px;
     border-radius: 20px;
@@ -159,13 +159,14 @@
   }
   .content-section {
     height: 200px;
-    background-color: #e0e0e0; /* 임시 배경 색 */
+    background-color:#CFF4F8; /* 임시 배경 색 */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     padding: 10px;
     overflow: hidden;
+    border-radius: 20px;
   }
   .content-section.hidden {
     display: none;
@@ -224,7 +225,7 @@
         
         <!-- HTML 버튼을 클릭하면 페이지 이동 -->
 
-	<a href='GoStartSurvetPage'>설문 조사 후<br> 영양제 추천</a>
+	<a href='GoStartSurvetPage' >설문 조사 후<br> 영양제 추천</a>
         
         
       </div>

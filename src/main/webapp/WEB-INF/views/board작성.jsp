@@ -172,7 +172,7 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                <a href="index.html">
+                <a href="GoMain">
                     <img src="img/로고.png" alt="로고">
                 </a>
             </div>
