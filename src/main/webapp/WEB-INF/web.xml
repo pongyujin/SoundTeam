@@ -4,4 +4,14 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>GoMyPage</servlet-name>
+  	<display-name>GoMyPage</display-name>
+  	<description></description>
+  	<servlet-class>com.sound.gopage.GoMyPage</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>GoMyPage</servlet-name>
+  	<url-pattern>/GoMyPage</url-pattern>
+  </servlet-mapping>
 </web-app>
