@@ -22,6 +22,7 @@ public class NaverApiController extends HttpServlet {
 
 		String query = request.getParameter("query");
 		if (query == null || query.isEmpty()) {
+			
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().write("{\"error\":\"Query parameter is missing\"}");
 			return;
@@ -30,6 +31,8 @@ public class NaverApiController extends HttpServlet {
 		String CLIENT_ID = "g5siLwJYkgE_dazRmlS5";
 		String CLIENT_SECRET = "ik50JL1LnT";
 		String API_URL = "https://openapi.naver.com/v1/search/shop.json";
+		
+		
 
 		OkHttpClient client = new OkHttpClient();
 

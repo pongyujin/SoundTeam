@@ -4,24 +4,65 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
   <servlet>
-  	<servlet-name>GoMyPage</servlet-name>
-  	<display-name>GoMyPage</display-name>
-  	<description></description>
-  	<servlet-class>com.sound.gopage.GoMyPage</servlet-class>
+    <servlet-name>GoMyPage</servlet-name>
+    <display-name>GoMyPage</display-name>
+    <description></description>
+    <servlet-class>com.sound.gopage.GoMyPage</servlet-class>
   </servlet>
+
   <servlet>
-  	<servlet-name>GoInformation</servlet-name>
-  	<display-name>GoInformation</display-name>
-  	<description></description>
-  	<servlet-class>com.sound.gopage.GoInformation</servlet-class>
+    <servlet-name>GoInformation</servlet-name>
+    <display-name>GoInformation</display-name>
+    <description></description>
+    <servlet-class>com.sound.gopage.GoInformation</servlet-class>
   </servlet>
+
+  <servlet>
+    <servlet-name>SearchController</servlet-name>
+    <display-name>SearchController</display-name>
+    <description></description>
+    <servlet-class>com.sound.controller.SearchController</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GoSearchResultPage</servlet-name>
+    <display-name>GoSearchResultPage</display-name>
+    <description></description>
+    <servlet-class>com.sound.gopage.GoSearchResultPage</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SearchNaverApiController</servlet-name>
+    <display-name>SearchNaverApiController</display-name>
+    <description></description>
+    <servlet-class>com.sound.controller.SearchNaverApiController</servlet-class>
+  </servlet>
+
   <servlet-mapping>
-  	<servlet-name>GoMyPage</servlet-name>
-  	<url-pattern>/GoMyPage</url-pattern>
+    <servlet-name>GoMyPage</servlet-name>
+    <url-pattern>/GoMyPage</url-pattern>
   </servlet-mapping>
+
   <servlet-mapping>
-  	<servlet-name>GoInformation</servlet-name>
-  	<url-pattern>/GoInformation</url-pattern>
+    <servlet-name>GoInformation</servlet-name>
+    <url-pattern>/GoInformation</url-pattern>
   </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SearchController</servlet-name>
+    <url-pattern>/SearchController</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GoSearchResultPage</servlet-name>
+    <url-pattern>/GoSearchResultPage</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SearchNaverApiController</servlet-name>
+    <url-pattern>/SearchNaverApiController</url-pattern>
+  </servlet-mapping>
+
 </web-app>
