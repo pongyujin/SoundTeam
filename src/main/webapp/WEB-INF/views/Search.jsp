@@ -107,6 +107,10 @@ body {
 
 .search-bar {
 	margin-bottom: 20px;
+    height: 11px;
+    width: 400px;
+	
+	
 }
 
 .search-bar input {
@@ -259,7 +263,6 @@ body {
 			// 세션값 가져오기
 			Users user = (Users) session.getAttribute("user");
 			%>
-
 			<%
 			if (user == null) {
 			%>
@@ -284,8 +287,10 @@ body {
 
 		<div class="content">
 			<h1>어떤 영양제를 찾으세요?</h1>
+			
 			<div class="search-bar">
-				<input type="text" placeholder="제품명, 영양성분, 건강 고민을 검색해보세요!">
+				<input type="text" id="searchInput" placeholder="제품명, 영양성분, 건강 고민을 검색해보세요!">
+				<button onclick="redirectToSearchResult()">검색</button>
 			</div>
 
 			<div class="category-slider-container">
@@ -342,7 +347,7 @@ body {
 					<!-- 비타민 목록 1 -->
 					<div class="vitamin-list">
 						<div class="vitamin-item"
-							onclick="redirectToSearchResult('비타민 C')">
+							onclick="redirectToSearchResult('비타민C')">
 							<img src="img/비타민C.jpg" alt="비타민 C"> <span>비타민 C</span>
 						</div>
 						<div class="vitamin-item" onclick="redirectToSearchResult('마그네슘')">
@@ -352,7 +357,7 @@ body {
 							<img src="img/밀크씨슬.jpg" alt="밀크씨슬"> <span>밀크씨슬</span>
 						</div>
 						<div class="vitamin-item"
-							onclick="redirectToSearchResult('비타민 A')">
+							onclick="redirectToSearchResult('비타민A')">
 							<img src="img/비타민A.jpg" alt="비타민 A"> <span>비타민 A</span>
 						</div>
 						<div class="vitamin-item"
@@ -376,7 +381,7 @@ body {
 							<img src="img/오메가3.jpg" alt="오메가3"> <span>오메가3</span>
 						</div>
 						<div class="vitamin-item"
-							onclick="redirectToSearchResult('비타민 D')">
+							onclick="redirectToSearchResult('비타민D')">
 							<img src="img/비타민D.jpg" alt="비타민 D"> <span>비타민 D</span>
 						</div>
 						<div class="vitamin-item"
@@ -387,7 +392,7 @@ body {
 							<img src="img/유산균.jpg" alt="유산균"> <span>유산균</span>
 						</div>
 						<div class="vitamin-item"
-							onclick="redirectToSearchResult('비타민 E')">
+							onclick="redirectToSearchResult('비타민E')">
 							<img src="img/비타민E.jpg" alt="비타민 E"> <span>비타민 E</span>
 						</div>
 						<div class="vitamin-item" onclick="redirectToSearchResult('칼슘')">
@@ -397,7 +402,7 @@ body {
 							<img src="img/철분.jpg" alt="철분"> <span>철분</span>
 						</div>
 						<div class="vitamin-item"
-							onclick="redirectToSearchResult('비타민 B')">
+							onclick="redirectToSearchResult('비타민B')">
 							<img src="img/비타민B.jpg" alt="비타민 B"> <span>비타민 B</span>
 						</div>
 					</div>
@@ -420,7 +425,7 @@ body {
 							<img src="img/인삼.jpeg" alt="인삼"> <span>인삼</span>
 						</div>
 						<div class="vitamin-item"
-							onclick="redirectToSearchResult('비타민 K')">
+							onclick="redirectToSearchResult('비타민K')">
 							<img src="img/비타민K.jpg" alt="비타민 K"> <span>비타민 K</span>
 						</div>
 						<div class="vitamin-item" onclick="redirectToSearchResult('커큐민')">
@@ -460,6 +465,18 @@ body {
             // URL 인코딩을 해서 안전하게 전달합니다.
             const encodedVitaminName = encodeURIComponent(vitaminName);
             window.location.href = `GoSearchResultPage?vitamin=${encodedVitaminName}`;
+        }
+        
+        function redirectToSearchResult() {
+        	
+            var vitaminName = document.getElementById('searchInput').value;
+            if (vitaminName) {
+            	
+                var encodedVitaminName = encodeURIComponent(vitaminName);
+                window.location.href = `GoSearchResultPage?vitamin=${encodedVitaminName}`;
+            } else {
+                alert("검색어를 입력하세요.");
+            }
         }
 
         

@@ -1,6 +1,7 @@
 package com.sound.controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,9 +20,14 @@ public class SearchNaverApiController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String query = request.getParameter("query");
+
 		if (query != null && !query.isEmpty()) {
+
+			// URL 인코딩
+			query = URLEncoder.encode(query, "UTF-8");
+
 			OkHttpClient client = new OkHttpClient();
 
 			Request apiRequest = new Request.Builder().url(NAVER_API_URL + "?query=" + query)
@@ -29,9 +35,11 @@ public class SearchNaverApiController extends HttpServlet {
 					.build();
 
 			try (Response apiResponse = client.newCall(apiRequest).execute()) {
+
 				String jsonData = apiResponse.body().string();
-				response.setContentType("application/json");
+				response.setContentType("application/json; charset=UTF-8"); // 응답 데이터의 인코딩 설정
 				response.getWriter().write(jsonData);
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
