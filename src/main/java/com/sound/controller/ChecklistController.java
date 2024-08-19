@@ -128,7 +128,7 @@ public class ChecklistController extends HttpServlet {
 
 	private String sendToAiController(String prompt, String userId) throws IOException {
 
-		String aiControllerUrl = "http://localhost:8081/SoundTeam/AiController"; // AiController의 URL
+		String aiControllerUrl = "http://localhost:8081/ST/AiController"; // AiController의 URL
 		OkHttpClient client = new OkHttpClient();
 
 		// JSON 생성
