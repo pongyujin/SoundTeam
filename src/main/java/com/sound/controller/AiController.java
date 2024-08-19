@@ -34,6 +34,7 @@ public class AiController extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		try {
 			request.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json");
@@ -42,14 +43,18 @@ public class AiController extends HttpServlet {
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode requestData = objectMapper.readTree(request.getReader());
 
+			// Json 불러오기 검사
 			JsonNode promptNode = requestData.get("prompt");
 			if (promptNode == null) {
 				throw new RuntimeException("prompt 필드가 요청 데이터에 존재하지 않습니다.");
 			}
+			
 			String prompt = promptNode.asText();
 
+			// ai 메서드 실행
 			String[] aiData = ai_access(prompt);
 
+			// user값 가져오기
 			String userId = requestData.get("userId").asText();
 			if (userId == null) {
 				throw new RuntimeException("userId가 전송되지 않았습니다.");
@@ -60,6 +65,8 @@ public class AiController extends HttpServlet {
 			ai_analysis.setUserId(userId);
 			ai_analysis.setInteraction(aiData[2]);
 
+			
+			// Ai_AnalysisDAO  DB 저장하기
 			Ai_AnalysisDAO dao = new Ai_AnalysisDAO();
 			int cnt = dao.insert(ai_analysis);
 
@@ -115,18 +122,6 @@ public class AiController extends HttpServlet {
 			}
 			
 			
-			// 값 있음
-//			for (Object z : itemsArray) {
-//				System.out.println("itemsArray이다!!!!!"+z);
-//			}
-//			for (Object z : linksArray) {
-//				System.out.println("linksArray이다!!!!!"+z);
-//			}
-//			for (Object z : imagesArray) {
-//				System.out.println("imagesArray이다!!!!!"+z);
-//			}
-			
-			
 			// JSON 객체인 resultNode에 넣고
 			resultNode.put("items", itemsArray.toString());
 			resultNode.put("links", linksArray.toString());
@@ -151,6 +146,7 @@ public class AiController extends HttpServlet {
 		}
 	}
 
+	// ai 실행 메서드
 	public String[] ai_access(String prompt) {
 
 		String API_KEY = "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";
@@ -209,6 +205,7 @@ public class AiController extends HttpServlet {
 
 	}
 
+	// naverAPi 불러오기 메서드
 	private String callNaverApi(String apiUrl) throws IOException {
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder().url(apiUrl).build();
