@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sound.DAO.Ai_AnalysisMapper">
+
+	<insert id="insert" parameterType="com.sound.entity.Ai_Analysis">
+		INSERT INTO Ai_Analysis (
+		ANALYSIS_ID,
+		AI_RESULT,
+		CREATED_AT,
+		INTER_ACTIONS,
+		USR_ID
+		)
+		VALUES (
+		Ai_Analysis_SEQ.NEXTVAL,  <!-- 시퀀스를 통해 ANALYSIS_ID를 자동 증가 -->
+		#{aiResult},
+		SYSDATE,  <!-- 현재 날짜 및 시간 -->
+		#{interaction},
+		#{userId}
+		)
+
+	</insert>
+
+
+
+
+
+
+
+
+
+
+</mapper>
+

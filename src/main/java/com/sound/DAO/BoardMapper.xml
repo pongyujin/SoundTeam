@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sound.DAO.BoardMapper">
+
+    <select id="listWithPagination" resultType="com.sound.entity.Board">
+        select * from Board
+        order by idx desc
+        offset #{offset} rows
+        fetch next #{limit} rows only
+    </select>
+
+    <insert id="writer" parameterType="com.sound.entity.Board">
+        insert into Board(idx, title, writer, content, img)
+        values(
+        idx_seq.nextval,
+        #{title},
+        #{writer},
+        #{content},
+        #{img, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="view" resultType="com.sound.entity.Board">
+        select * from Board
+        where idx=#{idx}
+    </select>
+
+    <select id="search" resultType="com.sound.entity.Board">
+        select * from Board
+        where title like '%' || #{search} || '%'
+        or writer like '%' || #{search} || '%'
+        or content like '%' || #{search} || '%'
+    </select>
+
+    <update id="update" parameterType="com.sound.entity.Board">
+        update Board
+        set
+        title = #{title},
+        writer = #{writer},
+        content = #{content},
+        img = #{img, jdbcType=VARCHAR}
+        where
+        idx = #{idx}
+    </update>
+
+    <delete id="delete" parameterType="com.sound.entity.Board">
+        delete from Board
+        where idx = #{idx}
+    </delete>
+</mapper>

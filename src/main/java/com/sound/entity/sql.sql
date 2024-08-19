@@ -1,0 +1,9 @@
+SELECT * FROM USERS;
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    writer VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    content TEXT,
+    image_url VARCHAR(255)
+);

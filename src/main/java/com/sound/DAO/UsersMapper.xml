@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sound.DAO.UsersMapper">
+
+	<!-- 홈페이지 회원가입  -->
+	<insert id="join" parameterType="com.sound.entity.Users">
+		insert into users (
+		usr_id,
+		usr_pw,
+		usr_name,
+		usr_email,
+		usr_birthday,
+		usr_gender,
+		joined_at
+		) values (
+		#{usrId},
+		#{usrPw},
+		#{usrName},
+		#{usrEmail},
+		#{usrBirthday},
+		#{usrGender},
+		SYSDATE
+		)
+	</insert>
+
+	<!-- 네이버 회원가입 -->
+	<insert id="naverJoin" parameterType="com.sound.entity.Users">
+		insert into users (
+		usr_id,
+		usr_pw,
+		usr_name,
+		usr_birthday,
+		usr_gender,
+		joined_at
+		) values (
+		#{usrId},
+		#{usrPw},
+		#{usrName},
+		#{usrBirthday},
+		#{usrGender},
+		SYSDATE
+		)
+	</insert>
+	
+		<insert id="kakaoJoin" parameterType="com.sound.entity.Users">
+		insert into users (
+		usr_id,
+		usr_pw,
+		usr_name,
+		joined_at
+		) values (
+		#{usrId},
+		#{usrPw},
+		#{usrName},
+		SYSDATE
+		)
+	</insert>
+
+	<select id="login" resultType="com.sound.entity.Users"
+		parameterType="com.sound.entity.Users">
+		select * from users
+		where usr_id=#{usrId} and usr_pw=#{usrPw}
+
+	</select>
+
+	<update id="update" parameterType="com.sound.entity.Users">
+		update users
+		set
+		pw = #{USR_PW},
+		name = #{USR_NAME},
+		email = #{USR_EMAIL},
+		birthday = #{USR_BIRTHDAY},
+		gender = #{USR_GENDER}
+		where id = #{USR_ID}
+	</update>
+
+	<select id="check"
+	resultType="com.sound.entity.Users">
+		select * from users
+		where USR_ID = #{usrId}
+	</select>
+
+
+
+</mapper>
