@@ -82,15 +82,30 @@ body {
 .product-item {
 	border: 2px solid #C2BBBB; /* 검은색 테두리 */
 	border-radius: 15px; /* 모서리를 둥글게 */
-	height: 300px; /* 박스의 크기를 크게 설정 */
-	margin-bottom: 40px;
-	margin-top: 50px;
-	position: relative;
-	display: flex; /* flexbox를 사용해 중앙 정렬 */
-	align-items: center; /* 수직 중앙 정렬 */
-	justify-content: center; /* 수평 중앙 정렬 */
-	font-size: 1.5em; /* 글씨 크기 증가 */
+	padding: 20px; /* 패딩 추가 */
+	margin-bottom: 20px;
+	width: 100%; /* 너비를 부모 요소에 맞춤 */
+	box-sizing: border-box; /* 패딩과 테두리 크기를 포함하여 너비 조정 */
+	font-size: 1.2em; /* 글씨 크기 조정 */
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+}
+
+.product-item a {
+	text-decoration: none; /* 링크 밑줄 제거 */
+	color: #000; /* 링크 색상 */
+	display: block; /* 링크 전체를 클릭할 수 있도록 블록으로 설정 */
+}
+
+.product-item img {
+	max-width: 100%; /* 이미지 크기 조정 */
+	height: auto; /* 비율 유지 */
+	border-radius: 10px; /* 이미지의 모서리를 둥글게 */
+}
+
+.product-item p {
+	margin: 10px 0 0; /* 상단 여백 추가, 하단 여백 제거 */
+	font-size: 1em; /* 텍스트 크기 */
+	line-height: 1.5em; /* 줄 간격 설정 */
 }
 
 .product-item::before {
@@ -122,57 +137,57 @@ body {
 		</div>
 
 		<div class="main-content">
-			<h2><%=request.getAttribute("userId")%>님께 추천된 영양제 입니다.
+			<h2><%=session.getAttribute("userId")%>님께 추천된 영양제 입니다.
 			</h2>
 			<p>제품을 눌러 영양정보 확인하기</p>
 
 			<%
-				List<String> links = (List<String>) request.getAttribute("links");
-				List<String> images = (List<String>) request.getAttribute("images");
-				List<String> titles = (List<String>) request.getAttribute("titles");
-				String suggReason = (String) request.getAttribute("suggReason");
-				String aiResult = (String) request.getAttribute("aiResult");
-				String interActions = (String) request.getAttribute("interActions");
+			List<String> links = (List<String>) session.getAttribute("links");
+			List<String> images = (List<String>) session.getAttribute("images");
+			List<String> items = (List<String>) session.getAttribute("items"); // titles 대신 items 사용
+			String suggReason = (String) session.getAttribute("sugg_reason");
+			String aiResult = (String) session.getAttribute("ai_result");
+			String interActions = (String) session.getAttribute("inter_actions");
 
-				if (links != null && !links.isEmpty() && images != null && !images.isEmpty() && titles != null && !titles.isEmpty()) {
+			if (links != null && !links.isEmpty() && images != null && !images.isEmpty() && items != null && !items.isEmpty()) {
+				for (int i = 0; i < links.size(); i++) {
 			%>
 
 			<!-- 영양제 -->
 			<div class="product-item" data-title="영양제">
-				<a href="<%= links.get(0) %>">
-					<img src="<%= images.get(0) %>" alt="영양제 이미지">
-					<p><%= titles.get(0) %></p>
+				<a href="<%=links.get(i)%>"> <img src="<%=images.get(i)%>"
+					alt="영양제 이미지">
+					<p><%=items.get(i)%></p> <!-- items 리스트에서 i번째 항목을 사용 -->
 				</a>
 				<p>
 					<strong>추천 이유:</strong>
-					<%= suggReason %>
+					<%=suggReason%><br> <strong>AI 결과:</strong>
+					<%=aiResult%>
 				</p>
 			</div>
 
-			<% } else { %>
+			<%
+			}
+			} else {
+			%>
 			<!-- 기본 콘텐츠 -->
 			<div class="product-item" data-title="영양제">
-				<a href="#">
-					<img src="/path/to/default/image.jpg" alt="기본 이미지">
+				<a href="#"> <img src="/path/to/default/image.jpg" alt="기본 이미지">
 					<p>추천된 영양제가 없습니다.</p>
 				</a>
-				<p><strong>추천 이유:</strong> 추천된 이유가 없습니다.</p>
-			</div>
-			<% } %>
-
-			<!-- 영양식품 -->
-			<div class="product-item" data-title="영양식품">
 				<p>
-					<strong>AI 결과:</strong>
-					<%= aiResult != null ? aiResult : "AI 결과가 없습니다." %>
+					<strong>추천 이유:</strong> 추천된 이유가 없습니다.
 				</p>
 			</div>
+			<%
+			}
+			%>
 
 			<!-- 상호작용 -->
 			<div class="product-item" data-title="상호작용">
 				<p>
-					<strong>상호작용:</strong>
-					<%= interActions != null ? interActions : "상호작용 정보가 없습니다." %>
+					
+					<%=interActions != null ? interActions : "상호작용 정보가 없습니다."%>
 				</p>
 			</div>
 		</div>

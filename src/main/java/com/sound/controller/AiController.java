@@ -73,32 +73,59 @@ public class AiController extends HttpServlet {
 			resultNode.put("sugg_reason", aiData[1]);
 			resultNode.put("inter_actions", aiData[2]);
 
+			
+			// ai 결과 파싱한 것
 			String[] nutrition = new String[3];
 			nutrition[0] = StringUtils.substringBetween(aiData[0], "1.", "2.");
 			nutrition[1] = StringUtils.substringBetween(aiData[0], "2.", "3.");
 			nutrition[2] = StringUtils.substringBetween(aiData[0], "3.", "식품");
 
+			System.out.println(nutrition[0]);
+			System.out.println(nutrition[1]);
+			System.out.println(nutrition[2]);
+			
 			String naverApiUrl = "http://localhost:8081/ST/NaverApiController?query=";
 
+			// 네이버 결과 담을 배열
 			JSONArray itemsArray = new JSONArray();
 			JSONArray linksArray = new JSONArray();
 			JSONArray imagesArray = new JSONArray();
 
 			for (String nutritionItem : nutrition) {
+				// 네이버 api 실행 
 				String naverResponse = callNaverApi(naverApiUrl + nutritionItem);
 				JSONObject naverJson = new JSONObject(naverResponse);
 
+				
 				itemsArray.put(nutritionItem);
 				linksArray.put(naverJson.getJSONArray("items").getJSONObject(0).getString("link"));
 				imagesArray.put(naverJson.getJSONArray("items").getJSONObject(0).getString("image"));
+				
 			}
-
+			
+			
+			// 값 있음
+//			for (Object z : itemsArray) {
+//				System.out.println("itemsArray이다!!!!!"+z);
+//			}
+//			for (Object z : linksArray) {
+//				System.out.println("linksArray이다!!!!!"+z);
+//			}
+//			for (Object z : imagesArray) {
+//				System.out.println("imagesArray이다!!!!!"+z);
+//			}
+			
+			
+			// JSON 객체인 resultNode에 넣고
 			resultNode.put("items", itemsArray.toString());
 			resultNode.put("links", linksArray.toString());
 			resultNode.put("images", imagesArray.toString());
 
+			// 클라이언트에 반환함
 			response.getWriter().write(resultNode.toString());
 
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -152,6 +179,7 @@ public class AiController extends HttpServlet {
 				System.out.println("ai_result: " + ai_data[0]);
 				System.out.println("sugg_reason: " + ai_data[1]);
 				System.out.println("inter_actions: " + ai_data[2]);
+				
 			} else {
 				System.out.println("content 필드가 존재하지 않거나 배열 형식이 아니거나 null 입니다.");
 			}

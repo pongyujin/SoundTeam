@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -93,40 +93,41 @@ public class ChecklistController extends HttpServlet {
 		JsonNode aiResponseData = objectMapper.readTree(aiResponse);
 
 		// Naver API 결과들을 설정합니다.
-		JsonNode itemsNode = aiResponseData.get("items");
-		JsonNode linksNode = aiResponseData.get("links");
-		JsonNode imagesNode = aiResponseData.get("images");
-
 		List<String> items = new ArrayList<>();
 		List<String> links = new ArrayList<>();
 		List<String> images = new ArrayList<>();
 
-		// Null 체크 추가
-		if (itemsNode != null && linksNode != null && imagesNode != null) {
-			for (int i = 0; i < itemsNode.size(); i++) {
-				items.add(itemsNode.get(i).asText());
-				links.add(linksNode.get(i).asText());
-				images.add(imagesNode.get(i).asText());
-			}
-		} else {
-			// 로그 추가
-			System.out.println("One or more JSON nodes are null.");
-			// 기본 값 설정
-			items.add("기본 아이템");
-			links.add("#");
-			images.add("/path/to/default/image.jpg");
+		// JSON 문자열을 직접 리스트로 변환
+		if (aiResponseData.has("items")) {
+			String itemsJson = aiResponseData.get("items").asText();
+			items = objectMapper.readValue(itemsJson, new TypeReference<List<String>>() {
+			});
 		}
 
-		// JSON으로 응답을 반환
-		ObjectNode jsonResponse = objectMapper.createObjectNode();
-		jsonResponse.put("ai_result", aiResponseData.get("ai_result").asText());
-		jsonResponse.put("sugg_reason", aiResponseData.get("sugg_reason").asText());
-		jsonResponse.put("inter_actions", aiResponseData.get("inter_actions").asText());
-		jsonResponse.putPOJO("items", items);
-		jsonResponse.putPOJO("links", links);
-		jsonResponse.putPOJO("images", images);
+		if (aiResponseData.has("links")) {
+			String linksJson = aiResponseData.get("links").asText();
+			links = objectMapper.readValue(linksJson, new TypeReference<List<String>>() {
+			});
+		}
 
-		response.getWriter().write(jsonResponse.toString());
+		if (aiResponseData.has("images")) {
+			String imagesJson = aiResponseData.get("images").asText();
+			images = objectMapper.readValue(imagesJson, new TypeReference<List<String>>() {
+			});
+		}
+
+		// 세션에 데이터 저장
+		session = request.getSession();
+		session.setAttribute("ai_result", aiResponseData.get("ai_result").asText());
+		session.setAttribute("sugg_reason", aiResponseData.get("sugg_reason").asText());
+		session.setAttribute("inter_actions", aiResponseData.get("inter_actions").asText());
+		session.setAttribute("items", items);
+		session.setAttribute("links", links);
+		session.setAttribute("images", images);
+
+		// 이후 클라이언트에서 페이지 리디렉션 처리
+		response.getWriter().write("{\"status\":\"success\"}");
+
 	}
 
 	private String sendToAiController(String prompt, String userId) throws IOException {
