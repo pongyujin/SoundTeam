@@ -88,6 +88,8 @@ body {
 	box-sizing: border-box; /* 패딩과 테두리 크기를 포함하여 너비 조정 */
 	font-size: 1.2em; /* 글씨 크기 조정 */
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+	position: relative; /* 포지션 상대 */
+	padding-top: 40px;
 }
 
 .product-item a {
@@ -104,8 +106,17 @@ body {
 
 .product-item p {
 	margin: 10px 0 0; /* 상단 여백 추가, 하단 여백 제거 */
-	font-size: 1em; /* 텍스트 크기 */
+	font-size: 0.8em; /* 텍스트 크기 */
 	line-height: 1.5em; /* 줄 간격 설정 */
+	opacity: 0; /* 처음에는 투명하게 */
+	max-height: 0; /* 높이를 0으로 설정하여 숨김 효과 */
+	overflow: hidden; /* 높이가 줄어들면서 내용이 숨겨지도록 설정 */
+	transition: opacity 2s ease, max-height 2s ease; /* 부드러운 전환 효과 */
+}
+
+.product-item:hover p {
+	opacity: 1; /* 투명도 1로 설정 */
+	max-height: 500px; /* 충분히 큰 값으로 설정하여 내용이 모두 보이도록 */
 }
 
 .product-item::before {
@@ -120,6 +131,42 @@ body {
 	font-weight: bold;
 	text-align: center; /* 제목 텍스트를 중앙 정렬 */
 }
+
+.product-item.show p {
+	opacity: 1;
+	max-height: 500px;
+}
+
+.fixed-title {
+	font-size: 2em;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+#product-detail {
+	border: 1px solid #C2BBBB; /* 검은색 테두리 */
+}
+
+.zoomable-item {
+    transition: transform 0.3s ease; /* 마우스를 올렸을 때 부드러운 줌인 효과 추가 */
+}
+
+.zoomable-item:hover {
+    transform: scale(1.05); /* 5% 확대 */
+}
+
+.product-item .click-message {
+    display: none; /* 처음에는 숨김 */
+    font-size: 0.7em; /* 작은 글씨 크기 */
+    color: #555; /* 연한 색상 */
+    margin-top: 5px; /* 이미지와 약간의 여백 추가 */
+}
+
+.zoomable-item:hover .click-message {
+    display: block; /* 마우스를 올렸을 때만 보이도록 설정 */
+}
+
+
 </style>
 </head>
 <body>
@@ -136,62 +183,95 @@ body {
 			</div>
 		</div>
 
+		<%
+		// 네이버 api 결과
+		List<String> links = (List<String>) session.getAttribute("links");
+		List<String> images = (List<String>) session.getAttribute("images");
+		List<String> items = (List<String>) session.getAttribute("items");
+
+		// ai결과 
+		String suggReason = (String) session.getAttribute("sugg_reason");
+		String interActions = (String) session.getAttribute("inter_actions");
+
+		// 세션에서 food 데이터 가져오기
+		List<String> foodList = (List<String>) session.getAttribute("food");
+		%>
+
 		<div class="main-content">
-			<h2><%=session.getAttribute("userId")%>님께 추천된 영양제 입니다.
+			<h2><%=session.getAttribute("user_id")%>님께<br> 추천된 영양제 입니다.
 			</h2>
 			<p>제품을 눌러 영양정보 확인하기</p>
+			<br> <br>
 
-			<%
-			List<String> links = (List<String>) session.getAttribute("links");
-			List<String> images = (List<String>) session.getAttribute("images");
-			List<String> items = (List<String>) session.getAttribute("items"); // titles 대신 items 사용
-			String suggReason = (String) session.getAttribute("sugg_reason");
-			String aiResult = (String) session.getAttribute("ai_result");
-			String interActions = (String) session.getAttribute("inter_actions");
+			<!-- 영양제 리스트 -->
+			<div class="product-item" data-title="추천된 영양제">
+				<%
+				// 네이버 API 결과 가져오기
+				if (links != null && !links.isEmpty() && images != null && !images.isEmpty() && items != null && !items.isEmpty()) {
+					for (int i = 0; i < links.size(); i++) {
+				%>
+				<div class="product-item zoomable-item" id="product-detail">
+					<a href="<%=links.get(i)%>"> <img src="<%=images.get(i)%>"
+						alt="영양제 이미지">
+						<h4><%=items.get(i)%></h4>
+					</a>
+					<p class="click-message">제품을 클릭해 사이트 이동하기</p>
 
-			if (links != null && !links.isEmpty() && images != null && !images.isEmpty() && items != null && !items.isEmpty()) {
-				for (int i = 0; i < links.size(); i++) {
-			%>
-
-			<!-- 영양제 -->
-			<div class="product-item" data-title="영양제">
-				<a href="<%=links.get(i)%>"> <img src="<%=images.get(i)%>"
-					alt="영양제 이미지">
-					<p><%=items.get(i)%></p> <!-- items 리스트에서 i번째 항목을 사용 -->
-				</a>
-				<p>
-					<strong>추천 이유:</strong>
-					<%=suggReason%><br> <strong>AI 결과:</strong>
-					<%=aiResult%>
-				</p>
-			</div>
-
-			<%
-			}
-			} else {
-			%>
-			<!-- 기본 콘텐츠 -->
-			<div class="product-item" data-title="영양제">
-				<a href="#"> <img src="/path/to/default/image.jpg" alt="기본 이미지">
+				</div>
+				<%
+				}
+				} else {
+				%>
+				<div class="product-item" data-title="영양제">
 					<p>추천된 영양제가 없습니다.</p>
-				</a>
-				<p>
-					<strong>추천 이유:</strong> 추천된 이유가 없습니다.
+				</div>
+				<%
+				}
+				%>
+			</div>
+
+			<!-- 추천 이유 -->
+			<div class="product-item" data-title="추천 이유">
+				<p><%=suggReason%><br>
 				</p>
 			</div>
-			<%
-			}
-			%>
-
 			<!-- 상호작용 -->
 			<div class="product-item" data-title="상호작용">
 				<p>
-					
 					<%=interActions != null ? interActions : "상호작용 정보가 없습니다."%>
 				</p>
 			</div>
+
+			<!-- 추천 식품 -->
+			<div class="product-item" data-title="추천 식품">
+
+				<%
+				if (foodList != null && !foodList.isEmpty()) {
+					for (String foodItem : foodList) {
+				%>
+				<p><%=foodItem%></p>
+				<%
+				}
+				} else {
+				%>
+				<p>추천된 식품이 없습니다.</p>
+				<%
+				}
+				%>
+			</div>
+
 		</div>
 	</div>
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			var productItems = document.querySelectorAll('.product-item');
 
+			productItems.forEach(function(item) {
+				item.addEventListener('mouseover', function() {
+					this.classList.add('show'); // 'show' 클래스를 추가하여 고정
+				});
+			});
+		});
+	</script>
 </body>
 </html>

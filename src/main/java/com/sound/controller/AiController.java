@@ -1,10 +1,7 @@
 package com.sound.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +14,9 @@ import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.gson.Gson;
 import com.sound.DAO.Ai_AnalysisDAO;
 import com.sound.entity.Ai_Analysis;
 
@@ -34,7 +32,7 @@ public class AiController extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		try {
 			request.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json");
@@ -48,7 +46,7 @@ public class AiController extends HttpServlet {
 			if (promptNode == null) {
 				throw new RuntimeException("prompt 필드가 요청 데이터에 존재하지 않습니다.");
 			}
-			
+
 			String prompt = promptNode.asText();
 
 			// ai 메서드 실행
@@ -65,8 +63,7 @@ public class AiController extends HttpServlet {
 			ai_analysis.setUserId(userId);
 			ai_analysis.setInteraction(aiData[2]);
 
-			
-			// Ai_AnalysisDAO  DB 저장하기
+			// Ai_AnalysisDAO DB 저장하기
 			Ai_AnalysisDAO dao = new Ai_AnalysisDAO();
 			int cnt = dao.insert(ai_analysis);
 
@@ -80,28 +77,40 @@ public class AiController extends HttpServlet {
 			resultNode.put("ai_result", aiData[0]);
 			resultNode.put("sugg_reason", aiData[1]);
 			resultNode.put("inter_actions", aiData[2]);
-
 			
+			resultNode.put("user_id", userId);
+			
+
 			// ai 결과 파싱한 것
 			String[] nutrition = new String[3];
-			nutrition[0] = StringUtils.substringBetween(aiData[0], "1.", "2.");
-			nutrition[1] = StringUtils.substringBetween(aiData[0], "2.", "3.");
+			nutrition[0] = StringUtils.substringBetween(aiData[0], "1.", ",");
+			nutrition[1] = StringUtils.substringBetween(aiData[0], "2.", ",");
 			nutrition[2] = StringUtils.substringBetween(aiData[0], "3.", "식품");
-			
-			//식품: 이후부터 1. 2. 3. 추출
+
+			// 식품: 이후부터 1. 2. 3. 추출
 			String foodData = StringUtils.substringAfter(aiData[0], "식품:");
 			String[] food = new String[3];
-			food[0] = StringUtils.substringBetween(foodData, "1.", "2.");
-			food[1] = StringUtils.substringBetween(foodData, "2.", "3.");
+
+			food[0] = StringUtils.substringBetween(foodData, "1.", ",");
+			food[1] = StringUtils.substringBetween(foodData, "2.", ",");
 			food[2] = StringUtils.substringAfter(foodData, "3.");
-			
+
+			// food 배열을 ArrayNode로 변환
+			ArrayNode foodArray = JsonNodeFactory.instance.arrayNode();
+			for (String foodItem : food) {
+			    foodArray.add(foodItem);
+			}
+
+			// 영양제
 			System.out.println(nutrition[0]);
 			System.out.println(nutrition[1]);
 			System.out.println(nutrition[2]);
+
+			// 음식
 			System.out.println(food[0]);
 			System.out.println(food[1]);
 			System.out.println(food[2]);
-			
+
 			String naverApiUrl = "http://localhost:8081/ST/NaverApiController?query=";
 
 			// 네이버 결과 담을 배열
@@ -110,35 +119,27 @@ public class AiController extends HttpServlet {
 			JSONArray imagesArray = new JSONArray();
 
 			for (String nutritionItem : nutrition) {
-				// 네이버 api 실행 
+				// 네이버 api 실행
 				String naverResponse = callNaverApi(naverApiUrl + nutritionItem);
 				JSONObject naverJson = new JSONObject(naverResponse);
 
-				
 				itemsArray.put(nutritionItem);
 				linksArray.put(naverJson.getJSONArray("items").getJSONObject(0).getString("link"));
 				imagesArray.put(naverJson.getJSONArray("items").getJSONObject(0).getString("image"));
-				
+
 			}
-			
-			
+
 			// JSON 객체인 resultNode에 넣고
 			resultNode.put("items", itemsArray.toString());
 			resultNode.put("links", linksArray.toString());
 			resultNode.put("images", imagesArray.toString());
 
+			// JSON 객체인 resultNode에 foodArray를 추가
+			resultNode.set("food", foodArray);  // set 메서드 사용
+
 			// 클라이언트에 반환함
 			response.getWriter().write(resultNode.toString());
-			
-			//food 데이터를 jsonFood으로
-			Gson gson = new Gson();
-			String jsonFood = gson.toJson(food);
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(jsonFood);
 
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -193,7 +194,7 @@ public class AiController extends HttpServlet {
 				System.out.println("ai_result: " + ai_data[0]);
 				System.out.println("sugg_reason: " + ai_data[1]);
 				System.out.println("inter_actions: " + ai_data[2]);
-				
+
 			} else {
 				System.out.println("content 필드가 존재하지 않거나 배열 형식이 아니거나 null 입니다.");
 			}

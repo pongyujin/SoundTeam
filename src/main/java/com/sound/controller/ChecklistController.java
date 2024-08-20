@@ -116,14 +116,29 @@ public class ChecklistController extends HttpServlet {
 			});
 		}
 
+		// food 데이터를 추출하여 세션에 저장
+		List<String> foodList = new ArrayList<>();
+		if (aiResponseData.has("food")) {
+			for (JsonNode foodItem : aiResponseData.get("food")) {
+				foodList.add(foodItem.asText());
+			}
+		}
+
 		// 세션에 데이터 저장
 		session = request.getSession();
 		session.setAttribute("ai_result", aiResponseData.get("ai_result").asText());
 		session.setAttribute("sugg_reason", aiResponseData.get("sugg_reason").asText());
 		session.setAttribute("inter_actions", aiResponseData.get("inter_actions").asText());
+
 		session.setAttribute("items", items);
 		session.setAttribute("links", links);
 		session.setAttribute("images", images);
+
+		// food 데이터를 리스트 형태로 세션에 저장
+		session.setAttribute("food", foodList);
+		
+		// user.id 가져가기
+		session.setAttribute("user_id", userId);
 
 		// 이후 클라이언트에서 페이지 리디렉션 처리
 		response.getWriter().write("{\"status\":\"success\"}");
