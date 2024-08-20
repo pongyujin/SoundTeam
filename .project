@@ -27,20 +27,16 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
 	<filteredResources>
 		<filter>
-<<<<<<< HEAD
 			<id>1724035281056</id>
-=======
-			<id>1724045520858</id>
->>>>>>> branch 'origin' of https://github.com/2024-SMHRD-KDT-BigData-24/SoundTeam.git
 			<name></name>
 			<type>30</type>
 			<matcher>
