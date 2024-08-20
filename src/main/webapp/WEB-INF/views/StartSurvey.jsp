@@ -79,6 +79,7 @@ body {
 	width: 100%;
 	color: #000;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin-bottom: 200px;
 }
 
 .button.alt {
@@ -123,7 +124,7 @@ body {
 
 
 
-		<button class="button alt">식단 입력 후 부족한 영양식품 확인하기</button>
+
 	</div>
 
 	<script>
