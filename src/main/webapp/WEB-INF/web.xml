@@ -39,6 +39,18 @@
 		<description></description>
 		<servlet-class>com.sound.controller.SearchNaverApiController</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>Test</servlet-name>
+		<display-name>Test</display-name>
+		<description></description>
+		<servlet-class>com.sound.controller.Test</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ApiTestServlet</servlet-name>
+		<display-name>ApiTestServlet</display-name>
+		<description></description>
+		<servlet-class>com.sound.controller.ApiTestServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>GoMyPage</servlet-name>
@@ -64,6 +76,14 @@
 	<servlet-mapping>
 		<servlet-name>SearchNaverApiController</servlet-name>
 		<url-pattern>/SearchNaverApiController</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Test</servlet-name>
+		<url-pattern>/Test</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ApiTestServlet</servlet-name>
+		<url-pattern>/ApiTestServlet</url-pattern>
 	</servlet-mapping>
 
 </web-app>
