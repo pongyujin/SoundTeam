@@ -30,8 +30,9 @@
 
 	<mappers>
 		<mapper resource="com/sound/DAO/UsersMapper.xml" />
-		<mapper resource="com/sound/DAO/Ai_AnalysisMapper.xml" />
+		<mapper resource="com/sound/DAO/Ai_recommendationMapper.xml" />
 		<mapper resource="com/sound/DAO/User_checkMapper.xml" />
 		<mapper resource="com/sound/DAO/BoardMapper.xml" />
+		<mapper resource="com/sound/DAO/ProductsMapper.xml" />
 	</mappers>
 </configuration>
