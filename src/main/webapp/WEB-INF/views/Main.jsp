@@ -47,6 +47,17 @@ body {
 	width: 110px; /* 로고 이미지 크기 조정 */
 }
 
+.menu a {
+	margin-left : 5px;
+	color: #000000; /* 링크 색상 변경 */
+	text-decoration: none; /* 밑줄 제거 */
+}
+
+a:hover {
+	color: #007BFF; /* 마우스를 올렸을 때 색상 변경 */
+
+}
+
 .menu-icon {
 	width: 30px;
 	height: 30px;
@@ -114,37 +125,38 @@ body {
 	opacity: 1;
 }
 
-        .buttons-section {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 40px;
-             gap: 20px /* 버튼 섹션과 다음 섹션 사이에 여백 추가 */
-        }
-       .button, .button1 {
-    background-color: #A3ECF2; /* 버튼 배경색 */
-    color: #000000; /* 텍스트 색상 */
-    padding: 15px;
-    border: none;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    font-size: 1em;
-    flex: 1; /* 버튼이 부모 컨테이너의 너비를 동일하게 차지 */
-    height: 100px; /* 버튼의 높이 설정 */
-    box-sizing: border-box; /* 패딩과 보더를 포함한 전체 크기를 계산 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s ease;
+.buttons-section {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 40px;
+	gap: 20px; /* 버튼 사이의 간격 추가 */
 }
 
-.button1 {
-    background-color: #66d4e4; /* 다른 버튼의 배경색 */
+.button1, .button2 {
+	background-color: #A3ECF2; /* 버튼 배경색 */
+	color: #000000; /* 텍스트 색상 */
+	padding: 15px;
+	border: none;
+	border-radius: 8px;
+	text-align: center;
+	cursor: pointer;
+	font-size: 1em;
+	flex: 1; /* 버튼이 부모 컨테이너의 너비를 동일하게 차지 */
+	height: 100px; /* 버튼의 높이 설정 */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: transform 0.3s ease;
 }
 
-        .button:last-child {
-            margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
-        }
+.button2 {
+	background-color: #66d4e4; /* 다른 버튼의 배경색 */
+}
+
+/* 마우스 오버 시 줌인 효과 */
+.button1:hover, .button2:hover {
+	transform: scale(1.05); /* 버튼을 약간 확대 */
+}
 
 .recommendation-section {
 	margin-bottom: 20px;
@@ -182,21 +194,23 @@ body {
 	padding: 10px;
 	overflow: hidden;
 	border-radius: 20px;
+	opacity: 0; /* 처음에는 투명하게 설정 */
+	max-height: 0; /* 처음에는 높이를 0으로 설정 */
+	transition: opacity 0.5s ease, max-height 0.5s ease; /* 부드러운 전환 효과 */
 }
 
-.content-section.hidden {
-	display: none;
+.content-section.show {
+	opacity: 1;
+	max-height: 500px; /* 충분히 큰 값을 설정하여 모든 내용이 보이도록 함 */
 }
 
-.vitamin-list {
-	margin-top: 10px;
-	text-align: left;
-	list-style: none;
-	padding: 0;
+.vitamin-list-container {
+	transition: opacity 0.5s ease; /* 텍스트 전환을 위한 트랜지션 */
+	opacity: 1;
 }
 
-.vitamin-list li {
-	margin-bottom: 10px;
+.vitamin-list-container.hidden {
+	opacity: 0;
 }
 </style>
 </head>
@@ -217,7 +231,8 @@ body {
 			if (user == null) {
 			%>
 			<div class="menu">
-				<a href="Gologin">로그인</a> <a href="GoJoinPage">회원가입</a>
+				<a href="Gologin">로그인</a> 
+				<a href="GoJoinPage">회원가입</a>
 			</div>
 			<%
 			} else {
@@ -243,23 +258,14 @@ body {
 		</div>
 
 		<div class="buttons-section">
-			<div class="button">
-
-				<!-- HTML 버튼을 클릭하면 페이지 이동 -->
-
-
-				<button  class="button" onclick="location.href='GoStartSurvetPage'">
-					설문 조사 후<br> 영양제 추천
-				</button>
-
-
-
-			</div>
-
-			<button class="button1" onclick="location.href='GoSearchPage'">
+			<!-- 버튼 1 -->
+			<button class="button1" onclick="location.href='GoStartSurvetPage'">
+				설문 조사 후<br> 영양제 추천
+			</button>
+			<!-- 버튼 2 -->
+			<button class="button2" onclick="location.href='GoSearchPage'">
 				영양제 검색 후<br>직접 선택
 			</button>
-
 		</div>
 
 		<div class="recommendation-section">
@@ -279,8 +285,8 @@ body {
 			</div>
 		</div>
 
-		<div id="content-section" class="content-section hidden">
-			<div id="vitamin-list-container"></div>
+		<div id="content-section" class="content-section">
+			<div id="vitamin-list-container" class="vitamin-list-container"></div>
 		</div>
 	</div>
 
@@ -296,6 +302,10 @@ body {
 
     setInterval(showNextSlide, 3000); // 3초마다 이미지 전환
 
+ 	// 전역 변수로 선언
+    let isFirstClick = true;  // 처음 클릭 여부를 확인하기 위한 변수
+
+    // 건강 고민별 추천 영양제 
     function showVitaminList(category) {
       const vitaminListContainer = document.getElementById('vitamin-list-container');
       const contentSection = document.getElementById('content-section');
@@ -304,28 +314,28 @@ body {
       switch (category) {
         case 'stress':
           vitamins = [
-            '비타민 B 컴플렉스 - 스트레스 완화에 도움을 줄 수 있습니다.',
+            '비타민 B 컴플렉스 - 스트레스 완화에 도움.',
             '마그네슘 - 신경계 안정 및 스트레스 감소에 도움.',
             'L-테아닌 - 긴장 완화 및 스트레스 감소.'
           ];
           break;
         case 'skin':
           vitamins = [
-            '비타민 C - 피부 건강을 촉진합니다.',
+            '비타민 C - 피부 건강을 촉진.',
             '비오틴 - 피부, 머리카락, 손톱 건강에 도움.',
             '콜라겐 - 피부 탄력 유지에 기여.'
           ];
           break;
         case 'diet':
           vitamins = [
-            '가르시니아 - 체중 관리에 도움을 줄 수 있습니다.',
+            '가르시니아 - 체중 관리에 도움.',
             'CLA - 지방 대사 촉진.',
             '녹차 추출물 - 체지방 감소에 기여.'
           ];
           break;
         case 'eye':
           vitamins = [
-            '루테인 - 눈 건강 유지에 도움을 줄 수 있습니다.',
+            '루테인 - 눈 건강 유지에 도움.',
             '비타민 A - 시력 유지에 중요.',
             '오메가-3 - 눈의 건조함을 줄이는 데 도움.'
           ];
@@ -386,13 +396,22 @@ body {
       // 비타민 목록을 동적으로 생성
       let vitaminListHtml = '<ul class="vitamin-list">';
       vitamins.forEach(vitamin => {
-        vitaminListHtml += `<li>${vitamin}</li>`;
+          vitaminListHtml += `<li>${vitamin}</li>`;
       });
       vitaminListHtml += '</ul>';
 
-      // 컨텐츠 섹션에 비타민 리스트를 표시
-      vitaminListContainer.innerHTML = vitaminListHtml;
-      contentSection.classList.remove('hidden');
+  	 // 첫 클릭 시: 박스가 부드럽게 나타남
+      if (isFirstClick) {
+          contentSection.classList.add('show');  // 박스를 부드럽게 나타냄
+          isFirstClick = false; // 첫 클릭 이후로는 박스가 계속 보여지도록 설정
+      }
+
+      // 텍스트 페이드 아웃 후 텍스트 변경, 페이드 인
+      vitaminListContainer.classList.add('hidden');  // 텍스트를 부드럽게 숨김
+      setTimeout(() => {
+          vitaminListContainer.innerHTML = vitaminListHtml;  // 텍스트 변경
+          vitaminListContainer.classList.remove('hidden');  // 텍스트를 다시 보이게 함
+      }, 300);  // 0.5초 후에 텍스트가 바뀜
     }
 
     function toggleDropdown() {
@@ -401,16 +420,20 @@ body {
       dropdownMenu.style.display = isDisplayed ? 'none' : 'block';
     }
 
-    // 클릭 외부에서 닫기
+ 	// 클릭 외부에서 닫기
     document.addEventListener('click', function(event) {
-      const target = event.target;
-      const dropdownMenu = document.getElementById('dropdownMenu');
-      const menuIcon = document.querySelector('.menu-icon');
+        const target = event.target;
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const menuIcon = document.querySelector('.menu-icon');
 
-      if (!menuIcon.contains(target) && !dropdownMenu.contains(target)) {
-        dropdownMenu.style.display = 'none';
-      }
+        // dropdownMenu와 menuIcon이 존재하는지 확인
+        if (dropdownMenu && menuIcon) {
+            if (!menuIcon.contains(target) && !dropdownMenu.contains(target)) {
+                dropdownMenu.style.display = 'none';
+            }
+        }
     });
+
   </script>
 </body>
 </html>

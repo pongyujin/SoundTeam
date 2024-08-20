@@ -77,9 +77,8 @@ public class AiController extends HttpServlet {
 			resultNode.put("ai_result", aiData[0]);
 			resultNode.put("sugg_reason", aiData[1]);
 			resultNode.put("inter_actions", aiData[2]);
-			
+
 			resultNode.put("user_id", userId);
-			
 
 			// ai 결과 파싱한 것
 			String[] nutrition = new String[3];
@@ -98,8 +97,12 @@ public class AiController extends HttpServlet {
 			// food 배열을 ArrayNode로 변환
 			ArrayNode foodArray = JsonNodeFactory.instance.arrayNode();
 			for (String foodItem : food) {
-			    foodArray.add(foodItem);
+				foodArray.add(foodItem);
 			}
+			
+			//추천이유:  식품: 이후부터 추출
+			String foodSuggest = StringUtils.substringAfter(aiData[1], "식품:");
+
 
 			// 영양제
 			System.out.println(nutrition[0]);
@@ -135,7 +138,9 @@ public class AiController extends HttpServlet {
 			resultNode.put("images", imagesArray.toString());
 
 			// JSON 객체인 resultNode에 foodArray를 추가
-			resultNode.set("food", foodArray);  // set 메서드 사용
+			resultNode.set("food", foodArray); // set 메서드 사용
+			
+			
 
 			// 클라이언트에 반환함
 			response.getWriter().write(resultNode.toString());
@@ -156,8 +161,8 @@ public class AiController extends HttpServlet {
 		OkHttpClient client = new OkHttpClient();
 
 		prompt = prompt + "\r\n" + " 그럴때 추천 영양성분 3가지와 식품 3가지를 ai_result: \r\n"
-				+ "영양성분: 1., 2., 3. 식품: 1., 2., 3.  sugg_reason: 추천이유 \r\n"
-				+ "으로 영양성분과 식품이 서로 상호작용으로 어떤 영향이 없는지를  inter_actions: \r\n"
+				+ "영양성분: 1. 2. 3. 식품: 1. 2. 3. 으로 하되 식품 각 번호에 3개씩, 추천이유를 sugg_reason: 영양성분: 1. 2. 3. 식품: 1. 2. 3. \r\n"
+				+ "으로 하되 , 영양성분과 식품이 서로 상호작용으로 어떤 영향이 없는지를  inter_actions: \r\n"
 				+ "으로 하고, 답변할때 JSON형식 앞에 영어든 한국어든 어떤 언급도 하지 말고 바로 다음의 JSON 형식으로 답변  {\"ai_result\": \" \", \"sugg_reason\": \" \", \"inter_actions\": \" \"}";
 
 		JSONObject jsonBody = new JSONObject();
