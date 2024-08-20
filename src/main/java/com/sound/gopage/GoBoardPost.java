@@ -19,6 +19,6 @@ public class GoBoardPost extends HttpServlet {
 		String url = "WEB-INF/views/board작성.jsp";
 		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
-	}
+		}
 
 }

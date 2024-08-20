@@ -30,7 +30,14 @@ public class BoardListController extends HttpServlet {
         int offset = (page - 1) * limit;
         
         BoardDAO dao = new BoardDAO();
-        List<Board> list = dao.list(offset, limit);
+        List<Board> list = dao.list(offset, limit); // list가 null인지 확인
+        
+        // Null 체크 추가
+        if (list == null) {
+            System.out.println("DAO returned null list");
+        } else {
+            System.out.println("DAO returned list of size: " + list.size());
+        }
         
         request.setAttribute("list", list);
         

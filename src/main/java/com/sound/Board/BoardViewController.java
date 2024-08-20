@@ -29,7 +29,7 @@ public class BoardViewController extends HttpServlet {
         Board board = dao.view(postId);
         request.setAttribute("board", board);
 
-        String url = ""; 
+        String url = "WEB-INF/views/Board.jsp"; 
         RequestDispatcher rd = request.getRequestDispatcher(url);
         rd.forward(request, response);
     }

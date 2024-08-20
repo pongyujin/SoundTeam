@@ -46,10 +46,10 @@ public class BoardUpdateController extends HttpServlet {
         String url = "";
 
         if (cnt > 0) {
-            url = "WEB-INF/views/Board.jsp"; // 업데이트 성공 시 이동할 URL 설정
+            url = "Board.jsp"; // 업데이트 성공 시 이동할 URL 설정
             request.setAttribute("update", board);
         } else {
-            url = "WEB-INF/views/Board.jsp"; // 업데이트 실패 시 이동할 URL 설정
+            url = "Board.jsp"; // 업데이트 실패 시 이동할 URL 설정
             request.setAttribute("error", "Update failed");
         }
 

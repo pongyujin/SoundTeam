@@ -15,12 +15,22 @@ public class BoardDAO {
 
     // 1. 게시글 목록 조회 (페이지네이션 추가)
     public List<Board> list(int offset, int limit) {
+    	
         SqlSession session = factory.openSession(true);
         Map<String, Integer> params = new HashMap<>();
+        
         params.put("offset", offset);
         params.put("limit", limit);
         List<Board> list = session.selectList("listWithPagination", params);
         session.close();
+        
+        // Null 체크 추가
+        if (list == null) {
+            System.out.println("SelectList returned null");
+        } else {
+            System.out.println("SelectList returned list of size: " + list.size());
+        }
+        
         return list;
     }
 

@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/GoBoard")
 public class GoBoard extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = "WEB-INF/views/board.jsp";
-		RequestDispatcher rd = request.getRequestDispatcher(url);
-		rd.forward(request, response);
-	}
-
+    protected void service(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        // BoardListController 서블릿으로 포워드
+        String url = "/BoardList"; // BoardListController 서블릿의 매핑 URL
+        RequestDispatcher rd = request.getRequestDispatcher(url);
+        rd.forward(request, response);
+    }
 }
