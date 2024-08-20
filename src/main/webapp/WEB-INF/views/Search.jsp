@@ -111,6 +111,8 @@ body {
     width: 400px;
 	
 	
+	height: 11px;
+	width: 400px;
 }
 
 .search-bar input {
@@ -339,8 +341,60 @@ body {
 						<!-- 추가 카테고리는 여기에 계속 추가 -->
 					</div>
 				</div>
+			<div class="search-bar">
+				<input type="text" id="searchInput"
+					placeholder="제품명, 영양성분, 건강 고민을 검색해보세요!">
+				<button onclick="redirectToSearchResult()">검색</button>
 			</div>
 
+
+			<div class="category-slider-container">
+				<div class="category-slider-wrapper">
+					<div class="category-slider">
+						<div class="category-item" onclick="navigateToCategory('all')">
+							<img src="img/images.png" alt="전체"> <span>전체</span>
+						</div>
+						<div class="category-item" onclick="navigateToCategory('immune')">
+							<img src="img/면역력.jpg" alt="면역"> <span>면역</span>
+						</div>
+						<div class="category-item" onclick="navigateToCategory('diet')">
+							<img src="img/다이어트.jpg" alt="다이어트"> <span>다이어트</span>
+						</div>
+						<div class="category-item" onclick="navigateToCategory('stress')">
+							<img src="img/스트레스.jpg" alt="스트레스"> <span>스트레스</span>
+						</div>
+						<div class="category-item"
+							onclick="navigateToCategory('digestive')">
+							<img src="img/위.jpg" alt="위건강"> <span>위건강</span>
+						</div>
+						<div class="category-item"
+							onclick="navigateToCategory('digestive')">
+							<img src="img/피로함.png" alt="피로"> <span>피로</span>
+						</div>
+						<div class="category-item"
+							onclick="navigateToCategory('digestive')">
+							<img src="img/눈건강.jpg" alt="눈건강"> <span>눈건강</span>
+						</div>
+						<div class="category-item"
+							onclick="navigateToCategory('digestive')">
+							<img src="img/간건강.jpg" alt="간건강"> <span>간건강</span>
+						</div>
+						<div class="category-item"
+							onclick="navigateToCategory('digestive')">
+							<img src="img/관절.jpg" alt="관절"> <span>관절</span>
+						</div>
+						<div class="category-item"
+							onclick="navigateToCategory('digestive')">
+							<img src="img/여성건강.jpg" alt="여성건강"> <span>여성건강</span>
+						</div>
+						<div class="category-item"
+							onclick="navigateToCategory('digestive')">
+							<img src="img/남성건강.jpg" alt="남성건강"> <span>남성건강</span>
+						</div>
+						<!-- 추가 카테고리는 여기에 계속 추가 -->
+					</div>
+				</div>
+			</div>
 
 			<div class="slider-container">
 				<div class="slider" id="slider">
@@ -404,6 +458,34 @@ body {
 						<div class="vitamin-item"
 							onclick="redirectToSearchResult('비타민B')">
 							<img src="img/비타민B.jpg" alt="비타민 B"> <span>비타민 B</span>
+			<div class="slider-container">
+				<div class="slider" id="slider">
+					<!-- 비타민 목록 1 -->
+					<div class="vitamin-list">
+						<div class="vitamin-item" onclick="redirectToSearchResult('비타민C')">
+							<img src="img/비타민C.jpg" alt="비타민 C"> <span>비타민 C</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('마그네슘')">
+							<img src="img/마그네슘.jpg" alt="마그네슘"> <span>마그네슘</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('밀크씨슬')">
+							<img src="img/밀크씨슬.jpg" alt="밀크씨슬"> <span>밀크씨슬</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('비타민A')">
+							<img src="img/비타민A.jpg" alt="비타민 A"> <span>비타민 A</span>
+						</div>
+						<div class="vitamin-item"
+							onclick="redirectToSearchResult('멀티비타민&미네랄')">
+							<img src="img/멀티비타민&미네랄.jpg" alt="멀티비타민&미네랄"> <span>멀티비타민&미네랄</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('아연')">
+							<img src="img/아연.jpg" alt="아연"> <span>아연</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('루테인')">
+							<img src="img/루테인.jpg" alt="루테인"> <span>루테인</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('테아닌')">
+							<img src="img/테아닌.jpg" alt="테아닌"> <span>테아닌</span>
 						</div>
 					</div>
 
@@ -437,7 +519,63 @@ body {
 					</div>
 				</div>
 			</div>
-
+					<!-- 비타민 목록 2 -->
+					<div class="vitamin-list">
+						<div class="vitamin-item" onclick="redirectToSearchResult('오메가3')">
+							<img src="img/오메가3.jpg" alt="오메가3"> <span>오메가3</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('비타민D')">
+							<img src="img/비타민D.jpg" alt="비타민 D"> <span>비타민 D</span>
+						</div>
+						<div class="vitamin-item"
+							onclick="redirectToSearchResult('코엔자임Q10')">
+							<img src="img/코엔자임Q10.jpg" alt="코엔자임Q10"> <span>코엔자임Q10</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('유산균')">
+							<img src="img/유산균.jpg" alt="유산균"> <span>유산균</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('비타민E')">
+							<img src="img/비타민E.jpg" alt="비타민 E"> <span>비타민 E</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('칼슘')">
+							<img src="img/칼슘.jpg" alt="칼슘"> <span>칼슘</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('철분')">
+							<img src="img/철분.jpg" alt="철분"> <span>철분</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('비타민B')">
+							<img src="img/비타민B.jpg" alt="비타민 B"> <span>비타민 B</span>
+						</div>
+					</div>
+		<!-- 비타민 목록 3 -->
+					<div class="vitamin-list">
+						<div class="vitamin-item" onclick="redirectToSearchResult('비오틴')">
+							<img src="img/비오틴.jpg" alt="비오틴"> <span>비오틴</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('엽산')">
+							<img src="img/엽산.jpg" alt="엽산"> <span>엽산</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('셀레늄')">
+							<img src="img/셀레늄.jpg" alt="셀레늄"> <span>셀레늄</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('콜라겐')">
+							<img src="img/콜라겐.jpg" alt="콜라겐"> <span>콜라겐</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('인삼')">
+							<img src="img/인삼.jpeg" alt="인삼"> <span>인삼</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('비타민K')">
+							<img src="img/비타민K.jpg" alt="비타민 K"> <span>비타민 K</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('커큐민')">
+							<img src="img/커큐민.jpg" alt="커큐민"> <span>커큐민</span>
+						</div>
+						<div class="vitamin-item" onclick="redirectToSearchResult('멜라토닌')">
+							<img src="img/멜라토닌.jpg" alt="멜라토닌"> <span>멜라토닌</span>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<!-- 페이지네이션 -->
 			<div class="pagination">
