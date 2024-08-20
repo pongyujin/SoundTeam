@@ -200,11 +200,17 @@
             <div id="commentsList">
                 <% 
                 List<Comment> comments = (List<Comment>) request.getAttribute("comments");
-                for (Comment comment : comments) { 
+                if (comments != null) {
+                    for (Comment comment : comments) { 
                 %>
-                    <div class="comment">
-                        <p><strong><%= comment.getUsrId() %>:</strong> <%= comment.getContent() %></p>
-                    </div>
+                        <div class="comment">
+                            <p><strong><%= comment.getUsrId() %>:</strong> <%= comment.getContent() %></p>
+                        </div>
+                <% 
+                    } 
+                } else { 
+                %>
+                    <p>댓글이 없습니다.</p>
                 <% 
                 } 
                 %>

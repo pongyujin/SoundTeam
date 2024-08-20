@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.sound.database.FactoryManager;
 import com.sound.entity.Board;
+import com.sound.entity.Comment;
 
 public class BoardDAO {
     private SqlSessionFactory factory = FactoryManager.getSqlSessionFactory();
@@ -95,5 +96,13 @@ public class BoardDAO {
         int likes = session.selectOne("getLikes", postId);
         session.close();
         return likes;
+    }
+
+    // 10. 특정 postId에 대한 댓글 조회
+    public List<Comment> getCommentsByPostId(int postId) {
+        SqlSession session = factory.openSession(true);
+        List<Comment> comments = session.selectList("getCommentsByPostId", postId);
+        session.close();
+        return comments;
     }
 }
