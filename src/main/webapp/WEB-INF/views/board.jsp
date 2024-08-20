@@ -99,34 +99,40 @@ body {
 	margin-bottom: 20px;
 }
 
+
 .search-bar {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-bottom: 20px;
+    display: flex;  /* 수평 정렬을 위해 flexbox 사용 */
+    align-items: center;  /* 수직 중앙 정렬 */
+    margin-left: 50px;  /* 원하는 만큼 오른쪽으로 이동 */
+    width: 100%;  /* 전체 폭을 사용할 수 있도록 설정 */
+    max-width: 800px; /* 최대 너비를 설정하여 전체 레이아웃에 맞춤 */
 }
 
 .search-bar input {
-	padding: 10px;
-	width: 70%;
-	border: 1px solid #ddd;
-	border-radius: 20px;
-	margin-right: 10px;
-	margin-bottom: 20px;
-	margin-top: -80px;
+    flex-grow: 3;  /* input이 더 많은 공간을 차지하도록 설정 */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    margin-right: 10px;  /* 버튼과의 간격 */
+    box-sizing: border-box;  /* 패딩과 테두리를 포함한 전체 크기 설정 */
 }
 
 .search-bar button {
-	padding: 10px 20px;
-	background-color: #66DAE4;
-	border: none;
-	border-radius: 20px;
-	cursor: pointer;
-	color: #fff;
-	font-weight: bold;
-	margin-bottom: 20px;
-	margin-top: -80px;
+    padding: 10px 20px;
+    background-color: #66DAE4;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+    flex-shrink: 0;  /* 버튼이 줄어들지 않도록 설정 */
+    white-space: nowrap;  /* 버튼의 텍스트가 줄바꿈되지 않도록 */
 }
+
+
+
+
+
 
 table {
 	width: 100%;
@@ -203,8 +209,8 @@ table th {
 
 		<div class="search-bar">
 			<form action="board.jsp" method="get">
-				<input type="text" name="search" placeholder="보고싶은 게시글을 검색해보세요 !">
-				<button type="submit">검색</button>
+				<input type="text" name="search" placeholder="게시글을 검색해보세요 !">
+				<button type="submit" >검색</button>
 			</form>
 		</div>
 
