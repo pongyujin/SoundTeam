@@ -1,10 +1,20 @@
+<%@page import="com.sound.entity.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="com.sound.entity.Board"%>
-<%@page import="javax.servlet.http.HttpSession"%>
-<%@page import="java.util.List"%>
-<%@page import="com.sound.entity.Comment"%>
+<%@ page import="com.sound.entity.Board" %>
+<%@ page import="com.sound.entity.Comment" %>
+<%@ page import="java.util.List" %>
 
+<%
+// 세션에서 user 객체를 가져옴
+Users sessionUser = (Users) session.getAttribute("user");
+if (sessionUser == null) {
+    // 로그인이 되어 있지 않으면 로그인 페이지로 리다이렉트
+    response.sendRedirect("login.jsp");
+    return;
+}
+String sessionUserId = sessionUser.getUsrId();
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,6 +22,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 보기</title>
     <style>
+        /* 전체 CSS */
         body {
             font-family: Arial, sans-serif;
             background-color: #ffffff;
@@ -96,19 +107,18 @@
             margin-right: 5px;
             font-size: 1.2em;
         }
-        .delete-btn {
-    margin-left: 180px;
-    color: #ff6b6b;
-    font-size: 0.9em;
-    text-decoration: none; /* 밑줄 제거 */
-    cursor: pointer;
-    
-}
 
-.delete-btn:hover {
-    text-decoration: none; /* 마우스를 올렸을 때도 밑줄 제거 */
-}
-        
+        .delete-btn {
+            margin-left: 180px;
+            color: #ff6b6b;
+            font-size: 0.9em;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            text-decoration: none;
+        }
 
         .post-content {
             margin-bottom: 20px;
@@ -184,31 +194,30 @@
     </style>
 </head>
 <body>
-   <div class="container">
-    <div>
-        <div class="header">
-            <div class="logo">
-                <a href="GoMain">
-                    <img src="img/로고.png" alt="로고">
-                </a>
+    <div class="container">
+        <div>
+            <div class="header">
+                <div class="logo">
+                    <a href="GoMain">
+                        <img src="img/로고.png" alt="로고">
+                    </a>
+                </div>
+                <div class="menu-icon">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
-            <div class="menu-icon">
-                <div></div>
-                <div></div>
-                <div></div>
+            <h2 class="post-title"><%= ((Board)request.getAttribute("board")).getPostTitle() %></h2>
+            <div class="post-content">
+                <%= ((Board)request.getAttribute("board")).getPostContent() %>
             </div>
-        </div>
-        <h2 class="post-title"><%= ((Board)request.getAttribute("board")).getPostTitle() %></h2>
-        <div class="post-content">
-            <%= ((Board)request.getAttribute("board")).getPostContent() %>
-        </div>
-        <img src="<%= ((Board)request.getAttribute("board")).getPostFile() %>" alt="" class="post-image">
-        
-        <div class="like-container">
-            <button class="like-btn" id="likeBtn"><span class="icon">❤️</span> 좋아요 <%= request.getAttribute("likes") %></button>
-    <a href="#" class="delete-btn" onclick="deletePost()">게시글 삭제</a>
-</div>
-            
+            <img src="<%= ((Board)request.getAttribute("board")).getPostFile() %>" alt="" class="post-image">
+
+            <div class="like-container">
+                <button class="like-btn" id="likeBtn"><span class="icon">❤️</span> 좋아요 <%= request.getAttribute("likes") %></button>
+                <a href="javascript:void(0);" class="delete-btn" id="deleteBtn" onclick="deletePost(event)">게시글 삭제</a>
+            </div>
         </div>
 
         <div class="comments-section">
@@ -240,11 +249,16 @@
         </div>
         <button class="submit-btn" onclick="addComment()">댓글 달기</button>
     </div>
-</div>
 
     <script>
         let likeCount = <%= request.getAttribute("likes") %>;
         const postId = <%= ((Board)request.getAttribute("board")).getPostId() %>;
+        const sessionUserId = '<%= sessionUserId %>';
+        const boardUserId = '<%= ((Board)request.getAttribute("board")).getUsrId() %>';
+
+        // 디버깅을 위한 로그 출력
+        console.log("Session User ID:", sessionUserId);
+        console.log("Board User ID:", boardUserId);
 
         function renderLikes() {
             document.getElementById('likeBtn').innerHTML = `<span class="icon">❤️</span> 좋아요 ${likeCount}`;
@@ -263,7 +277,7 @@
         function addComment() {
             const commentInput = document.getElementById('commentInput');
             const commentText = commentInput.value.trim();
-            const author = '<%= (String)session.getAttribute("userId") %>';
+            const author = sessionUserId;
             
             if (commentText) {
                 saveComment(postId, author, commentText);
@@ -292,6 +306,35 @@
                 },
                 body: JSON.stringify({ postId, likes })
             });
+        }
+
+        function deletePost(event) {
+            event.preventDefault(); // 기본 동작 방지
+
+            console.log("Delete button clicked");
+            console.log("Session User ID:", sessionUserId);
+            console.log("Board User ID:", boardUserId);
+
+            if (sessionUserId !== boardUserId) {
+                alert("삭제 권한이 없습니다.");
+                return;
+            }
+            
+            if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+                fetch('<%= request.getContextPath() %>/BoardDelete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `postId=${postId}`
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.href = 'BoardList';
+                    } else {
+                        alert('게시글 삭제에 실패했습니다.');
+                    }
+                });
+            }
         }
     </script>
 </body>
