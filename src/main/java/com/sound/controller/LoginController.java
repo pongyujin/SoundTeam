@@ -27,7 +27,7 @@ public class LoginController extends HttpServlet {
 
 		user.setUsrId(usr_id);
 		user.setUsrPw(usr_pw);
-
+//
 		UsersDAO dao = new UsersDAO();
 
 		Users result = dao.Login(user);
