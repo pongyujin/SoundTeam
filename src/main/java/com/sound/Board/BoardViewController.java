@@ -1,6 +1,7 @@
 package com.sound.Board;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sound.DAO.BoardDAO;
 import com.sound.entity.Board;
+import com.sound.entity.Comment;
 
 @WebServlet("/BoardView")
 public class BoardViewController extends HttpServlet {
@@ -28,6 +30,14 @@ public class BoardViewController extends HttpServlet {
         // 게시글 조회
         Board board = dao.view(postId);
         request.setAttribute("board", board);
+
+        // 댓글 조회 추가
+        List<Comment> comments = dao.getCommentsByPostId(postId);
+        request.setAttribute("comments", comments);
+
+        // 좋아요 수 조회 추가
+        int likes = dao.getLikes(postId);
+        request.setAttribute("likes", likes);
 
         String url = "/WEB-INF/views/ViewPost.jsp"; 
         RequestDispatcher rd = request.getRequestDispatcher(url);

@@ -59,12 +59,26 @@ body {
 	background-color: #000;
 }
 
-.image-placeholder {
-	width: 100%;
-	height: 400px;
-	background-color: #e0e0e0;
-	border-radius: 8px;
-	margin-bottom: 25px;
+.image-container {
+    width: 100%;
+    height: 400px;
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    display: flex;  /* flexbox를 사용하여 자식 요소를 정렬 */
+    justify-content: center;  /* 가로 중앙 정렬 */
+    align-items: center;  /* 세로 중앙 정렬 */
+}
+
+.image-container img {
+ 
+    width: 500px;  /* 더 큰 너비로 설정 */
+    height: 500px;  /* 더 큰 높이로 설정 */
+    border-radius: 8px;
+    object-fit: cover;
+
+  /* 이미지의 최대 높이를 부모 요소의 80%로 설정 */
+    border-radius: 8px;
 }
 
 .button {
@@ -106,24 +120,20 @@ body {
 			</div>
 		</div>
 
-		<div class="image-placeholder"></div>
+		<div class="image-container">
+		    <img src="img/건강설문.png" alt="이미지 설명">
+		</div>
 
 		<!-- 건강설문시 로그인 했는지 확인 문구 필요함 -->
-
 		<%
 		Users user = (Users) session.getAttribute("user");
 		System.out.print("세션 값있냐?" + user);
 		System.out.println("세션 ID: " + session.getId());
 		%>
 
-
-
-
-		<button class="button" id="checklist_btn"
-			<%=(user == null) ? "class='disabled'" : ""%>>건강설문 시작하기</button>
-
-
-
+		<button class="button" id="checklist_btn" <%=(user == null) ? "class='disabled'" : ""%>>
+		    건강설문 시작하기
+		</button>
 
 	</div>
 

@@ -407,7 +407,7 @@ body {
 							</div>
 							<div class="vitamin-item"
 								onclick="redirectToSearchResult('비타민D')">
-								<img src="img/비타민D.jpg" alt="비타민 D"> <span>비타민 D</span>
+								<img src="img/비타민 D.jpg" alt="비타민 D"> <span>비타민 D</span>
 							</div>
 							<div class="vitamin-item"
 								onclick="redirectToSearchResult('코엔자임Q10')">
@@ -418,7 +418,7 @@ body {
 							</div>
 							<div class="vitamin-item"
 								onclick="redirectToSearchResult('비타민E')">
-								<img src="img/비타민E.jpg" alt="비타민 E"> <span>비타민 E</span>
+								<img src="img/비타민 E.jpg" alt="비타민 E"> <span>비타민 E</span>
 							</div>
 							<div class="vitamin-item" onclick="redirectToSearchResult('칼슘')">
 								<img src="img/칼슘.jpg" alt="칼슘"> <span>칼슘</span>
@@ -428,7 +428,7 @@ body {
 							</div>
 							<div class="vitamin-item"
 								onclick="redirectToSearchResult('비타민B')">
-								<img src="img/비타민B.jpg" alt="비타민 B"> <span>비타민 B</span>
+								<img src="img/비타민 B.jpg" alt="비타민 B"> <span>비타민 B</span>
 							</div>
 						</div>
 
@@ -453,7 +453,7 @@ body {
 							</div>
 							<div class="vitamin-item"
 								onclick="redirectToSearchResult('비타민K')">
-								<img src="img/비타민K.jpg" alt="비타민 K"> <span>비타민 K</span>
+								<img src="img/비타민 K.jpg" alt="비타민 K"> <span>비타민 K</span>
 							</div>
 							<div class="vitamin-item" onclick="redirectToSearchResult('커큐민')">
 								<img src="img/커큐민.jpg" alt="커큐민"> <span>커큐민</span>
@@ -489,23 +489,28 @@ body {
 	            paginationButtons[pageNumber - 1].classList.add('active');
 	        }
 	        
-	        function redirectToSearchResult(vitaminName) {
-	            // URL 인코딩을 해서 안전하게 전달합니다.
-	            const encodedVitaminName = encodeURIComponent(vitaminName);
-	            window.location.href = `GoSearchResultPage?vitamin=${encodedVitaminName}`;
-	        }
-	        
-	        function redirectToSearchResult() {
-	        	
-	            var vitaminName = document.getElementById('searchInput').value;
-	            if (vitaminName) {
-	            	
-	                var encodedVitaminName = encodeURIComponent(vitaminName);
-	                window.location.href = `GoSearchResultPage?vitamin=${encodedVitaminName}`;
-	            } else {
-	                alert("검색어를 입력하세요.");
-	            }
-	        }
+		   function redirectToSearchResult(vitaminName) {
+			    // URL 인코딩을 해서 안전하게 전달합니다.
+			    const encodedVitaminName = encodeURIComponent(vitaminName || '');
+			    window.location.href = `GoSearchResultPage?vitamin=${encodedVitaminName}`;
+			}
+
+			function redirectToSearchResult() {
+			    var vitaminName = document.getElementById('searchInput').value || '';
+			    const encodedVitaminName = encodeURIComponent(vitaminName);
+			    window.location.href = `GoSearchResultPage?vitamin=${encodedVitaminName}`;
+			}
+
+			function navigateToCategory(category) {
+			    // 해당 카테고리로 이동하는 링크를 설정합니다.
+			    window.location.href = `GoSearchResultPage?category=${encodeURIComponent(category)}`;
+			}
+			function redirectToSearchResult() {
+			    var vitaminName = document.getElementById('searchInput').value || '';  // 빈 문자열 처리
+			    const encodedVitaminName = encodeURIComponent(vitaminName);
+			    window.location.href = `GoSearchResultPage?vitamin=${encodedVitaminName}`;
+			}
+
 
 
         
