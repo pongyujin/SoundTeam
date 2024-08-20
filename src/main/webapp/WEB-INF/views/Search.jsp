@@ -138,12 +138,13 @@ body {
 }
 
 .category-slider-container {
-	overflow-x: auto;
-	white-space: nowrap;
-	padding: 10px 0;
-	margin-bottom: 20px;
-	text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 50px; /* 양옆에 20px 패딩 추가 */
+    margin-bottom: 20px;
+    text-align: center;
 }
+
 
 .category-slider-container::-webkit-scrollbar {
 	height: 8px;
@@ -169,6 +170,7 @@ body {
 .category-slider {
 	display: inline-flex;
 	padding-bottom: 10px;
+	 margin: 0 20px; /* 슬라이더 내부의 양옆에 20px 마진 추가 */
 }
 
 .category-item {
