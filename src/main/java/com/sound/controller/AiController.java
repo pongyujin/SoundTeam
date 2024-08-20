@@ -15,10 +15,11 @@ import org.json.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.sound.DAO.Ai_AnalysisDAO;
-import com.sound.entity.Ai_Analysis;
+import com.sound.DAO.Ai_recommendationDAO;
+import com.sound.DAO.ProductsDAO;
+import com.sound.entity.Ai_recommendation;
+import com.sound.entity.Products;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -49,7 +50,7 @@ public class AiController extends HttpServlet {
 
 			String prompt = promptNode.asText();
 
-			// ai 메서드 실행
+			// ai 실행
 			String[] aiData = ai_access(prompt);
 
 			// user값 가져오기
@@ -58,62 +59,47 @@ public class AiController extends HttpServlet {
 				throw new RuntimeException("userId가 전송되지 않았습니다.");
 			}
 
-			Ai_Analysis ai_analysis = new Ai_Analysis();
-			ai_analysis.setAiResult(aiData[0]);
-			ai_analysis.setUserId(userId);
-			ai_analysis.setInteraction(aiData[2]);
-
-			// Ai_AnalysisDAO DB 저장하기
-			Ai_AnalysisDAO dao = new Ai_AnalysisDAO();
-			int cnt = dao.insert(ai_analysis);
-
-			if (cnt > 0) {
-				System.out.println("ai DB테이블 저장완료!!");
-			} else {
-				System.out.println("ai DB테이블 저장실패!!");
-			}
-
-			ObjectNode resultNode = objectMapper.createObjectNode();
-			resultNode.put("ai_result", aiData[0]);
-			resultNode.put("sugg_reason", aiData[1]);
-			resultNode.put("inter_actions", aiData[2]);
-
-			resultNode.put("user_id", userId);
-
-			// ai 결과 파싱한 것
+			// 파싱 과정 시작
+			// 영양 성분 파싱
 			String[] nutrition = new String[3];
-			nutrition[0] = StringUtils.substringBetween(aiData[0], "1.", ",");
-			nutrition[1] = StringUtils.substringBetween(aiData[0], "2.", ",");
-			nutrition[2] = StringUtils.substringBetween(aiData[0], "3.", "식품");
+			nutrition[0] = StringUtils.defaultString(StringUtils.substringBetween(aiData[0], "1.", ","), "").trim();
+			nutrition[1] = StringUtils.defaultString(StringUtils.substringBetween(aiData[0], "2.", ","), "").trim();
+			nutrition[2] = StringUtils.defaultString(StringUtils.substringBetween(aiData[0], "3.", "식품"), "").trim();
 
-			// 식품: 이후부터 1. 2. 3. 추출
-			String foodData = StringUtils.substringAfter(aiData[0], "식품:");
-			String[] food = new String[3];
+			// 식품 파싱 - 총 6개의 항목으로 나누기
+			String[] foods = new String[6];
+			String foodData = StringUtils.defaultString(StringUtils.substringAfter(aiData[0], "식품:"), "");
 
-			food[0] = StringUtils.substringBetween(foodData, "1.", ",");
-			food[1] = StringUtils.substringBetween(foodData, "2.", ",");
-			food[2] = StringUtils.substringAfter(foodData, "3.");
+			foods[0] = StringUtils.defaultString(StringUtils.substringBetween(foodData, "1. ", ","), "").trim();
+			foods[1] = StringUtils.defaultString(StringUtils.substringBetween(foodData, ",", "2."), "").trim();
+			foods[2] = StringUtils.defaultString(StringUtils.substringBetween(foodData, "2. ", ","), "").trim();
+			foods[3] = StringUtils.defaultString(StringUtils.substringBetween(foodData, ",", "3."), "").trim();
+			foods[4] = StringUtils.defaultString(StringUtils.substringBetween(foodData, "3. ", ","), "").trim();
+			foods[5] = StringUtils.defaultString(StringUtils.substringAfterLast(foodData, ","), "").trim();
 
-			// food 배열을 ArrayNode로 변환
-			ArrayNode foodArray = JsonNodeFactory.instance.arrayNode();
-			for (String foodItem : food) {
-				foodArray.add(foodItem);
+			// 추천 이유 파싱
+			String[] reasons = new String[3];
+			reasons[0] = StringUtils.defaultString(StringUtils.substringBetween(aiData[1], "1. ", " 2."), "").trim();
+			reasons[1] = StringUtils.defaultString(StringUtils.substringBetween(aiData[1], "2. ", " 3."), "").trim();
+			reasons[2] = StringUtils.defaultString(StringUtils.substringAfter(aiData[1], "3."), "").trim();
+
+			// 상호작용 파싱
+			String interaction = aiData[2];
+
+			// 파싱값 없을경우
+			if (nutrition[0].isEmpty() || nutrition[1].isEmpty() || nutrition[2].isEmpty()) {
+				System.out.println("영양 성분 파싱에 실패했습니다: " + aiData[0]);
+				// 예외를 던지거나 다른 처리를 할 수 있습니다.
 			}
-			
-			//추천이유:  식품: 이후부터 추출
-			String foodSuggest = StringUtils.substringAfter(aiData[1], "식품:");
 
+			if (foods[0].isEmpty() || foods[1].isEmpty() || foods[2].isEmpty() || foods[3].isEmpty()
+					|| foods[4].isEmpty() || foods[5].isEmpty()) {
+				System.out.println("식품 파싱에 실패했습니다: " + aiData[0]);
+				// 예외를 던지거나 다른 처리를 할 수 있습니다.
+			}
 
-			// 영양제
-			System.out.println(nutrition[0]);
-			System.out.println(nutrition[1]);
-			System.out.println(nutrition[2]);
-
-			// 음식
-			System.out.println(food[0]);
-			System.out.println(food[1]);
-			System.out.println(food[2]);
-
+			// 네이버 API 시작
+			// 네이버 API 연동을 위한 검색어 조합
 			String naverApiUrl = "http://localhost:8081/ST/NaverApiController?query=";
 
 			// 네이버 결과 담을 배열
@@ -122,27 +108,86 @@ public class AiController extends HttpServlet {
 			JSONArray imagesArray = new JSONArray();
 
 			for (String nutritionItem : nutrition) {
-				// 네이버 api 실행
+				// 네이버 API 실행
 				String naverResponse = callNaverApi(naverApiUrl + nutritionItem);
 				JSONObject naverJson = new JSONObject(naverResponse);
 
 				itemsArray.put(nutritionItem);
 				linksArray.put(naverJson.getJSONArray("items").getJSONObject(0).getString("link"));
 				imagesArray.put(naverJson.getJSONArray("items").getJSONObject(0).getString("image"));
-
 			}
 
-			// JSON 객체인 resultNode에 넣고
+			// JSON 객체인 resultNode에 데이터 저장
+			ObjectNode resultNode = objectMapper.createObjectNode();
+			resultNode.put("ai_result", aiData[0]);
+			resultNode.put("sugg_reason", aiData[1]);
+			resultNode.put("inter_actions", aiData[2]);
+			resultNode.put("user_id", userId);
 			resultNode.put("items", itemsArray.toString());
 			resultNode.put("links", linksArray.toString());
 			resultNode.put("images", imagesArray.toString());
 
-			// JSON 객체인 resultNode에 foodArray를 추가
-			resultNode.set("food", foodArray); // set 메서드 사용
-			
-			
+			// 파싱된 데이터 저장
+			// 영양 성분 저장
+			ArrayNode nutritionArray = resultNode.putArray("nutrition");
+			for (String nutr : nutrition) {
+				nutritionArray.add(nutr);
+			}
 
-			// 클라이언트에 반환함
+			// 식품 데이터 저장
+			ArrayNode foodArray = resultNode.putArray("foods");
+			for (String food : foods) {
+				foodArray.add(food);
+			}
+
+			// 추천 이유 저장
+			ArrayNode reasonArray = resultNode.putArray("reasons");
+			for (String reason : reasons) {
+				reasonArray.add(reason);
+			}
+
+			// 상호작용 저장
+			resultNode.put("interaction_parsed", interaction);
+
+			// ai DB 저장하기
+			Ai_recommendation aiDB = new Ai_recommendation();
+			Ai_recommendationDAO aidao = new Ai_recommendationDAO();
+
+			aiDB.setSuggReason(aiData[1]);
+			aiDB.setNutrId(String.join(", ", nutrition)); // 영양 성분을 콤마로 연결하여 저장
+			aiDB.setFoodId(String.join(", ", foods)); // 식품을 콤마로 연결하여 저장
+			aiDB.setInteraction(interaction);
+			aiDB.setUsrId(userId);
+
+			int suggId = aidao.insertAi(aiDB);
+
+			if (suggId > 0) {
+				System.out.println("aiDB 저장 성공했슴다!!!!");
+				System.out.println("suggId :" + suggId);
+			} else {
+				System.out.println("aiDB 저장 실패..");
+				System.out.println("suggId :" + suggId);
+			}
+
+			// 상품 DB 저장하기
+			Products products = new Products();
+			ProductsDAO productsdao = new ProductsDAO();
+
+			for (int i = 0; i < nutrition.length; i++) {
+				Products product = new Products();
+				product.setProductUrl(linksArray.getString(i)); // 링크를 가져와 설정
+				product.setProductImage(imagesArray.getString(i)); // 이미지를 가져와 설정
+				product.setSuggId(suggId); // 추천 식별자를 설정
+				int cnt = productsdao.insertProducts(products); // 데이터베이스에 삽입
+
+				if (cnt > 0) {
+					System.out.println("Product DB 저장성공");
+				} else {
+					System.out.println("Product DB 실패....");
+				}
+			}
+
+			// 클라이언트에 반환
 			response.getWriter().write(resultNode.toString());
 
 		} catch (Exception e) {
@@ -182,6 +227,9 @@ public class AiController extends HttpServlet {
 
 		try (Response response = client.newCall(request).execute()) { // AutoCloseable 자원은 try-with-resources로 처리
 			String responseBody = response.body().string();
+			
+			System.out.println("AI 응답: " + responseBody);  // 원본 응답 출력
+			
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode root = objectMapper.readTree(responseBody);
 			JsonNode contentNode = root.get("content");
@@ -192,9 +240,9 @@ public class AiController extends HttpServlet {
 				// 결과값 변수에 담기
 				JsonNode rootText = objectMapper.readTree(text);
 
-				ai_data[0] = rootText.get("ai_result").asText();
-				ai_data[1] = rootText.get("sugg_reason").asText();
-				ai_data[2] = rootText.get("inter_actions").asText();
+				ai_data[0] = rootText.has("ai_result") ? rootText.get("ai_result").asText() : null;
+				ai_data[1] = rootText.has("sugg_reason") ? rootText.get("sugg_reason").asText() : null;
+				ai_data[2] = rootText.has("inter_actions") ? rootText.get("inter_actions").asText() : null;
 
 				System.out.println("ai_result: " + ai_data[0]);
 				System.out.println("sugg_reason: " + ai_data[1]);
