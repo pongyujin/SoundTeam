@@ -209,7 +209,6 @@ table th {
                 <a href="GoBoard">게시판</a>
             </div>
         </div>
->>>>>>> branch 'origin' of https://github.com/2024-SMHRD-KDT-BigData-24/SoundTeam.git
 
 				</a>
 			</div>
