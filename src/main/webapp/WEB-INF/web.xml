@@ -16,6 +16,12 @@
   	<description></description>
   	<servlet-class>com.sound.gopage.GoInformation</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>SearchNaverApiController</servlet-name>
+  	<display-name>SearchNaverApiController</display-name>
+  	<description></description>
+  	<servlet-class>com.sound.controller.SearchNaverApiController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>GoMyPage</servlet-name>
   	<url-pattern>/GoMyPage</url-pattern>
@@ -23,5 +29,9 @@
   <servlet-mapping>
   	<servlet-name>GoInformation</servlet-name>
   	<url-pattern>/GoInformation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SearchNaverApiController</servlet-name>
+  	<url-pattern>/SearchNaverApiController</url-pattern>
   </servlet-mapping>
 </web-app>
