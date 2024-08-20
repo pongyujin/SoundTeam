@@ -121,7 +121,7 @@ public class AiController extends HttpServlet {
 			resultNode.put("links", linksArray.toString());
 			resultNode.put("images", imagesArray.toString());
 
-			// 클라이언트에 반환함
+			// 클라이언트에 반환함//
 			response.getWriter().write(resultNode.toString());
 
 			
