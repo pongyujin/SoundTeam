@@ -241,7 +241,7 @@ table th {
 				</tr>
 			</thead>
 			<tbody>
-				<%-- 게시글 목록을 출력 --%>
+				<%-- 게시글 목록을 출력 33--%>
 				<% 
 				// 'list'는 Board 객체의 리스트입니다.
 				List<Board> list = (List<Board>)request.getAttribute("list");
