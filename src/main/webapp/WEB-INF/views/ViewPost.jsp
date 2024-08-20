@@ -96,6 +96,19 @@
             margin-right: 5px;
             font-size: 1.2em;
         }
+        .delete-btn {
+    margin-left: 180px;
+    color: #ff6b6b;
+    font-size: 0.9em;
+    text-decoration: none; /* 밑줄 제거 */
+    cursor: pointer;
+    
+}
+
+.delete-btn:hover {
+    text-decoration: none; /* 마우스를 올렸을 때도 밑줄 제거 */
+}
+        
 
         .post-content {
             margin-bottom: 20px;
@@ -189,10 +202,13 @@
         <div class="post-content">
             <%= ((Board)request.getAttribute("board")).getPostContent() %>
         </div>
-        <img src="<%= ((Board)request.getAttribute("board")).getPostFile() %>" alt="첨부 이미지" class="post-image">
+        <img src="<%= ((Board)request.getAttribute("board")).getPostFile() %>" alt="" class="post-image">
         
         <div class="like-container">
             <button class="like-btn" id="likeBtn"><span class="icon">❤️</span> 좋아요 <%= request.getAttribute("likes") %></button>
+    <a href="#" class="delete-btn" onclick="deletePost()">게시글 삭제</a>
+</div>
+            
         </div>
 
         <div class="comments-section">

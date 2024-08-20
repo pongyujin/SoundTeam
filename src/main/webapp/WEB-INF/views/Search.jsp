@@ -510,6 +510,11 @@ body {
 			    const encodedVitaminName = encodeURIComponent(vitaminName);
 			    window.location.href = `GoSearchResultPage?vitamin=${encodedVitaminName}`;
 			}
+	
+		
+
+		</script>
+
 
 
 
