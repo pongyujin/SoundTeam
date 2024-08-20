@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자유게시판</title>
 <style>
+/* 기존 스타일은 그대로 유지 */
 body {
 	font-family: Arial, sans-serif;
 	background-color: #ffffff;
@@ -219,15 +220,14 @@ table th {
 			<tbody>
 				<%-- 게시글 목록을 출력 --%>
 				<% 
-				// 'list'는 Board 객체의 리스트입니다.
 				List<Board> list = (List<Board>)request.getAttribute("list");
 				int no = 1; // 순차적으로 번호를 매기기 위해 초기화
 				if (list != null && !list.isEmpty()) {
 					for(Board board : list) { 
 				%>
 				<tr>
-					<td><%= no++ %></td> <!-- 순차적인 번호를 출력 -->
-					<td><%= board.getPostTitle() %></td>
+					<td><%= no++ %></td>
+					<td><a href="BoardView?postId=<%= board.getPostId() %>"><%= board.getPostTitle() %></a></td>
 					<td><%= board.getUsrId() %></td>
 					<td><%= board.getCreatedAt() %></td>
 				</tr>

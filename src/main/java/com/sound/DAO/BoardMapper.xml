@@ -2,80 +2,90 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sound.DAO.BoardMapper">
 
+	<!-- 게시글 작성 -->
 	<insert id="writer" parameterType="com.sound.entity.Board">
-		insert into POST (POST_ID,
-		POST_TITLE, POST_CONTENT, POST_FILE, VIEW_COUNT,
-		USR_ID, CREATED_AT,
-		UPDATED_AT)
-		values (POST_SEQ.nextval, #{postTitle}, #{postContent},
-		#{postFile,
-		jdbcType=VARCHAR}, 0, #{usrId, jdbcType=VARCHAR}, SYSDATE,
-		SYSDATE)
+		insert into POST (POST_ID, POST_TITLE, POST_CONTENT, POST_FILE, VIEW_COUNT,
+		USR_ID, CREATED_AT, UPDATED_AT)
+		values (POST_SEQ.nextval, #{postTitle}, #{postContent}, #{postFile,
+		jdbcType=VARCHAR}, 0, #{usrId, jdbcType=VARCHAR}, SYSDATE, SYSDATE)
 	</insert>
 
+	<!-- 게시글 조회 -->
 	<select id="view" resultType="com.sound.entity.Board">
 		select POST_ID as postId,
-		POST_TITLE as postTitle, POST_CONTENT as
-		postContent,
-		POST_FILE as
-		postFile, VIEW_COUNT as viewCount, USR_ID as usrId,
-		CREATED_AT as
-		createdAt, UPDATED_AT as updatedAt
+		POST_TITLE as postTitle, POST_CONTENT as postContent,
+		POST_FILE as postFile, VIEW_COUNT as viewCount, USR_ID as usrId,
+		CREATED_AT as createdAt, UPDATED_AT as updatedAt
 		from POST
 		where POST_ID = #{postId}
 	</select>
 
 	<!-- 게시글 목록 조회 쿼리 (페이지네이션 적용) -->
-	<select id="listWithPagination"
-		resultType="com.sound.entity.Board">
+	<select id="listWithPagination" resultType="com.sound.entity.Board">
 		SELECT * FROM (
 		SELECT A.*, ROWNUM RNUM FROM (
-		SELECT * FROM post ORDER BY POST_ID DESC
+		SELECT * FROM post ORDER BY CREATED_AT ASC  <!-- 오래된 순서로 정렬 -->
 		) A
 		WHERE ROWNUM &lt; #{offset} + #{limit}
 		)
 		WHERE RNUM > #{offset}
 	</select>
 
-
-
+	<!-- 게시글 검색 -->
 	<select id="search" resultType="com.sound.entity.Board">
 		select POST_ID as postId,
-		POST_TITLE as postTitle, POST_CONTENT as
-		postContent,
-		POST_FILE as
-		postFile, VIEW_COUNT as viewCount, USR_ID as usrId,
-		CREATED_AT as
-		createdAt, UPDATED_AT as updatedAt
+		POST_TITLE as postTitle, POST_CONTENT as postContent,
+		POST_FILE as postFile, VIEW_COUNT as viewCount, USR_ID as usrId,
+		CREATED_AT as createdAt, UPDATED_AT as updatedAt
 		from POST
 		where POST_TITLE like '%'
 		|| #{search} || '%'
 		or USR_ID like '%' || #{search} || '%'
-		or
-		POST_CONTENT like '%' || #{search} || '%'
+		or POST_CONTENT like '%' || #{search} || '%'
 	</select>
 
+	<!-- 게시글 수정 -->
 	<update id="update" parameterType="com.sound.entity.Board">
 		update POST
-		set POST_TITLE =
-		#{postTitle},
+		set POST_TITLE = #{postTitle},
 		POST_CONTENT = #{postContent},
-		POST_FILE = #{postFile,
-		jdbcType=VARCHAR},
+		POST_FILE = #{postFile, jdbcType=VARCHAR},
 		UPDATED_AT = SYSDATE
 		where POST_ID = #{postId}
 	</update>
 
+	<!-- 조회수 증가 -->
 	<update id="increaseViewCount" parameterType="int">
 		update POST
-		set
-		VIEW_COUNT = VIEW_COUNT + 1
+		set VIEW_COUNT = VIEW_COUNT + 1
 		where POST_ID = #{postId}
 	</update>
 
-	<delete id="delete" parameterType="com.sound.entity.Board">
+	<!-- 게시글 삭제 -->
+	<delete id="delete" parameterType="int">
 		delete from POST
-		where POST_ID
-		= #{postId}
+		where POST_ID = #{postId}
 	</delete>
+
+	<!-- 댓글 저장 -->
+	<insert id="saveComment" parameterType="com.sound.entity.Comment">
+		INSERT INTO COMMENTS (COMMENT_ID, POST_ID, USR_ID, CONTENT, CREATED_AT)
+		VALUES (COMMENTS_SEQ.nextval, #{postId}, #{usrId}, #{content}, SYSDATE)
+	</insert>
+
+	<!-- 좋아요 수 업데이트 -->
+	<update id="updateLikes" parameterType="map">
+		UPDATE POST SET LIKES = #{likes} WHERE POST_ID = #{postId}
+	</update>
+
+	<!-- 댓글 불러오기 -->
+	<select id="getCommentsByPostId" resultType="com.sound.entity.Comment">
+		SELECT * FROM COMMENTS WHERE POST_ID = #{postId} ORDER BY CREATED_AT ASC
+	</select>
+
+	<!-- 좋아요 수 불러오기 -->
+	<select id="getLikesByPostId" resultType="int">
+		SELECT LIKES FROM POST WHERE POST_ID = #{postId}
+	</select>
+
 </mapper>

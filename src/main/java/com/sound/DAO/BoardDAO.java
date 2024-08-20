@@ -9,13 +9,13 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.sound.database.FactoryManager;
 import com.sound.entity.Board;
+import com.sound.entity.Comment; // 새로 추가된 Comment 클래스
 
 public class BoardDAO {
     private SqlSessionFactory factory = FactoryManager.getSqlSessionFactory();
 
     // 1. 게시글 목록 조회 (페이지네이션 추가)
     public List<Board> list(int offset, int limit) {
-    	
         SqlSession session = factory.openSession(true);
         Map<String, Integer> params = new HashMap<>();
         
@@ -80,5 +80,40 @@ public class BoardDAO {
         int cnt = session.update("increaseViewCount", postId);
         session.close();
         return cnt;
+    }
+    
+    // 8. 댓글 저장
+    public int saveComment(Comment comment) {
+        SqlSession session = factory.openSession(true);
+        int cnt = session.insert("saveComment", comment);
+        session.close();
+        return cnt;
+    }
+
+    // 9. 좋아요 수 업데이트
+    public int updateLikes(int postId, int likes) {
+        SqlSession session = factory.openSession(true);
+        Map<String, Integer> params = new HashMap<>();
+        params.put("postId", postId);
+        params.put("likes", likes);
+        int cnt = session.update("updateLikes", params);
+        session.close();
+        return cnt;
+    }
+
+    // 10. 댓글 불러오기
+    public List<Comment> getCommentsByPostId(int postId) {
+        SqlSession session = factory.openSession(true);
+        List<Comment> comments = session.selectList("getCommentsByPostId", postId);
+        session.close();
+        return comments;
+    }
+
+    // 11. 좋아요 수 불러오기
+    public int getLikesByPostId(int postId) {
+        SqlSession session = factory.openSession(true);
+        int likes = session.selectOne("getLikesByPostId", postId);
+        session.close();
+        return likes;
     }
 }

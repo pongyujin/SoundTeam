@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="com.sound.entity.Board"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+<%@page import="java.util.List"%>
+<%@page import="com.sound.entity.Comment"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -69,10 +74,9 @@
 
         .like-container {
             display: flex;
-               justify-content: flex-start; /* 왼쪽 정렬 */
+            justify-content: flex-start;
             margin-bottom: 100px;
-            margin-top: 100px; /* 위쪽에 여백 추가 */
-            
+            margin-top: 100px;
         }
         
         .like-btn {
@@ -91,8 +95,6 @@
         .like-btn .icon {
             margin-right: 5px;
             font-size: 1.2em;
-          
-           
         }
 
         .post-content {
@@ -111,12 +113,13 @@
             margin-top: 20px;
             flex-grow: 1;
         }
-.comments-section h3 {
-    margin-top: -80px; /* 음수 값을 사용해 위로 올림 */
-    font-size: 1.2em;
-    margin-bottom: 0px; /* 필요 시 아래쪽 여백도 제거 */
-    margin-left:10px;
-}
+
+        .comments-section h3 {
+            margin-top: -80px;
+            font-size: 1.2em;
+            margin-bottom: 0px;
+            margin-left: 10px;
+        }
 
         .comment {
             border-bottom: 1px solid #ddd;
@@ -172,7 +175,7 @@
     <div>
         <div class="header">
             <div class="logo">
-                <a href="index.html">
+                <a href="GoMain">
                     <img src="img/로고.png" alt="로고">
                 </a>
             </div>
@@ -182,26 +185,33 @@
                 <div></div>
             </div>
         </div>
-        <h2 class="post-title" id="postTitle">게시글 제목</h2>
-        <div class="post-content" id="postContent">
-            게시글 내용이 여기에 표시됩니다.
+        <h2 class="post-title"><%= ((Board)request.getAttribute("board")).getPostTitle() %></h2>
+        <div class="post-content">
+            <%= ((Board)request.getAttribute("board")).getPostContent() %>
         </div>
-        <img src="" alt="첨부 이미지" class="post-image" id="postImage">
+        <img src="<%= ((Board)request.getAttribute("board")).getPostFile() %>" alt="첨부 이미지" class="post-image">
         
-        <!-- comments-section 위로 like-container 이동 -->
         <div class="like-container">
-            <button class="like-btn" id="likeBtn"><span class="icon">❤️</span> 좋아요 0</button>
+            <button class="like-btn" id="likeBtn"><span class="icon">❤️</span> 좋아요 <%= request.getAttribute("likes") %></button>
         </div>
 
         <div class="comments-section">
-            <h3 >댓글😁</h3>
+            <h3>댓글😁</h3>
             <div id="commentsList">
-                <!-- 댓글 목록이 여기에 표시됩니다 -->
+                <% 
+                List<Comment> comments = (List<Comment>) request.getAttribute("comments");
+                for (Comment comment : comments) { 
+                %>
+                    <div class="comment">
+                        <p><strong><%= comment.getUsrId() %>:</strong> <%= comment.getContent() %></p>
+                    </div>
+                <% 
+                } 
+                %>
             </div>
         </div>
     </div>
     
-    <!-- 고정된 푸터 -->
     <div class="fixed-footer">
         <div class="comment-input">
             <textarea id="commentInput" placeholder="댓글을 입력하세요"></textarea>
@@ -211,65 +221,56 @@
 </div>
 
     <script>
-        const post = {
-            title: '게시글 제목이 들어갑니다.',
-            content: '게시글 내용이 들어갑니다',
-            image: 'img/sample-image.png', // 실제 이미지 경로를 설정하세요
-            likes: 0,
-            comments: []
-        };
-
-        function renderPost() {
-            document.getElementById('postTitle').innerText = post.title;
-            document.getElementById('postContent').innerText = post.content;
-
-            const postImage = document.getElementById('postImage');
-            if (post.image) {
-                postImage.src = post.image;
-                postImage.style.display = 'block';
-            } else {
-                postImage.style.display = 'none';
-            }
-        }
+        let likeCount = <%= request.getAttribute("likes") %>;
+        const postId = <%= ((Board)request.getAttribute("board")).getPostId() %>;
 
         function renderLikes() {
-            document.getElementById('likeBtn').innerHTML = `<span class="icon">❤️</span> 좋아요 ${post.likes}`;
+            document.getElementById('likeBtn').innerHTML = `<span class="icon">❤️</span> 좋아요 ${likeCount}`;
         }
 
-        function renderComments() {
-            const commentsList = document.getElementById('commentsList');
-            commentsList.innerHTML = '';
-
-            post.comments.forEach(comment => {
-                const commentDiv = document.createElement('div');
-                commentDiv.className = 'comment';
-                commentDiv.innerHTML = `<p>${comment}</p>`;
-                commentsList.appendChild(commentDiv);
-            });
-        }
+        document.getElementById('likeBtn').addEventListener('click', function() {
+            if (likeCount < 3) {
+                likeCount++;
+                renderLikes();
+                updateLikes(postId, likeCount);
+            } else {
+                alert('좋아요는 1아이디당 3번까지 가능합니다.');
+            }
+        });
 
         function addComment() {
             const commentInput = document.getElementById('commentInput');
-            const comment = commentInput.value.trim();
-            if (comment) {
-                post.comments.push(comment);
+            const commentText = commentInput.value.trim();
+            const author = '<%= (String)session.getAttribute("userId") %>';
+            
+            if (commentText) {
+                saveComment(postId, author, commentText);
                 commentInput.value = '';
-                renderComments();
+                location.reload(); // 댓글 추가 후 페이지를 새로 고침
             } else {
                 alert('댓글을 입력하세요.');
             }
         }
 
-        document.getElementById('likeBtn').addEventListener('click', function() {
-            post.likes++;
-            renderLikes();
-        });
+        function saveComment(postId, author, content) {
+            fetch('/saveComment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ postId, author, content })
+            });
+        }
 
-        window.onload = function() {
-            renderPost();
-            renderLikes();
-            renderComments();
-        };
+        function updateLikes(postId, likes) {
+            fetch('/updateLikes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ postId, likes })
+            });
+        }
     </script>
 </body>
 </html>
