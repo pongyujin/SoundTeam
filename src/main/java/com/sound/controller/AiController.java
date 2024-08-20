@@ -112,7 +112,7 @@ public class AiController extends HttpServlet {
 //				System.out.println("linksArray이다!!!!!"+z);
 //			}
 //			for (Object z : imagesArray) {
-//				System.out.println("imagesArray이다!!!!!"+z);
+//				System.out.println("imagesArray이다!!!!!"+z);//
 //			}
 			
 			
