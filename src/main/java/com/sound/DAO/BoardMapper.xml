@@ -32,7 +32,7 @@
 		SELECT A.*, ROWNUM RNUM FROM (
 		SELECT * FROM post ORDER BY POST_ID DESC
 		) A
-		WHERE ROWNUM  &lt; #{offset} + #{limit}
+		WHERE ROWNUM &lt; #{offset} + #{limit}
 		)
 		WHERE RNUM > #{offset}
 	</select>

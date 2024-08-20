@@ -98,7 +98,6 @@ body {
 	margin-bottom: 20px;
 }
 
-}
 .search-bar {
 	display: flex;
 	justify-content: center;
@@ -114,7 +113,6 @@ body {
 	margin-right: 10px;
 	margin-bottom: 20px;
 	margin-top: -80px;
-	/
 }
 
 .search-bar button {
@@ -127,7 +125,6 @@ body {
 	font-weight: bold;
 	margin-bottom: 20px;
 	margin-top: -80px;
-	/
 }
 
 table {
@@ -185,31 +182,10 @@ table th {
 </style>
 </head>
 <body>
-<<<<<<< HEAD
 	<div class="container">
 		<div class="header">
 			<div class="logo">
 				<a href="GoMain"> <img src="img/로고.png" alt="로고">
-=======
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <a href="GoMain">
-                    <img src="img/로고.png" alt="로고">
-               
-                </a>
-            </div>
-            <div class="menu-icon" onclick="toggleDropdown()">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="GoMyPage1">마이페이지</a>
-                <a href="GoBoard">게시판</a>
-            </div>
-        </div>
-
 				</a>
 			</div>
 			<div class="menu-icon" onclick="toggleDropdown()">
@@ -241,15 +217,16 @@ table th {
 				</tr>
 			</thead>
 			<tbody>
-				<%-- 게시글 목록을 출력 33--%>
+				<%-- 게시글 목록을 출력 --%>
 				<% 
 				// 'list'는 Board 객체의 리스트입니다.
 				List<Board> list = (List<Board>)request.getAttribute("list");
+				int no = 1; // 순차적으로 번호를 매기기 위해 초기화
 				if (list != null && !list.isEmpty()) {
 					for(Board board : list) { 
 				%>
 				<tr>
-					<td><%= board.getPostId() %></td>
+					<td><%= no++ %></td> <!-- 순차적인 번호를 출력 -->
 					<td><%= board.getPostTitle() %></td>
 					<td><%= board.getUsrId() %></td>
 					<td><%= board.getCreatedAt() %></td>

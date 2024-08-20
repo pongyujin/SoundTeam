@@ -34,4 +34,3 @@ public class FactoryManager {
         FactoryManager.sqlSessionFactory = sqlSessionFactory;
     }
 }
-
