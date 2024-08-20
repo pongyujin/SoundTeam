@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.gson.Gson;
 import com.sound.DAO.Ai_AnalysisDAO;
 import com.sound.entity.Ai_Analysis;
 
@@ -33,6 +34,7 @@ public class AiController extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		try {
 			request.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json");
@@ -41,14 +43,18 @@ public class AiController extends HttpServlet {
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode requestData = objectMapper.readTree(request.getReader());
 
+			// Json 불러오기 검사
 			JsonNode promptNode = requestData.get("prompt");
 			if (promptNode == null) {
 				throw new RuntimeException("prompt 필드가 요청 데이터에 존재하지 않습니다.");
 			}
+			
 			String prompt = promptNode.asText();
 
+			// ai 메서드 실행
 			String[] aiData = ai_access(prompt);
 
+			// user값 가져오기
 			String userId = requestData.get("userId").asText();
 			if (userId == null) {
 				throw new RuntimeException("userId가 전송되지 않았습니다.");
@@ -59,6 +65,8 @@ public class AiController extends HttpServlet {
 			ai_analysis.setUserId(userId);
 			ai_analysis.setInteraction(aiData[2]);
 
+			
+			// Ai_AnalysisDAO  DB 저장하기
 			Ai_AnalysisDAO dao = new Ai_AnalysisDAO();
 			int cnt = dao.insert(ai_analysis);
 
@@ -79,10 +87,20 @@ public class AiController extends HttpServlet {
 			nutrition[0] = StringUtils.substringBetween(aiData[0], "1.", "2.");
 			nutrition[1] = StringUtils.substringBetween(aiData[0], "2.", "3.");
 			nutrition[2] = StringUtils.substringBetween(aiData[0], "3.", "식품");
-
+			
+			//식품: 이후부터 1. 2. 3. 추출
+			String foodData = StringUtils.substringAfter(aiData[0], "식품:");
+			String[] food = new String[3];
+			food[0] = StringUtils.substringBetween(foodData, "1.", "2.");
+			food[1] = StringUtils.substringBetween(foodData, "2.", "3.");
+			food[2] = StringUtils.substringAfter(foodData, "3.");
+			
 			System.out.println(nutrition[0]);
 			System.out.println(nutrition[1]);
 			System.out.println(nutrition[2]);
+			System.out.println(food[0]);
+			System.out.println(food[1]);
+			System.out.println(food[2]);
 			
 			String naverApiUrl = "http://localhost:8081/ST/NaverApiController?query=";
 
@@ -104,18 +122,6 @@ public class AiController extends HttpServlet {
 			}
 			
 			
-			// 값 있음
-//			for (Object z : itemsArray) {
-//				System.out.println("itemsArray이다!!!!!"+z);
-//			}
-//			for (Object z : linksArray) {
-//				System.out.println("linksArray이다!!!!!"+z);
-//			}
-//			for (Object z : imagesArray) {
-//				System.out.println("imagesArray이다!!!!!"+z);
-//			}
-			
-			
 			// JSON 객체인 resultNode에 넣고
 			resultNode.put("items", itemsArray.toString());
 			resultNode.put("links", linksArray.toString());
@@ -123,6 +129,13 @@ public class AiController extends HttpServlet {
 
 			// 클라이언트에 반환함
 			response.getWriter().write(resultNode.toString());
+			
+			//food 데이터를 jsonFood으로
+			Gson gson = new Gson();
+			String jsonFood = gson.toJson(food);
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jsonFood);
 
 			
 			
@@ -133,6 +146,7 @@ public class AiController extends HttpServlet {
 		}
 	}
 
+	// ai 실행 메서드
 	public String[] ai_access(String prompt) {
 
 		String API_KEY = "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";
@@ -141,9 +155,9 @@ public class AiController extends HttpServlet {
 		OkHttpClient client = new OkHttpClient();
 
 		prompt = prompt + "\r\n" + " 그럴때 추천 영양성분 3가지와 식품 3가지를 ai_result: \r\n"
-				+ "영양성분: 1,2,3 식품:1,2,3  sugg_reason: 추천이유 \r\n"
+				+ "영양성분: 1., 2., 3. 식품: 1., 2., 3.  sugg_reason: 추천이유 \r\n"
 				+ "으로 영양성분과 식품이 서로 상호작용으로 어떤 영향이 없는지를  inter_actions: \r\n"
-				+ " 으로 답변할때 JSON형식 앞에 영어든 한국어든 어떤 언급도 하지 말고 바로 다음의 JSON 형식으로 답변  {\"ai_result\": \" \", \"sugg_reason\": \" \", \"inter_actions\": \" \"}";
+				+ "으로 하고, 답변할때 JSON형식 앞에 영어든 한국어든 어떤 언급도 하지 말고 바로 다음의 JSON 형식으로 답변  {\"ai_result\": \" \", \"sugg_reason\": \" \", \"inter_actions\": \" \"}";
 
 		JSONObject jsonBody = new JSONObject();
 		jsonBody.put("model", "claude-3-5-sonnet-20240620");
@@ -191,6 +205,7 @@ public class AiController extends HttpServlet {
 
 	}
 
+	// naverAPi 불러오기 메서드
 	private String callNaverApi(String apiUrl) throws IOException {
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder().url(apiUrl).build();

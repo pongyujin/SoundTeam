@@ -88,7 +88,7 @@
     margin-top:50px;  
     }
         .edit-profile-btn {    
-    background-color: #66DAE4; 
+    background-color: #B0E9EE; 
     color: black ; 
     padding: 10px 20px;
     border: none;

@@ -1,6 +1,6 @@
 <%@page import="com.sound.entity.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,255 +8,283 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>메인 페이지</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #ffffff;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
-  .container {
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 430px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-    box-sizing: border-box;
-    position: relative;
-  }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    position: relative;
-  }
-  .logo img {
-    width: 110px; /* 로고 이미지 크기 조정 */
-  }
-  .menu-icon {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .menu-icon div {
-    width: 100%;
-    height: 4px;
-    background-color: #000; 
-  }
-  .dropdown-menu {
-    display: none; /* 기본적으로 숨김 */
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    overflow: hidden;
-    z-index: 1000;
-  }
-  .dropdown-menu a {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    color: #000;
-    border-bottom: 1px solid #ddd;
-  }
-  .dropdown-menu a:last-child {
-    border-bottom: none;
-  }
-  .dropdown-menu a:hover {
-    background-color: #f0f0f0;
-  }
-  .main-section {
-    margin: 20px 0;
-    height: 200px;
-    background-color: #e0e0e0; /* 임시 배경 색 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .main-section img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-  }
-  .main-section img.active {
-    opacity: 1;
-  }
-  .buttons-section {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 40px; /* 버튼 섹션과 다음 섹션 사이에 여백 추가 */
-  }
-  .button {
-    background-color: #B0E9EE;
-    padding: 20px;
-    text-align: center;
-    text-color :black;
-    font-size: 0.9em;
-    width: 45%;
-    text-decoration: none !important; /* 링크 밑줄 제거, 강제 적용 */ /* 링크 밑줄 제거 */
+body {
+	font-family: Arial, sans-serif;
+	background-color: #ffffff;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	flex-direction: column;
+	padding: 0 10px;
+	box-sizing: border-box;
+}
+
+.container {
+	background-color: #ffffff;
+	width: 100%;
+	max-width: 430px;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+	box-sizing: border-box;
+	position: relative;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 0;
+	position: relative;
+}
+
+.logo img {
+	width: 110px; /* 로고 이미지 크기 조정 */
+}
+
+.menu-icon {
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.menu-icon div {
+	width: 100%;
+	height: 4px;
+	background-color: #000;
+}
+
+.dropdown-menu {
+	display: none; /* 기본적으로 숨김 */
+	position: absolute;
+	top: 50px;
+	right: 0;
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	z-index: 1000;
+}
+
+.dropdown-menu a {
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+	color: #000;
+	border-bottom: 1px solid #ddd;
+}
+
+.dropdown-menu a:last-child {
+	border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+	background-color: #f0f0f0;
+}
+
+.main-section {
+	margin: 20px 0;
+	height: 200px;
+	background-color: #e0e0e0; /* 임시 배경 색 */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	overflow: hidden;
+}
+
+.main-section img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	position: absolute;
+	opacity: 0;
+	transition: opacity 1s ease-in-out;
+}
+
+.main-section img.active {
+	opacity: 1;
+}
+
+        .buttons-section {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+             gap: 20px /* 버튼 섹션과 다음 섹션 사이에 여백 추가 */
+        }
+       .button, .button1 {
+    background-color: #A3ECF2; /* 버튼 배경색 */
+    color: #000000; /* 텍스트 색상 */
+    padding: 15px;
+    border: none;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-right: 10px; /* 버튼 사이에 간격 추가 */
-    cursor: pointer;
-  }
-  .button1 {
-    background-color: #66DAE4;
-    padding: 20px;
     text-align: center;
-    font-size: 0.9em;
-    width: 45%;
-    text-color :black;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-right: 10px; /* 버튼 사이에 간격 추가 */
-    line-height: 2; /* 텍스트 아래로 내림 */
     cursor: pointer;
-  }
-  .button:last-child {
-    margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
-  }
-  .recommendation-section {
-    margin-bottom: 20px;
-  }
-  .recommendation-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  .category-buttons {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-  .category-button {
-    background-color:C3F7FC;
-    padding: 10px 15px;
-    margin: 5px;
-    border-radius: 20px;
-    font-size: 0.9em;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-  }
-  .content-section {
-    height: 200px;
-    background-color:#CFF4F8; /* 임시 배경 색 */
+    font-size: 1em;
+    flex: 1; /* 버튼이 부모 컨테이너의 너비를 동일하게 차지 */
+    height: 100px; /* 버튼의 높이 설정 */
+    box-sizing: border-box; /* 패딩과 보더를 포함한 전체 크기를 계산 */
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    padding: 10px;
-    overflow: hidden;
-    border-radius: 20px;
-  }
-  .content-section.hidden {
-    display: none;
-  }
-  .vitamin-list {
-    margin-top: 10px;
-    text-align: left;
-    list-style: none;
-    padding: 0;
-  }
-  .vitamin-list li {
-    margin-bottom: 10px;
-  }
+    transition: background-color 0.3s ease;
+}
+
+.button1 {
+    background-color: #66d4e4; /* 다른 버튼의 배경색 */
+}
+
+        .button:last-child {
+            margin-right: 0; /* 마지막 버튼의 오른쪽 여백 제거 */
+        }
+
+.recommendation-section {
+	margin-bottom: 20px;
+}
+
+.recommendation-title {
+	font-size: 1.2em;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.category-buttons {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+.category-button {
+	background-color: C3F7FC;
+	padding: 10px 15px;
+	margin: 5px;
+	border-radius: 20px;
+	font-size: 0.9em;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+}
+
+.content-section {
+	height: 200px;
+	background-color: #CFF4F8; /* 임시 배경 색 */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	padding: 10px;
+	overflow: hidden;
+	border-radius: 20px;
+}
+
+.content-section.hidden {
+	display: none;
+}
+
+.vitamin-list {
+	margin-top: 10px;
+	text-align: left;
+	list-style: none;
+	padding: 0;
+}
+
+.vitamin-list li {
+	margin-bottom: 10px;
+}
 </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="logo">
-        <a href="GoMain"> <img src="img/로고.png" alt="로고">
-        </a>
-      </div>
+	<div class="container">
+		<div class="header">
+			<div class="logo">
+				<a href="GoMain"> <img src="img/로고.png" alt="로고">
+				</a>
+			</div>
 
-      <%
-        // 세션값 가져오기
-        Users user = (Users) session.getAttribute("user");
-      %>
+			<%
+			// 세션값 가져오기
+			Users user = (Users) session.getAttribute("user");
+			%>
 
-      <% if (user == null) { %>
-      <div class="menu">
-        <a href="Gologin">로그인</a>
-        <a href="GoJoinPage">회원가입</a>
-      </div>
-      <% } else { %>
-      <div class="menu-icon" onclick="toggleDropdown()">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="dropdown-menu" id="dropdownMenu">
-        <a href="GoMyPage1">마이페이지</a>
-        <a href="GoBoard">게시판</a>
-      </div>
-      <% } %>
-    </div>
+			<%
+			if (user == null) {
+			%>
+			<div class="menu">
+				<a href="Gologin">로그인</a> <a href="GoJoinPage">회원가입</a>
+			</div>
+			<%
+			} else {
+			%>
+			<div class="menu-icon" onclick="toggleDropdown()">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div class="dropdown-menu" id="dropdownMenu">
+				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a>
+			</div>
+			<%
+			}
+			%>
+		</div>
 
-    <div class="main-section">
-      <!-- 슬라이드쇼 이미지 -->
-      <img src="img/영양제main3.jpg" alt="영양제 이미지1" class="slide active">
-      <img src="img/영양제main2.jpg" alt="영양제 이미지2" class="slide">
-      <img src="img/영양제main4.jpg" alt="영양제 이미지3" class="slide">
-    </div>
+		<div class="main-section">
+			<!-- 슬라이드쇼 이미지 -->
+			<img src="img/영양제main3.jpg" alt="영양제 이미지1" class="slide active">
+			<img src="img/영양제main2.jpg" alt="영양제 이미지2" class="slide"> <img
+				src="img/영양제main4.jpg" alt="영양제 이미지3" class="slide">
+		</div>
 
-    <div class="buttons-section">
-      <div class="button">
-        
-        <!-- HTML 버튼을 클릭하면 페이지 이동 -->
+		<div class="buttons-section">
+			<div class="button">
 
-	<a href='GoStartSurvetPage' >설문 조사 후<br> 영양제 추천</a>
-        
-        
-      </div>
+				<!-- HTML 버튼을 클릭하면 페이지 이동 -->
 
-     <a href="GoSearchPage" class="button">영양제 검색 후<br>직접 선택</a>
 
-    </div>
+				<button  class="button" onclick="location.href='GoStartSurvetPage'">
+					설문 조사 후<br> 영양제 추천
+				</button>
 
-    <div class="recommendation-section">
-      <div class="recommendation-title">건강 고민별 추천 영양제</div>
-      <div class="category-buttons">
-        <div class="category-button" onclick="showVitaminList('stress')">스트레스</div>
-        <div class="category-button" onclick="showVitaminList('skin')">피부</div>
-        <div class="category-button" onclick="showVitaminList('diet')">다이어트</div>
-        <div class="category-button" onclick="showVitaminList('eye')">눈건강</div>
-        <div class="category-button" onclick="showVitaminList('gut')">장건강</div>
-        <div class="category-button" onclick="showVitaminList('joint')">관절</div>
-        <div class="category-button" onclick="showVitaminList('fatigue')">피로</div>
-        <div class="category-button" onclick="showVitaminList('liver')">간건강</div>
-        <div class="category-button" onclick="showVitaminList('stomach')">위건강</div>
-        <div class="category-button" onclick="showVitaminList('women')">여성건강</div>
-        <div class="category-button" onclick="showVitaminList('men')">남성건강</div>
-      </div>
-    </div>
 
-    <div id="content-section" class="content-section hidden">
-      <div id="vitamin-list-container"></div>
-    </div>
-  </div>
 
-  <script>
+			</div>
+
+			<button class="button1" onclick="location.href='GoSearchPage'">
+				영양제 검색 후<br>직접 선택
+			</button>
+
+		</div>
+
+		<div class="recommendation-section">
+			<div class="recommendation-title">건강 고민별 추천 영양제</div>
+			<div class="category-buttons">
+				<div class="category-button" onclick="showVitaminList('stress')">스트레스</div>
+				<div class="category-button" onclick="showVitaminList('skin')">피부</div>
+				<div class="category-button" onclick="showVitaminList('diet')">다이어트</div>
+				<div class="category-button" onclick="showVitaminList('eye')">눈건강</div>
+				<div class="category-button" onclick="showVitaminList('gut')">장건강</div>
+				<div class="category-button" onclick="showVitaminList('joint')">관절</div>
+				<div class="category-button" onclick="showVitaminList('fatigue')">피로</div>
+				<div class="category-button" onclick="showVitaminList('liver')">간건강</div>
+				<div class="category-button" onclick="showVitaminList('stomach')">위건강</div>
+				<div class="category-button" onclick="showVitaminList('women')">여성건강</div>
+				<div class="category-button" onclick="showVitaminList('men')">남성건강</div>
+			</div>
+		</div>
+
+		<div id="content-section" class="content-section hidden">
+			<div id="vitamin-list-container"></div>
+		</div>
+	</div>
+
+	<script>
     const slides = document.querySelectorAll('.main-section .slide');
     let currentSlide = 0;
 

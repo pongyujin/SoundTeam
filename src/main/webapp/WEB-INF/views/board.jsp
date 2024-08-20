@@ -185,10 +185,31 @@ table th {
 </style>
 </head>
 <body>
+<<<<<<< HEAD
 	<div class="container">
 		<div class="header">
 			<div class="logo">
 				<a href="GoMain"> <img src="img/로고.png" alt="로고">
+=======
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <a href="GoMain">
+                    <img src="img/로고.png" alt="로고">
+               
+                </a>
+            </div>
+            <div class="menu-icon" onclick="toggleDropdown()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="GoMyPage1">마이페이지</a>
+                <a href="GoBoard">게시판</a>
+            </div>
+        </div>
+>>>>>>> branch 'origin' of https://github.com/2024-SMHRD-KDT-BigData-24/SoundTeam.git
 
 				</a>
 			</div>
