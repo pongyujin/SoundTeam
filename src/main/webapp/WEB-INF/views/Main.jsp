@@ -44,7 +44,8 @@ body {
 }
 
 .logo img {
-	width: 110px; /* 로고 이미지 크기 조정 */
+	width: 130px; /* 로고 이미지 크기 조정 */
+	margin-top:10px;
 }
 
 .menu a {
