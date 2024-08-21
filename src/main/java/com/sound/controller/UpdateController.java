@@ -11,9 +11,6 @@ import javax.servlet.http.HttpSession;
 import com.sound.DAO.UsersDAO;
 import com.sound.entity.Users;
 
-
-
-
 @WebServlet("/update")
 public class UpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,25 +27,20 @@ public class UpdateController extends HttpServlet {
         Users user = (Users)session.getAttribute("user");
         String id = user.getUsrId();
         
-        Users member = new Users();
-        
         user.setUsrName(usr_name);
         user.setUsrPw(usr_pw);
         user.setUsrEmail(usr_email);
         
-      
-		// 2. 기능 실행
+        // 2. 기능 실행
         UsersDAO dao = new UsersDAO();
-        dao.update(user);
-		int cnt = dao.update(member);
+        int cnt = dao.update(user);
 		
-		if(cnt>0) {
+		if(cnt > 0) {
 			System.out.println("회원정보 수정 성공");
-			session.setAttribute("user", member); 
-		}else {
+			session.setAttribute("user", user); 
+		} else {
 			System.out.println("회원정보 수정 실패");
 		}
-
+		response.sendRedirect("마이페이지로 돌아갈 경로");
 	}
-
 }

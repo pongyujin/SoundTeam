@@ -50,18 +50,17 @@ public class UsersDAO {
 		return cnt;
 	}
 
-	// 개인정보 수정 메서드 (아직안함)
-	public int update(Users users) {
-
-		SqlSession session = factory.openSession(true);
-
-		int cnt = session.update("update", users);
-
-		session.close();
-
-		return cnt;
-
-	}
+	// 개인정보 수정 메서드 
+    public int update(Users users) {
+    	
+        SqlSession session = factory.openSession(true);
+        
+        int cnt = session.update("com.sound.DAO.UsersMapper.update", users);
+        
+        session.close();
+        
+        return cnt;
+    }
 
 	// id 중복체크 버튼 , 네이버/카카오 중복체크
 	public Users id_check(String usr_id) {

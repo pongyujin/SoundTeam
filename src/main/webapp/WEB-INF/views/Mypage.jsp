@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.sound.entity.Users" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -30,7 +30,6 @@
             overflow-y: auto;
             height: 100%;
         }
-     
 
         .header {
             display: flex;
@@ -51,11 +50,13 @@
             flex-direction: column;
             justify-content: space-between;
         }
+
         .menu-icon div {
             width: 100%;
             height: 4px;
             background-color: #000; 
         } 
+
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -67,6 +68,7 @@
             overflow: hidden;
             z-index: 1000;
         }
+
         .dropdown-menu a {
             display: block;
             padding: 10px;
@@ -74,49 +76,56 @@
             color: #000;
             border-bottom: 1px solid #ddd;
         }
+
         .dropdown-menu a:last-child {
             border-bottom: none;  
         }
+
         .dropdown-menu a:hover {
             background-color: #f0f0f0;
         }
-        .h1{text-align: center;} 
-        .name {
-    font-size: 1.5em; /* rgb(167, 228, 239)기 조정 */
-    margin:rgb(0, 0, 0), 0, 0); /* 여백 제거 */ 
-    padding-bottom: 10px;  /* 아래쪽 패딩 추가 */
-    margin-top:50px;  
-    }
-        .edit-profile-btn {    
-    background-color: #B0E9EE; 
-    color: black ; 
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;     
-    margin-bottom: 50px;
-    font-weight: bold;
-    text-align: center;
-    display: block;
-    width: 100%;
-    max-width: 150px;
-    margin: 10px auto;
-     margin-left: 0; /* 오른쪽 정렬을 위해 왼쪽 마진을 자동으로 설정 */
-    margin-right: auto;
-     margin-top: 50px ;  
-}
 
-.edit-profile-btn:hover {
-    background-color: #5bc0de;
-}
-        .h{font-size:1.2em;
-           margin-left:10px;
-           font-weight:700;
-           margin-top : 40px; 
+        .h1 {
+            text-align: center;
         }
-        
-        
 
+        .name {
+            font-size: 1.5em;
+            margin: 0;
+            padding-bottom: 10px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .edit-profile-btn {
+            background-color: #B0E9EE;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 50px;
+            font-weight: bold;
+            text-align: center;
+            display: block;
+            width: 100%;
+            max-width: 150px;
+            margin: 10px auto;
+            margin-left: 0;
+            margin-right: auto;
+            margin-top: 50px;
+        }
+
+        .edit-profile-btn:hover {
+            background-color: #5bc0de;
+        }
+
+        .h {
+            font-size: 1.2em;
+            margin-left: 10px;
+            font-weight: 700;
+            margin-top: 40px;
+        }
 
         .supplement-list {
             list-style: none;
@@ -169,12 +178,17 @@
                 <a href="GoMyPage1">마이페이지</a>
                 <a href="GoBoard">게시판</a>
             </div>
-            
         </div>
-        <h1 class ="h1">마이페이지</h1>
-        <h1 class ="name" >님😊</h1>
+        <h1 class="h1">마이페이지</h1>
+
+        <!-- 사용자 이름 표시 -->
+        <h1 class="name">
+            <%= ((Users) session.getAttribute("user")).getUsrName() %>님😊
+        </h1>
+
+        <!-- 회원정보 수정 버튼 -->
         <button class="edit-profile-btn" onclick="location.href='GoInformation1'">회원정보 수정</button>
-        <h class ="h">추천받은 정보 확인하기 </h>
+        <h class="h">추천받은 정보 확인하기</h>
         <ul class="supplement-list" id="supplementList">
             <!-- 영양제 목록이 동적으로 추가됩니다 -->
         </ul>
