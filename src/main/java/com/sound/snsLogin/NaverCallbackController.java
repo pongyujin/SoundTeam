@@ -94,6 +94,7 @@ public class NaverCallbackController extends HttpServlet {
 				userInfoBr.close();
 
 				if (userInfoResponseCode == 200) {
+					
 					JSONObject userInfo = new JSONObject(userInfoRes.toString());
 					JSONObject responseObj = userInfo.getJSONObject("response");
 

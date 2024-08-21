@@ -24,7 +24,7 @@ public class ProductsDAO {
 
 		SqlSession session = factory.openSession(true);
 
-		int cnt = session.insert("insertProduct", products);
+		int cnt = session.insert("insertProducts", products);
 
 		// (3) SqlSession 반납하기
 		session.close();

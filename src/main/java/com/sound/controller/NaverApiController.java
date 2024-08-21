@@ -51,6 +51,7 @@ public class NaverApiController extends HttpServlet {
          String json = naverResponse.body().string();
          response.setContentType("application/json; charset=UTF-8");
          response.getWriter().write(json);
+         
       } catch (IOException e) {
          e.printStackTrace();
          response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

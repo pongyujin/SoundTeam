@@ -105,6 +105,7 @@ function submitSurvey() {
 	xhr.open('POST', 'ChecklistController', true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 
+
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
@@ -129,10 +130,13 @@ function submitSurvey() {
 		}
 	};
 
+
+
 	xhr.onerror = function() {
 		console.error('요청 중 오류 발생');
 		alert('요청 중 오류가 발생했습니다. 네트워크 상태를 확인하세요.');
 	};
 
+	console.log("Sending data to server:", surveyData);
 	xhr.send(JSON.stringify(surveyData));
 }

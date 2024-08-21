@@ -10,8 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,6 +68,7 @@ public class AiController extends HttpServlet {
 				throw new RuntimeException("AI 응답이 없습니다.");
 			}
 
+			System.out.println("ai응답결과: " + aiData);
 			// userid값 가져오기
 			String userId = requestData.get("userId").asText();
 			System.out.println(userId);
@@ -83,37 +84,43 @@ public class AiController extends HttpServlet {
 			String[] foodReasons = new String[3]; // 음식 추천 이유 배열
 
 			// 1. 영양제 이름 파싱
-			nutritionNames[0] = StringUtils.defaultString(StringUtils.substringBetween(aiData[0], "1. ", " 2."), "")
-					.trim();
-			nutritionNames[1] = StringUtils.defaultString(StringUtils.substringBetween(aiData[0], "2. ", " 3."), "")
-					.trim();
-			nutritionNames[2] = StringUtils.defaultString(StringUtils.substringBetween(aiData[0], "3. ", "식품"), "")
-					.trim();
+			nutritionNames[0] = StringUtils.defaultString(StringUtils.substringBetween(aiData[0], "1. ", " 2."), "").trim();
+			nutritionNames[1] = StringUtils.defaultString(StringUtils.substringBetween(aiData[0], "2. ", " 3."), "").trim();
+			nutritionNames[2] = StringUtils.defaultString(StringUtils.substringBefore(StringUtils.substringAfter(aiData[0], "3. "), "식품"), "").trim();
 
+			
+			String cutfood= StringUtils.substringAfter(aiData[0], "식품:");
 			// 2. 음식 이름 파싱
-			foodNames[0] = StringUtils.defaultString(StringUtils.substringBetween(aiData[0], "식품: 1. ", " 2."), "")
-					.trim();
-			foodNames[1] = StringUtils.defaultString(StringUtils.substringBetween(aiData[0], "2. ", " 3."), "").trim();
-			foodNames[2] = StringUtils.defaultString(StringUtils.substringAfter(aiData[0], "3. "), "").trim();
+			String foodGroup1 = StringUtils.defaultString(StringUtils.substringBetween(cutfood, "1. ", " 2."), "").trim();
+			String foodGroup2 = StringUtils.defaultString(StringUtils.substringBetween(cutfood, "2. ", " 3."), "").trim();
+			String foodGroup3 = StringUtils.defaultString(StringUtils.substringAfter(cutfood, "3. "), "").trim();
+
+			foodNames[0] = "1. " + foodGroup1; 
+			foodNames[1] = "2. " + foodGroup2; 
+			foodNames[2] = "3. " + foodGroup3; 
 
 			// 3. 영양제 추천 이유 파싱
-			nutritionReasons[0] = StringUtils.defaultString(StringUtils.substringBetween(aiData[1], "1. ", " 2."), "")
-					.trim();
-			nutritionReasons[1] = StringUtils.defaultString(StringUtils.substringBetween(aiData[1], "2. ", " 3."), "")
-					.trim();
-			nutritionReasons[2] = StringUtils.defaultString(StringUtils.substringAfter(aiData[1], "3. "), "").trim();
+			nutritionReasons[0] = StringUtils.defaultString(StringUtils.substringBetween(aiData[1], "1. ", " 2."), "").trim();
+			nutritionReasons[1] = StringUtils.defaultString(StringUtils.substringBetween(aiData[1], "2. ", " 3."), "").trim();
+			nutritionReasons[2] = StringUtils.defaultString(StringUtils.substringBefore(StringUtils.substringAfter(aiData[1], "3. "), "식품:"), "").trim();
 
+			String cutfood2= StringUtils.substringAfter(aiData[1], "식품:");
 			// 4. 음식 추천 이유 파싱
-			foodReasons[0] = StringUtils.defaultString(StringUtils.substringBetween(aiData[1], "식품: 1. ", " 2."), "")
-					.trim();
-			foodReasons[1] = StringUtils.defaultString(StringUtils.substringBetween(aiData[1], "2. ", " 3."), "")
-					.trim();
-			foodReasons[2] = StringUtils.defaultString(StringUtils.substringAfter(aiData[1], "3. "), "").trim();
+			String foodReason1 = StringUtils.defaultString(StringUtils.substringBetween(cutfood2, "1. ", " 2."), "").trim();
+			String foodReason2 = StringUtils.defaultString(StringUtils.substringBetween(cutfood2, "2. ", " 3."), "").trim();
+			String foodReason3 = StringUtils.defaultString(StringUtils.substringAfter(cutfood2, "3."), "").trim();
 
+			foodReasons[0] = foodReason1;  
+			foodReasons[1] = foodReason2;  
+			foodReasons[2] = foodReason3; 
+			
 			// 상호작용 파싱
 			String interaction = aiData[2].trim();
 
+
 			// 파싱 결과 출력
+			System.out.println();
+			System.out.println("파싱 결과");
 			System.out.println("Nutrition Names: " + Arrays.toString(nutritionNames));
 			System.out.println("Food Names: " + Arrays.toString(foodNames));
 			System.out.println("Nutrition Reasons: " + Arrays.toString(nutritionReasons));
@@ -135,7 +142,7 @@ public class AiController extends HttpServlet {
 
 				try {
 					naverResponse = callNaverApi(naverApiUrl + URLEncoder.encode(nutritionItem, "UTF-8"));
-					System.out.println("네이버 API 응답: " + naverResponse);
+
 				} catch (IOException e) {
 					System.out.println("네이버 API 호출 중 오류 발생: " + nutritionItem);
 					e.printStackTrace();
@@ -168,7 +175,7 @@ public class AiController extends HttpServlet {
 						// HTML 태그 제거 및 한글 디코딩
 						productTitle = firstItem.optString("title", "").trim().replaceAll("<[^>]*>", "");
 						productTitle = org.apache.commons.text.StringEscapeUtils.unescapeHtml4(productTitle);
-						
+
 						// URL과 이미지가 유효한지 검사
 						if (!productUrl.isEmpty() && !productImage.isEmpty()) {
 							itemsArray.put(nutritionItem);
@@ -191,18 +198,59 @@ public class AiController extends HttpServlet {
 				}
 			}
 
-			// 추출된 데이터를 사용하여 데이터베이스에 삽입하는 로직을 추가하세요.
-			// itemsArray, linksArray, imagesArray, titlesArray를 사용하여 필요한 작업을 수행합니다.
+			// 값있는지 확인
+			for (Object t : itemsArray) {
+				System.out.println("itemsArray" + t);
+			}
+			for (Object t : linksArray) {
+				System.out.println("linksArray" + t);
+			}
+			for (Object t : imagesArray) {
+				System.out.println("imagesArray" + t);
+			}
+			for (Object t : titlesArray) {
+				System.out.println("titlesArray" + t);
+			}
+
+			// ai DB 저장하기
+			Ai_recommendation aiDB = new Ai_recommendation();
+			Ai_recommendationDAO aidao = new Ai_recommendationDAO();
+
+			aiDB.setSuggReason(aiData[1]);
+			aiDB.setNutrId(String.join(", ", nutritionNames)); // 영양 성분을 콤마로 연결하여 저장
+			aiDB.setFoodId(String.join(", ", foodNames)); // 식품을 콤마로 연결하여 저장
+			aiDB.setInteraction(interaction);
+			aiDB.setUsrId(userId);
+
+			int suggId = aidao.insertAi(aiDB); // 삽입 후 생성된 SUGG_ID 반환
+
+			if (suggId > 0) {
+				System.out.println("ai DB  저장 성공");
+			} else {
+				System.out.println("ai DB 저장 실패.");
+			}
+
+			ProductsDAO productsDAO = new ProductsDAO();
+
+			for (int i = 0; i < 3; i++) {
+
+				Products product = new Products();
+				product.setProductUrl(linksArray.getString(i));
+				product.setProductImage(imagesArray.getString(i));
+				product.setSuggId(suggId); // AI_RECOMMENDATION의 SUGG_ID와 매칭
+
+				int cnt = productsDAO.insertProducts(product);
+				if (cnt > 0) {
+					System.out.println("Product DB 저장 성공");
+				} else {
+					System.out.println("Product DB 저장 실패.");
+				}
+			}
 
 			// JSON 객체인 resultNode에 데이터 저장
 			ObjectNode resultNode = objectMapper.createObjectNode();
-			resultNode.put("ai_result", aiData[0]);
-			resultNode.put("sugg_reason", aiData[1]);
-			resultNode.put("inter_actions", aiData[2]);
 			resultNode.put("user_id", userId);
-			resultNode.put("items", itemsArray.toString());
-			resultNode.put("links", linksArray.toString());
-			resultNode.put("images", imagesArray.toString());
+			resultNode.put("interaction_parsed", interaction);
 
 			// 영양 성분 저장
 			ArrayNode nutritionArray = resultNode.putArray("nutritionNames");
@@ -227,56 +275,26 @@ public class AiController extends HttpServlet {
 				foodReasonArray.add(foodReason);
 			}
 
-			// 상호작용 저장
-			resultNode.put("interaction_parsed", interaction);
+			// 네이버 API 결과 저장
+			ArrayNode itemsArrayNode = resultNode.putArray("items");
+			ArrayNode linksArrayNode = resultNode.putArray("links");
+			ArrayNode imagesArrayNode = resultNode.putArray("images");
 
-			// ai DB 저장하기
-			Ai_recommendation aiDB = new Ai_recommendation();
-			Ai_recommendationDAO aidao = new Ai_recommendationDAO();
-
-			aiDB.setSuggReason(aiData[1]);
-			aiDB.setNutrId(String.join(", ", nutritionNames)); // 영양 성분을 콤마로 연결하여 저장
-			aiDB.setFoodId(String.join(", ", foodNames)); // 식품을 콤마로 연결하여 저장
-			aiDB.setInteraction(interaction);
-			aiDB.setUsrId(userId);
-
-			int suggId = aidao.insertAi(aiDB);
-
-			if (suggId > 0) {
-				System.out.println("aiDB 저장 성공했습니다.");
-				System.out.println("suggId: " + suggId);
-			} else {
-				System.out.println("aiDB 저장 실패.");
+			for (int i = 0; i < itemsArray.length(); i++) {
+				itemsArrayNode.add(itemsArray.getString(i));
+				linksArrayNode.add(linksArray.getString(i));
+				imagesArrayNode.add(imagesArray.getString(i));
 			}
 
-			// 상품 DB 저장하기
-			ProductsDAO productsdao = new ProductsDAO();
+			// 세션에 resultNode 저장
+			HttpSession session = request.getSession();
+			session.setAttribute("resultNode", resultNode);
 
-			for (int i = 0; i < nutritionNames.length; i++) {
-
-				// Null 체크
-				if (linksArray.isNull(i) || imagesArray.isNull(i)) {
-					System.out.println("Skipping product insertion due to null URL or image at index: " + i);
-					continue;
-				}
-
-				Products product = new Products();
-				product.setProductUrl(linksArray.getString(i)); // 링크를 가져와 설정
-				product.setProductImage(imagesArray.getString(i)); // 이미지를 가져와 설정
-				product.setSuggId(suggId); // 추천 식별자를 설정
-
-				int cnt = productsdao.insertProducts(product); // 데이터베이스에 삽입
-
-				if (cnt > 0) {
-					System.out.println("Product DB 저장 성공");
-				} else {
-					System.out.println("Product DB 실패.");
-				}
-			}
-
-			// 클라이언트에 반환
+			// 클라이언트에 JSON 반환
+			response.setContentType("application/json;charset=UTF-8");
 			response.getWriter().write(resultNode.toString());
 
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

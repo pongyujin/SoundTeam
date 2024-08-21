@@ -24,7 +24,7 @@ public class Ai_recommendationDAO {
 
 		SqlSession session = factory.openSession(true);
 
-		int cnt = session.insert("insert", ai);
+		int cnt = session.insert("insertAiRecommendation", ai);
 
 		// (3) SqlSession 반납하기
 		session.close();

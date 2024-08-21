@@ -16,4 +16,5 @@ public class Ai_recommendation {
 	private String foodId; // 추천 식품: VARCHAR2(30)
 	private String interaction; // 상호작용: VARCHAR2(1000)
 	private String usrId; // USR_ID: VARCHAR2(30)
+
 }

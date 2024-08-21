@@ -2,19 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sound.DAO.ProductsMapper">
 
-	<insert id="insertProduct"
+	<insert id="insertProducts"
 		parameterType="com.sound.entity.Products">
 		INSERT INTO products (
-		PRODUCT_ID,
 		PRODUCT_URL,
 		PRODUCT_IMAGE,
 		SUGG_ID
 		) VALUES (
-		PRODUCTS_SEQ.NEXTVAL,  <!-- 시퀀스를 통해 자동 생성 -->
 		#{productUrl},
 		#{productImage},
 		#{suggId}
 		)
 	</insert>
+
 
 </mapper>

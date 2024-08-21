@@ -1,3 +1,6 @@
+<%@page import="com.fasterxml.jackson.databind.node.ArrayNode"%>
+<%@page import="com.fasterxml.jackson.databind.JsonNode"%>
+<%@page import="com.fasterxml.jackson.databind.ObjectMapper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
@@ -148,25 +151,23 @@ body {
 }
 
 .zoomable-item {
-    transition: transform 0.3s ease; /* 마우스를 올렸을 때 부드러운 줌인 효과 추가 */
+	transition: transform 0.3s ease; /* 마우스를 올렸을 때 부드러운 줌인 효과 추가 */
 }
 
 .zoomable-item:hover {
-    transform: scale(1.05); /* 5% 확대 */
+	transform: scale(1.05); /* 5% 확대 */
 }
 
 .product-item .click-message {
-    display: none; /* 처음에는 숨김 */
-    font-size: 0.7em; /* 작은 글씨 크기 */
-    color: #555; /* 연한 색상 */
-    margin-top: 5px; /* 이미지와 약간의 여백 추가 */
+	display: none; /* 처음에는 숨김 */
+	font-size: 0.7em; /* 작은 글씨 크기 */
+	color: #555; /* 연한 색상 */
+	margin-top: 5px; /* 이미지와 약간의 여백 추가 */
 }
 
 .zoomable-item:hover .click-message {
-    display: block; /* 마우스를 올렸을 때만 보이도록 설정 */
+	display: block; /* 마우스를 올렸을 때만 보이도록 설정 */
 }
-
-
 </style>
 </head>
 <body>
@@ -184,84 +185,105 @@ body {
 		</div>
 
 		<%
-		// 네이버 api 결과
+		// 세션에서 데이터를 가져오기
+		List<String> nutritionNames = (List<String>) session.getAttribute("nutritionNames");
+		List<String> nutritionReasons = (List<String>) session.getAttribute("nutritionReasons");
+		List<String> foodReasons = (List<String>) session.getAttribute("foodReasons");
+		List<String> foodNames = (List<String>) session.getAttribute("food");
+		List<String> items = (List<String>) session.getAttribute("items");
 		List<String> links = (List<String>) session.getAttribute("links");
 		List<String> images = (List<String>) session.getAttribute("images");
-		List<String> items = (List<String>) session.getAttribute("items");
+		String userId = (String) session.getAttribute("user_id");
+		String interaction_parsed = (String) session.getAttribute("interaction_parsed");
 
-		// ai결과 
-		String suggReason = (String) session.getAttribute("sugg_reason");
-		String interActions = (String) session.getAttribute("inter_actions");
-
-		// 세션에서 food 데이터 가져오기
-		List<String> foodList = (List<String>) session.getAttribute("food");
+		// 데이터가 제대로 로드되었는지 확인 (디버깅 용도)
+		System.out.println("nutritionNames: " + nutritionNames);
+		System.out.println("nutritionReasons: " + nutritionReasons);
+		System.out.println("foodReasons: " + foodReasons);
+		System.out.println("foodNames: " + foodNames);
+		System.out.println("items: " + items);
+		System.out.println("links: " + links);
+		System.out.println("images: " + images);
+		System.out.println("interaction_parsed: " + interaction_parsed);
 		%>
 
 		<div class="main-content">
-			<h2><%=session.getAttribute("user_id")%>님께<br> 추천된 영양제 입니다.
+			<h2><%=userId%>님께<br> 추천된 영양제 입니다.
 			</h2>
 			<p>제품을 눌러 영양정보 확인하기</p>
 			<br> <br>
+		</div>
 
-			<!-- 영양제 리스트 -->
-			<div class="product-item" data-title="추천된 영양제">
-				<%
-				// 네이버 API 결과 가져오기
-				if (links != null && !links.isEmpty() && images != null && !images.isEmpty() && items != null && !items.isEmpty()) {
-					for (int i = 0; i < links.size(); i++) {
-				%>
-				<div class="product-item zoomable-item" id="product-detail">
-					<a href="<%=links.get(i)%>"> <img src="<%=images.get(i)%>"
-						alt="영양제 이미지">
-						<h4><%=items.get(i)%></h4>
-					</a>
-					<p class="click-message">제품을 클릭해 사이트 이동하기</p>
-
-				</div>
-				<%
-				}
-				} else {
-				%>
-				<div class="product-item" data-title="영양제">
-					<p>추천된 영양제가 없습니다.</p>
-				</div>
-				<%
-				}
-				%>
+		<!-- 영양제 리스트 -->
+		<div class="product-item" data-title="추천된 영양제">
+			<%
+			if (links != null && images != null && items != null) {
+				for (int i = 0; i < links.size(); i++) {
+			%>
+			<div class="product-item zoomable-item" id="product-detail">
+				<a href="<%=links.get(i)%>"> <img src="<%=images.get(i)%>"
+					alt="영양제 이미지">
+					<h4><%=items.get(i)%></h4>
+				</a>
+				<p class="click-message">제품을 클릭해 사이트 이동하기</p>
 			</div>
-
-			<!-- 추천 이유 -->
-			<div class="product-item" data-title="추천 이유">
-				<p><%=suggReason%><br>
-				</p>
+			<%
+			}
+			} else {
+			%>
+			<div class="product-item" data-title="영양제">
+				<p>추천된 영양제가 없습니다.</p>
 			</div>
-			<!-- 상호작용 -->
-			<div class="product-item" data-title="상호작용">
-				<p>
-					<%=interActions != null ? interActions : "상호작용 정보가 없습니다."%>
-				</p>
-			</div>
+			<%
+			}
+			%>
+		</div>
 
-			<!-- 추천 식품 -->
-			<div class="product-item" data-title="추천 식품">
+		<!-- 영양제 추천 이유 -->
+		<div class="product-item" data-title="영양제 추천 이유">
+			<%
+			if (nutritionReasons != null && !nutritionReasons.isEmpty()) {
+				for (String reason : nutritionReasons) {
+			%>
+			<p><%=reason%></p>
+			<%
+			}
+			} else {
+			%>
+			<p>추천된 영양제의 이유가 없습니다.</p>
+			<%
+			}
+			%>
+		</div>
 
-				<%
-				if (foodList != null && !foodList.isEmpty()) {
-					for (String foodItem : foodList) {
-				%>
-				<p><%=foodItem%></p>
-				<%
-				}
-				} else {
-				%>
-				<p>추천된 식품이 없습니다.</p>
-				<%
-				}
-				%>
-			</div>
+		<!-- 상호작용 -->
+		<div class="product-item" data-title="상호작용">
+			<p><%=session.getAttribute("interaction_parsed") != null
+		? session.getAttribute("interaction_parsed")
+		: "상호작용 정보가 없습니다."%></p>
+		</div>
 
+		<!-- 추천 식품 -->
+		<div class="product-item" data-title="추천 식품">
+			<%
+			if (foodNames != null && !foodNames.isEmpty() && foodReasons != null && !foodReasons.isEmpty()) {
+				for (int i = 0; i < foodNames.size(); i++) {
+			%>
+			<p>
+				<strong><%=foodNames.get(i)%></strong>:
+				<%=foodReasons.get(i)%>
+			</p>
+			<%
+			}
+			} else {
+			%>
+			<p>추천된 식품이 없습니다.</p>
+			<%
+			}
+			%>
 		</div>
 	</div>
+
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			var productItems = document.querySelectorAll('.product-item');
@@ -273,5 +295,6 @@ body {
 			});
 		});
 	</script>
+
 </body>
 </html>
