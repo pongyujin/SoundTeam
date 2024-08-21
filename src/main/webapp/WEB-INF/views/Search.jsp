@@ -117,6 +117,7 @@ a:hover {
    flex-grow: 1;
    font-size: 10px;
 }
+
 .h1{
 font-size: 25px;
 }
@@ -129,7 +130,7 @@ font-size: 25px;
 }
 
 .search-bar input {
-   width: 70%; /* 입력 필드의 너비를 적절히 설정 */
+   width: 70%; /* 입력 ㅌ필드의 너비를 적절히 설정 */
    padding: 10px;
    font-size: 1.3em;
    border: 1px solid #ddd;
