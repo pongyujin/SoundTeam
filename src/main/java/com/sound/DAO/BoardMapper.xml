@@ -82,5 +82,15 @@
         WHERE POST_ID = #{postId}
         ORDER BY CREATED_AT ASC
     </select>
+    
+    
+  
+
+
+
+
+    
+    
+    
 
 </mapper>

@@ -128,7 +128,9 @@ public class BoardDAO {
         int totalPosts = session.selectOne("getTotalPosts");
         session.close();
         return totalPosts;
+    
     }
+
 }
 
 

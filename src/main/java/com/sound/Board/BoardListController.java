@@ -42,6 +42,7 @@ public class BoardListController extends HttpServlet {
         String url = "WEB-INF/views/board.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(url);
         rd.forward(request, response);
+        
     }
+    
 }
-

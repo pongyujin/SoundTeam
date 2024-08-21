@@ -186,6 +186,9 @@ table th {
     background-color: #66DAE4;
     color: white;
 }
+.pagination a:hover {
+    background-color: #ddd;
+}
 
 </style>
 </head>
@@ -253,27 +256,50 @@ table th {
 
         <a href="GoBoardPost" class="write-btn">글쓰기</a>
 
-        <!-- 페이지네이션 -->
-        <div class="pagination">
-            <%
-            int totalPages = (int) request.getAttribute("totalPages");
-            int currentPage = (int) request.getAttribute("currentPage");
+ <!-- 페이지네이션 -->
+<!-- 페이지네이션 -->
+<div class="pagination">
+    <%
+    int totalPages = (int) request.getAttribute("totalPages");
+    int currentPage = (int) request.getAttribute("currentPage");
 
-            for (int i = 1; i <= totalPages; i++) {
-                if (i == currentPage) {
-            %>
-                <a href="BoardList?page=<%= i %>" class="active"><%= i %></a>
-            <%
-                } else {
-            %>
-                <a href="BoardList?page=<%= i %>"><%= i %></a>
-            <%
-                }
-            }
-            %>
-        </div>
+    int maxPageNumbers = 5; // 한 번에 표시할 페이지 번호의 개수
+    int startPage = ((currentPage - 1) / maxPageNumbers) * maxPageNumbers + 1;
+    int endPage = Math.min(startPage + maxPageNumbers - 1, totalPages);
 
-    </div>
+    // "이전" 버튼
+    if (startPage > 1) {
+    %>
+        <a href="BoardList?page=<%= startPage - 1 %>">이전</a>
+    <%
+    }
+
+    // 페이지 번호들
+    for (int i = startPage; i <= endPage; i++) {
+        if (i == currentPage) {
+    %>
+            <a href="BoardList?page=<%= i %>" class="active"><%= i %></a>
+    <%
+        } else {
+    %>
+            <a href="BoardList?page=<%= i %>"><%= i %></a>
+    <%
+        }
+    }
+
+    // "다음" 버튼
+    if (endPage < totalPages) {
+    %>
+        <a href="BoardList?page=<%= endPage + 1 %>">다음</a>
+    <%
+    }
+    %>
+</div>
+
+       
+
+
+    
 
 	<script>
         function toggleDropdown() {
