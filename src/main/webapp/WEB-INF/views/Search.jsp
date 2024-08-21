@@ -9,7 +9,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>영양제 검색 페이지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 <style>
+*  {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+
+
+
+
+}
+
+
 body {
     font-family: Arial, sans-serif;
     background-color: #ffffff;
@@ -40,7 +55,19 @@ body {
 }
 
 .logo img {
-   width: 100px; /* 로고 이미지 크기 조정 */
+   width: 130px; /* 로고 이미지 크기 조정 */
+   margin-top:10px;
+}
+.menu a {
+	margin-left : 5px;
+	color: #000000; /* 링크 색상 변경 */
+	text-decoration: none; /* 밑줄 제거 */
+	
+}
+
+a:hover {
+	color: #007BFF; /* 마우스를 올렸을 때 색상 변경 */
+
 }
 
 .menu-icon {
@@ -106,6 +133,7 @@ body {
    flex-grow: 1;
    font-size: 10px;
 }
+
 .h1{
 font-size: 25px;
 }
@@ -118,7 +146,7 @@ font-size: 25px;
 }
 
 .search-bar input {
-   width: 70%; /* 입력 필드의 너비를 적절히 설정 */
+   width: 70%; /* 입력 ㅌ필드의 너비를 적절히 설정 */
    padding: 10px;
    font-size: 1.3em;
    border: 1px solid #ddd;

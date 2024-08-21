@@ -7,7 +7,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>메인 페이지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 <style>
+*  {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+
+
+
+
+}
+
+
+
 body {
 	font-family: Arial, sans-serif;
 	background-color: #ffffff;
@@ -44,7 +60,8 @@ body {
 }
 
 .logo img {
-	width: 110px; /* 로고 이미지 크기 조정 */
+	width: 130px; /* 로고 이미지 크기 조정 */
+	margin-top:10px;
 }
 
 .menu a {
@@ -244,7 +261,7 @@ a:hover {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a>
+				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a hred="">로그아웃</a>
 			</div>
 			<%
 			}
