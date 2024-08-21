@@ -170,8 +170,8 @@
         </div>
 
         <div class="input-group">
-            <label for="birthdate">생년월일</label>
-            <input type="date" id="birthdate" name="birthdate">
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email">
         </div>
 
         <button type="submit" class="submit-btn">정보 수정하기</button>
