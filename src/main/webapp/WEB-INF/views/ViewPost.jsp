@@ -83,13 +83,12 @@ String sessionUserId = sessionUser.getUsrId();
             margin-bottom: 20px;
         }
         .view-count {
-    text-align: right;
-    font-size: 0.9em;
-    color: #555;
-    margin-top: -15px;
-    margin-bottom: 20px;
-}
-        
+            text-align: right;
+            font-size: 0.9em;
+            color: #555;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
 
         .like-container {
             display: flex;
@@ -140,16 +139,14 @@ String sessionUserId = sessionUser.getUsrId();
             margin-bottom: 20px;
         }
       
-  .post-meta {
-    margin-top: -20px; /* 마진 탑을 음수로 주어 위로 올림 */
-    margin-bottom: 10px; /* 필요 시 간격을 조정 */
-    text-align: right; /* 조회수를 오른쪽으로 정렬 */
-    font-size: 1em;
-    color: black;
-    }
+        .post-meta {
+            margin-top: -20px; /* 마진 탑을 음수로 주어 위로 올림 */
+            margin-bottom: 10px; /* 필요 시 간격을 조정 */
+            text-align: right; /* 조회수를 오른쪽으로 정렬 */
+            font-size: 1em;
+            color: black;
+        }
    
-        
-
         .comments-section {
             margin-top: 20px;
             flex-grow: 1;
@@ -172,37 +169,35 @@ String sessionUserId = sessionUser.getUsrId();
             margin: 5px 0;
         }
 
-     
         .fixed-footer {
-    position: fixed; /* absolute 대신 fixed 사용 */
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #ffffff;
-    padding: 10px 20px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    max-width: 430px; /* 부모 컨테이너의 max-width와 동일하게 설정 */
-    margin: 0 auto; /* 가운데 정렬 */
-}
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-sizing: border-box;
+            max-width: 430px;
+            margin: 0 auto;
+        }
 
-.comment-input {
-    flex: 1;
-    margin-right: 10px; /* 오른쪽 여백을 추가 */
-}
+        .comment-input {
+            flex: 1;
+            margin-right: 10px;
+        }
 
-.comment-input textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-    resize: none;
-}
-
+        .comment-input textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            resize: none;
+        }
 
         .submit-btn {
             background-color: #66DAE4;
@@ -232,12 +227,14 @@ String sessionUserId = sessionUser.getUsrId();
             </div>
             <h2 class="post-title"><%= ((Board)request.getAttribute("board")).getPostTitle() %></h2>
             <div class="view-count">
-            조회수: <%= ((Board)request.getAttribute("board")).getViewCount() %>
-        </div>
+                조회수: <%= ((Board)request.getAttribute("board")).getViewCount() %>
+            </div>
             <div class="post-content">
                 <%= ((Board)request.getAttribute("board")).getPostContent() %>
             </div>
-            <img src="<%= ((Board)request.getAttribute("board")).getPostFile() %>" alt="" class="post-image">
+            
+            <!-- 이미지 파일이 모든 사용자가 볼 수 있도록 설정 -->
+            <img src="<%= request.getContextPath() + "/save/" + ((Board)request.getAttribute("board")).getPostFile() %>" alt="" class="post-image">
 
             <div class="like-container">
                 <button class="like-btn" id="likeBtn"><span class="icon">❤️</span> 좋아요 <%= request.getAttribute("likes") %></button>
@@ -246,7 +243,7 @@ String sessionUserId = sessionUser.getUsrId();
                     <a href="javascript:void(0);" class="delete-btn" id="deleteBtn" onclick="deletePost(event)">게시글 삭제</a>
                 <% } %>
             </div>
-       
+        </div>
 
         <div class="comments-section">
             <h3>댓글😁</h3>
