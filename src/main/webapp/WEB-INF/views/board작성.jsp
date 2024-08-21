@@ -207,8 +207,8 @@ table th, table td {
 		<form id="uploadForm" action="BoardWrite" method="post"
 			enctype="multipart/form-data">
 			<div class="form-group">
-				<label for="title">제목</label> <input type="text" id="title"
-					name="title" placeholder="제목을 입력하세요">
+				<label for="title">제목</label> 
+				<input type="text" id="title" name="title" placeholder="제목을 입력하세요">
 			</div>
 			<div class="form-group">
 				<label for="content">내용</label>
@@ -216,79 +216,10 @@ table th, table td {
 			</div>
 			<div class="form-group">
 				<label for="imageUpload">사진첨부</label> 
-				<input type="file" id="imageUpload" accept="image/*"> 
-				<button class="upload-btn" onclick="uploadPost()">업로드</button>
+				<input type="file" id="imageUpload" name="file" accept="image/*">
+			</div>
+			<button type="submit" class="upload-btn">업로드</button>
 		</form>
-
-		<script>
-        function uploadPost() {
-            const title = document.getElementById('title').value;
-            const content = document.getElementById('content').value;
-            const imageInput = document.getElementById('imageUpload');
-            const image = imageInput.files[0];
-
-            if (title === '' || content === '') {
-                alert('제목과 내용을 모두 입력해주세요.');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onloadend = function() {
-                const newPost = {
-                    no: posts.length + 1,
-                    title: title,
-                    writer: '사용자', // 실제 사용자 이름을 넣을 수 있음
-                    date: new Date().toISOString().split('T')[0],
-                    content: content,
-                    image: reader.result // 이미지 데이터 URL을 저장
-                };
-
-                posts.push(newPost);
-                alert('게시물이 성공적으로 업로드되었습니다!');
-                renderPosts(currentPage);
-                renderPagination();
-            };
-
-            if (image) {
-                reader.readAsDataURL(image); // 이미지 파일 읽기
-            } else {
-                alert('이미지를 선택하지 않았습니다. 게시물은 이미지 없이 업로드됩니다.');
-                reader.onloadend(); // 이미지가 없을 때도 게시물 업로드 처리
-            }
-        }
-
-        function renderPosts(page) {
-            const start = (page - 1) * postsPerPage;
-            const end = start + postsPerPage;
-            const slicedPosts = posts.slice(start, end);
-
-            const boardList = document.getElementById('boardList');
-            boardList.innerHTML = '';
-
-            slicedPosts.forEach(post => {
-                const row = `<tr>
-                    <td>${post.no}</td>
-                    <td>${post.title}</td>
-                    <td>${post.writer}</td>
-                    <td>${post.date}</td>
-                </tr>`;
-                boardList.innerHTML += row;
-
-                if (post.image || post.content) {
-                    boardList.innerHTML += `<tr>
-                        <td colspan="4">
-                            ${post.content ? `<p>${post.content}</p>` : ''}
-                            ${post.image ? `<img src="${post.image}" alt="첨부 이미지" style="max-width: 100%;">` : ''}
-                        </td>
-                    </tr>`;
-                }
-            });
-        }
-
-        window.onload = function() {
-            renderPosts(currentPage);
-            renderPagination();
-        };
-    </script>
+	</div>
 </body>
 </html>

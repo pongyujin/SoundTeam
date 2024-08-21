@@ -1,16 +1,13 @@
 package com.sound.Board;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
 import com.sound.DAO.BoardDAO;
 import com.sound.entity.Board;
 
@@ -27,18 +24,17 @@ public class BoardSearchController extends HttpServlet {
 
         if (search == null || search.trim().isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("검색어가 입력되지 않았습니다.");
+            request.setAttribute("error", "검색어가 입력되지 않았습니다.");
+            request.getRequestDispatcher("board.jsp").forward(request, response);
             return;
         }
 
         BoardDAO dao = new BoardDAO();
         List<Board> list = dao.search(search.trim());
         
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-        
-        response.setContentType("application/json; charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        out.print(json);
+        // 검색 결과를 JSP로 전달
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("/WEB-INF/views/board.jsp").forward(request, response);
+        System.out.println("디버깅용 테스트");
     }
 }

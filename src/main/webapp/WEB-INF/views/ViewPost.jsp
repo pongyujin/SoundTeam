@@ -216,7 +216,10 @@ String sessionUserId = sessionUser.getUsrId();
 
             <div class="like-container">
                 <button class="like-btn" id="likeBtn"><span class="icon">❤️</span> 좋아요 <%= request.getAttribute("likes") %></button>
-                <a href="javascript:void(0);" class="delete-btn" id="deleteBtn" onclick="deletePost(event)">게시글 삭제</a>
+                
+                <% if (sessionUserId.equals(((Board)request.getAttribute("board")).getUsrId())) { %>
+                    <a href="javascript:void(0);" class="delete-btn" id="deleteBtn" onclick="deletePost(event)">게시글 삭제</a>
+                <% } %>
             </div>
         </div>
 
@@ -329,6 +332,7 @@ String sessionUserId = sessionUser.getUsrId();
                     body: `postId=${postId}`
                 }).then(response => {
                     if (response.ok) {
+                        alert('게시글이 성공적으로 삭제되었습니다.');
                         window.location.href = 'BoardList';
                     } else {
                         alert('게시글 삭제에 실패했습니다.');

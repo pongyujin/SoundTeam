@@ -2,7 +2,6 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*, javax.servlet.*, javax.servlet.http.*"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -99,7 +98,6 @@ body {
 	margin-bottom: 20px;
 }
 
-
 .search-bar {
     display: flex;  /* 수평 정렬을 위해 flexbox 사용 */
     align-items: center;  /* 수직 중앙 정렬 */
@@ -128,11 +126,6 @@ body {
     flex-shrink: 0;  /* 버튼이 줄어들지 않도록 설정 */
     white-space: nowrap;  /* 버튼의 텍스트가 줄바꿈되지 않도록 */
 }
-
-
-
-
-
 
 table {
 	width: 100%;
@@ -208,9 +201,9 @@ table th {
 		<h2 class="board-title">자유게시판</h2>
 
 		<div class="search-bar">
-			<form action="board.jsp" method="get">
+			<form action="BoardSearch" method="get">
 				<input type="text" name="search" placeholder="게시글을 검색해보세요 !">
-				<button type="submit" >검색</button>
+				<button type="submit">검색</button>
 			</form>
 		</div>
 

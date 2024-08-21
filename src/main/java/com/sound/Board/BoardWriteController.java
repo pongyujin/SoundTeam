@@ -64,12 +64,11 @@ public class BoardWriteController extends HttpServlet {
         System.out.println("Image: " + img);
         System.out.println("User ID: " + usrId);
 
-
         // Board 객체 생성 및 데이터 설정
         Board board = new Board();
         board.setPostTitle(title);
         board.setPostContent(content);
-        board.setPostFile(img);
+        board.setPostFile(img != null ? "save/" + img : null); // 이미지 경로 설정
         board.setUsrId(usrId);
 
         // DAO를 사용해 데이터베이스에 저장
@@ -78,12 +77,11 @@ public class BoardWriteController extends HttpServlet {
 
         // 결과에 따라 리다이렉트 또는 에러 메시지 처리
         if (cnt > 0) {
-        	response.sendRedirect("GoBoard"); // 
-        	System.out.println("성공");
+            response.sendRedirect("GoBoard");
+            System.out.println("성공");
         } else {
             request.setAttribute("error", "게시글 작성에 실패했습니다.");
-        	System.out.println("실패");
-
+            System.out.println("실패");
             request.getRequestDispatcher("Board.jsp").forward(request, response);
         }
     }
