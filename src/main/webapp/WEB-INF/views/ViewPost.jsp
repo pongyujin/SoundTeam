@@ -1,6 +1,5 @@
 <%@page import="com.sound.entity.Users"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.sound.entity.Board" %>
 <%@ page import="com.sound.entity.Comment" %>
 <%@ page import="java.util.List" %>
@@ -22,22 +21,12 @@ String sessionUserId = sessionUser.getUsrId();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 보기</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
-<style>
-*  {
-  font-family: "Jua", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-  
-  }
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+    <style>
         /* 전체 CSS */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Noto Sans KR', sans-serif;
             background-color: #ffffff;
             margin: 0;
             padding: 0;
@@ -95,6 +84,7 @@ String sessionUserId = sessionUser.getUsrId();
             font-weight: bold;
             margin-bottom: 20px;
         }
+
         .view-count {
             text-align: right;
             font-size: 0.9em;
@@ -151,11 +141,11 @@ String sessionUserId = sessionUser.getUsrId();
             height: auto;
             margin-bottom: 20px;
         }
-      
+
         .post-meta {
-            margin-top: -20px; /* 마진 탑을 음수로 주어 위로 올림 */
-            margin-bottom: 10px; /* 필요 시 간격을 조정 */
-            text-align: right; /* 조회수를 오른쪽으로 정렬 */
+            margin-top: -20px;
+            margin-bottom: 10px;
+            text-align: right;
             font-size: 1em;
             color: black;
         }
@@ -315,10 +305,10 @@ String sessionUserId = sessionUser.getUsrId();
         function addComment() {
             const commentInput = document.getElementById('commentInput');
             const commentText = commentInput.value.trim();
-            const author = sessionUserId;
+            const usrId = sessionUserId;
             
             if (commentText) {
-                saveComment(postId, author, commentText);
+                saveComment(postId, usrId, commentText);
                 commentInput.value = '';
                 location.reload(); // 댓글 추가 후 페이지를 새로 고침
             } else {
@@ -326,13 +316,19 @@ String sessionUserId = sessionUser.getUsrId();
             }
         }
 
-        function saveComment(postId, author, content) {
-            fetch('/saveComment', {
+        function saveComment(postId, usrId, content) {
+            fetch('<%= request.getContextPath() %>/BoardComment', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json; charset=UTF-8'
                 },
-                body: JSON.stringify({ postId, author, content })
+                body: JSON.stringify({ postId, usrId, content })
+            }).then(response => {
+                if (response.ok) {
+                    location.reload(); // 성공 시 페이지를 새로고침
+                } else {
+                    alert('댓글 저장에 실패했습니다.');
+                }
             });
         }
 
@@ -340,7 +336,7 @@ String sessionUserId = sessionUser.getUsrId();
             fetch('/updateLikes', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json; charset=UTF-8'
                 },
                 body: JSON.stringify({ postId, likes })
             });

@@ -93,6 +93,7 @@ public class BoardDAO {
         SqlSession session = factory.openSession(true);
         int cnt = session.insert("com.sound.DAO.BoardMapper.addComment", comment);
         session.close();
+        System.out.println("댓글 추가 결과: " + cnt);  // 로그 추가
         return cnt;
     }
 
