@@ -1,5 +1,8 @@
 package com.sound.DAO;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import com.sound.database.FactoryManager;
 import com.sound.entity.Board;
 import com.sound.entity.Comment;
+import java.sql.Connection;
 
 public class BoardDAO {
     private SqlSessionFactory factory = FactoryManager.getSqlSessionFactory();
@@ -105,4 +109,27 @@ public class BoardDAO {
         session.close();
         return comments;
     }
+    // 11. 게시글 목록 조회 (페이지네이션 추가)
+    public List<Board> list1(int offset, int limit) {
+        SqlSession session = factory.openSession(true);
+        Map<String, Integer> params = new HashMap<>();
+        
+        params.put("offset", offset);
+        params.put("limit", limit);
+        List<Board> list = session.selectList("listWithPagination", params);
+        session.close();
+        
+        return list;
+    }
+
+    // 12. 전체 게시글 수 조회 (페이지네이션을 위해 추가)
+    public int getTotalPosts() {
+        SqlSession session = factory.openSession(true);
+        int totalPosts = session.selectOne("getTotalPosts");
+        session.close();
+        return totalPosts;
+    }
 }
+
+
+    

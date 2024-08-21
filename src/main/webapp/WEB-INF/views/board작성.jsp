@@ -148,6 +148,7 @@ table th, table td {
 
 .form-group {
 	margin-bottom: 10px; /* 간격을 줄임 */
+	margin-top:50px;
 }
 
 .form-group label {
@@ -203,7 +204,7 @@ table th, table td {
 				<div></div>
 			</div>
 		</div>
-		<h2 class="board-title">글쓰기</h2>
+		<h2 class="board-title">글쓰기📝</h2>
 		<form id="uploadForm" action="BoardWrite" method="post"
 			enctype="multipart/form-data">
 			<div class="form-group">

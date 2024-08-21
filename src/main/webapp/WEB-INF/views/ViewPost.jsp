@@ -154,33 +154,37 @@ String sessionUserId = sessionUser.getUsrId();
             margin: 5px 0;
         }
 
+     
         .fixed-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-sizing: border-box;
-        }
+    position: fixed; /* absolute 대신 fixed 사용 */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    max-width: 430px; /* 부모 컨테이너의 max-width와 동일하게 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+}
 
-        .comment-input {
-            flex: 1;
-            margin: 0 10px;
-        }
+.comment-input {
+    flex: 1;
+    margin-right: 10px; /* 오른쪽 여백을 추가 */
+}
 
-        .comment-input textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            resize: none;
-        }
+.comment-input textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
+}
+
 
         .submit-btn {
             background-color: #66DAE4;

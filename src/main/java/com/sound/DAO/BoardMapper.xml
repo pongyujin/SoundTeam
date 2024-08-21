@@ -28,6 +28,11 @@
         WHERE RNUM > #{offset}
     </select>
 
+    <!-- 총 게시물 수 조회 쿼리 -->
+    <select id="getTotalPosts" resultType="int">
+        SELECT COUNT(*) FROM POST
+    </select>
+
     <select id="search" resultType="com.sound.entity.Board">
         select POST_ID as postId,
         POST_TITLE as postTitle, POST_CONTENT as postContent,
@@ -77,4 +82,5 @@
         WHERE POST_ID = #{postId}
         ORDER BY CREATED_AT ASC
     </select>
+
 </mapper>

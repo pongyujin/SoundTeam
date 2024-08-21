@@ -103,7 +103,8 @@ body {
     align-items: center;  /* 수직 중앙 정렬 */
     margin-left: 50px;  /* 원하는 만큼 오른쪽으로 이동 */
     width: 100%;  /* 전체 폭을 사용할 수 있도록 설정 */
-    max-width: 800px; /* 최대 너비를 설정하여 전체 레이아웃에 맞춤 */
+    max-width: 800px; 
+    /* 최대 너비를 설정하여 전체 레이아웃에 맞춤 */
 }
 
 .search-bar input {
@@ -130,7 +131,7 @@ body {
 table {
 	width: 100%;
 	border-collapse: collapse;
-	margin-bottom: 250px;
+	margin-bottom: 20px;
 }
 
 table th, table td {
@@ -144,6 +145,10 @@ table th {
 	top: 0;
 	background-color: #f9f9f9;
 }
+.a{
+ text-decoration: none;
+ color:black; /* 링크 밑줄 제거 */}
+
 
 .write-btn {
 	display: block;
@@ -158,27 +163,30 @@ table th {
 	border-radius: 8px;
 	font-weight: bold;
 	cursor: pointer;
+	margin-bottom: 20px; /* 글쓰기 버튼 아래에 여백 추가 */
 }
 
 .pagination {
-	display: flex;
-	justify-content: center;
-	margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .pagination a {
-	margin: 0 5px;
-	padding: 10px 15px;
-	text-decoration: none;
-	color: #000;
-	border: 1px solid #ddd;
-	border-radius: 5px;
+    margin: 0 5px;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #000;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9; /* 기본 배경색 */
 }
 
 .pagination a.active {
-	background-color: #66DAE4;
-	color: white;
+    background-color: #66DAE4;
+    color: white;
 }
+
 </style>
 </head>
 <body>
@@ -194,11 +202,11 @@ table th {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="mypage.jsp">마이페이지</a> <a href="board.jsp">게시판</a>
+				<a href="GoMyPage">마이페이지</a> <a href="GoBoard">게시판</a>
 			</div>
 		</div>
 
-		<h2 class="board-title">자유게시판</h2>
+		<h2 class="board-title">자유게시판💕</h2>
 
 		<div class="search-bar">
 			<form action="BoardSearch" method="get">
@@ -226,7 +234,7 @@ table th {
 				%>
 				<tr>
 					<td><%= no++ %></td>
-					<td><a href="BoardView?postId=<%= board.getPostId() %>"><%= board.getPostTitle() %></a></td>
+					<td><a class="a" href="BoardView?postId=<%= board.getPostId() %>"><%= board.getPostTitle() %></a></td>
 					<td><%= board.getUsrId() %></td>
 					<td><%= board.getCreatedAt() %></td>
 				</tr>
@@ -241,12 +249,31 @@ table th {
 				} 
 				%>
 			</tbody>
-
 		</table>
 
+        <a href="GoBoardPost" class="write-btn">글쓰기</a>
 
-		<a href="GoBoardPost" class="write-btn">글쓰기</a>
-	</div>
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <%
+            int totalPages = (int) request.getAttribute("totalPages");
+            int currentPage = (int) request.getAttribute("currentPage");
+
+            for (int i = 1; i <= totalPages; i++) {
+                if (i == currentPage) {
+            %>
+                <a href="BoardList?page=<%= i %>" class="active"><%= i %></a>
+            <%
+                } else {
+            %>
+                <a href="BoardList?page=<%= i %>"><%= i %></a>
+            <%
+                }
+            }
+            %>
+        </div>
+
+    </div>
 
 	<script>
         function toggleDropdown() {
