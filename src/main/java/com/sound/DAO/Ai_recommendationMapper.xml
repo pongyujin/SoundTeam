@@ -4,24 +4,22 @@
 
 	<insert id="insert"
 		parameterType="com.sound.entity.Ai_recommendation"
-		useGeneratedKeys="true" keyProperty="suggId">
-		INSERT INTO ai_recommendation (
-		SUGG_ID,
-		SUGG_REASON,
-		SUGGESTED_AT,
-		NUTR_ID,
-		FOOD_ID,
-		INTERACTION,
-		USR_ID
-		) VALUES (
-		ai_recommendation_seq.NEXTVAL,  <!-- 시퀀스를 사용하여 SUGG_ID 자동 생성 -->
-		#{suggReason},
-		SYSDATE,  <!-- 오늘 날짜를 자동으로 입력 -->
-		#{nutrId},
-		#{foodId},
-		#{interaction},
-		#{usrId}
-		)
+		useGeneratedKeys="true" keyProperty="suggId" keyColumn="SUGG_ID">
+    INSERT INTO ai_recommendation (
+        SUGG_REASON,
+        SUGGESTED_AT,
+        NUTR_ID,
+        FOOD_ID,
+        INTERACTION,
+        USR_ID
+    ) VALUES (
+        #{suggReason},
+        SYSDATE,
+        #{nutrId},
+        #{foodId},
+        #{interaction},
+        #{usrId}
+    )
 	</insert>
 
 

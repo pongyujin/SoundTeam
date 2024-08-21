@@ -42,13 +42,14 @@ public class NaverApiController extends HttpServlet {
             .addHeader("X-Naver-Client-Secret", CLIENT_SECRET).build();
 
       try (Response naverResponse = client.newCall(naverRequest).execute()) {
+    	  
          if (!naverResponse.isSuccessful()) {
             throw new IOException("Unexpected code " + naverResponse);
          }
 
          // JSON 응답 파싱 및 클라이언트에 전송
          String json = naverResponse.body().string();
-         response.setContentType("application/json");
+         response.setContentType("application/json; charset=UTF-8");
          response.getWriter().write(json);
       } catch (IOException e) {
          e.printStackTrace();
