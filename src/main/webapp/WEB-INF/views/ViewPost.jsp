@@ -140,6 +140,7 @@ String sessionUserId = sessionUser.getUsrId();
             max-width: 100%;
             height: auto;
             margin-bottom: 20px;
+            object-fit: contain;
         }
 
         .post-meta {
@@ -236,8 +237,17 @@ String sessionUserId = sessionUser.getUsrId();
                 <%= ((Board)request.getAttribute("board")).getPostContent() %>
             </div>
             
-            <!-- 이미지 파일이 모든 사용자가 볼 수 있도록 설정 -->
-            <img src="<%= request.getContextPath() + "/save/" + ((Board)request.getAttribute("board")).getPostFile() %>" alt="" class="post-image">
+            <% 
+                String postFilePath = ((Board)request.getAttribute("board")).getPostFile();
+                System.out.println("Image Path: " + postFilePath); // 경로 확인 로그
+                if (postFilePath != null && !postFilePath.isEmpty()) {
+            %>
+                <img src="<%= request.getContextPath() + "/save/" + postFilePath %>" 
+                     alt="게시글 이미지" class="post-image"
+                     onerror="this.style.display='none'">
+            <% 
+                }
+            %>
 
             <div class="like-container">
                 <button class="like-btn" id="likeBtn"><span class="icon">❤️</span> 좋아요 <%= request.getAttribute("likes") %></button>
