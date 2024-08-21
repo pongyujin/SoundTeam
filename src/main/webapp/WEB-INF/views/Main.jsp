@@ -103,13 +103,14 @@ a:hover {
 
 .main-section {
 	margin: 20px 0;
-	height: 200px;
+	height: 300px;
 	background-color: #e0e0e0; /* 임시 배경 색 */
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: relative;
 	overflow: hidden;
+	border-radius: 10px;
 }
 
 .main-section img {
@@ -252,8 +253,8 @@ a:hover {
 
 		<div class="main-section">
 			<!-- 슬라이드쇼 이미지 -->
-			<img src="img/영양제main3.jpg" alt="영양제 이미지1" class="slide active">
-			<img src="img/영양제main2.jpg" alt="영양제 이미지2" class="slide"> <img
+			<img src="img/영양제111.jpg" alt="영양제 이미지1" class="slide active">
+			<img src="img/영양제333.jpg" alt="영양제 이미지2" class="slide"> <img
 				src="img/영양제main4.jpg" alt="영양제 이미지3" class="slide">
 		</div>
 
