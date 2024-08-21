@@ -11,23 +11,25 @@
 <title>영양제 검색 페이지</title>
 <style>
 body {
-   font-family: Arial, sans-serif;
-   background-color: #ffffff;
-   margin: 0;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 100vh;
-   flex-direction: column;
-   padding: 0 10px;
-}
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    padding: 0 10px;
+    font-size: 16px; }
+    /* 전체 글씨 크기를 기본적으로 크게 설정 */
 
 .container {
-   background-color: #ffffff;
-   width: 430px;
-   max-width: 800px;
-   padding: 10px 20px;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    width: 430px;
+    max-width: 800px;
+    padding: 10px 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em; /* 컨테이너 내부의 글씨 크기 확대 */
 }
 
 .header {
@@ -42,46 +44,46 @@ body {
 }
 
 .menu-icon {
-   width: 30px;
-   height: 30px;
-   cursor: pointer;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .menu-icon div {
-   width: 100%;
-   height: 4px;
-   background-color: #000;
+	width: 100%;
+	height: 4px;
+	background-color: #000;
 }
 
 .dropdown-menu {
-   display: none; /* 기본적으로 숨김 */
-   position: absolute;
-   top: 50px;
-   right: 0;
-   background-color: #ffffff;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   border-radius: 5px;
-   overflow: hidden;
-   z-index: 1000;
+	display: none;
+	position: absolute;
+	top: 50px;
+	right: 0;
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	z-index: 1000;
 }
 
 .dropdown-menu a {
-   display: block;
-   padding: 10px;
-   text-decoration: none;
-   color: #000;
-   border-bottom: 1px solid #ddd;
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+	color: #000;
+	border-bottom: 1px solid #ddd;
 }
 
 .dropdown-menu a:last-child {
-   border-bottom: none;
+	border-bottom: none;
 }
 
 .dropdown-menu a:hover {
-   background-color: #f0f0f0;
+	background-color: #f0f0f0;
 }
 
 .main-section {
@@ -104,6 +106,9 @@ body {
    flex-grow: 1;
    font-size: 10px;
 }
+.h1{
+font-size: 25px;
+}
 
 .search-bar {
    display: flex;
@@ -115,13 +120,14 @@ body {
 .search-bar input {
    width: 70%; /* 입력 필드의 너비를 적절히 설정 */
    padding: 10px;
-   font-size: 1em;
+   font-size: 1.3em;
    border: 1px solid #ddd;
    border-radius: 8px; /* 전체적으로 둥글게 설정 */
    box-sizing: border-box;
    height: 40px; /* 버튼과 동일한 높이로 설정 */
    margin-right: 10px; /* 검색 버튼과의 간격 추가 */
 }
+
 
 .button {
    padding: 10px 20px;
@@ -182,19 +188,22 @@ body {
 }
 
 .category-item img {
-   width: 50px; /* 이미지 크기를 줄임 */
-   height: 50px; /* 이미지 크기를 줄임 */
-   object-fit: cover;
-   border-radius: 50%;
+    width: 60px; /* 이미지 크기를 확대 */
+    height: 60px; /* 이미지 크기를 확대 */
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .category-item span {
-   display: block;
-   margin-top: 5px;
-   font-size: 0.8em;
-   color: #333;
-   white-space: nowrap;
+    display: block;
+    margin-top: 10px; /* 이미지와 텍스트 사이의 간격을 확대 */
+    font-size: 1em; /* 텍스트 크기 */
+    color: #333;
+    white-space: nowrap;
+    text-align: center; /* 텍스트를 중앙 정렬 */
 }
+
+
 
 .slider-container {
    width: 100%;
@@ -217,37 +226,72 @@ body {
    box-sizing: border-box;
 }
 
+/* 이미지가 들어가는 부모 요소에 대해 설정 */
 .vitamin-item {
-   position: relative;
-   background-color: #ffffff;
-   border-radius: 8px;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   text-align: left;
-   cursor: pointer;
-   display: flex;
-   align-items: center;
-   padding: 10px;
-   overflow: hidden;
-   height: 70px; /* 이미지 크기를 줄임 */
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    cursor: pointer;
+    display: flex; /* Flexbox 사용 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    padding: 10px;
+    overflow: hidden;
+    height: 70px; /* 이미지 크기를 줄임 */
 }
 
 .vitamin-item img {
-   width: 40px; /* 이미지 크기를 줄임 */
-   height: 40px; /* 이미지 크기를 줄임 */
-   object-fit: cover;
-   border-radius: 8px;
-   display: block;
-   margin-right: 10px;
+    width: 50px; /* 이미지 크기를 조정 */
+    height: 50px; /* 이미지 크기를 조정 */
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;           
 }
 
 .vitamin-item span {
-   font-size: 0.8em;
-   color: #333;
-   position: absolute;
-   bottom: 10px;
-   left: 10px;
-   white-space: nowrap;
+    font-size: 1.2em; /* 비타민 항목 텍스트 크기 확대 */
+    color: #333;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    white-space: nowrap;
+    
+    .vitamin-item {
+    position: relative; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    padding: 10px;
+    overflow: hidden;
+    height: 120px; /* 요소의 높이를 조금 늘려 텍스트와 이미지를 잘 배치 */
 }
+
+.vitamin-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    margin-bottom: 5px; /* 이미지와 텍스트 사이에 약간의 여백 추가 */
+}
+ 
+.vitamin-item span {
+    font-size: 0.9em; /* 텍스트 크기를 조금 키움 */
+    color: #333;
+    position: absolute; /* 절대 위치를 사용 */
+    bottom: 10px; /* 부모 컨테이너의 아래쪽에 위치 */
+    left: 200px; /* 수평 중앙 정렬 */
+    transform: translateX(-50%); /* 텍스트의 중심을 정확히 맞춤 */
+}
+    
+} 
 
 .pagination {
    margin-top: 20px;
@@ -264,19 +308,20 @@ body {
    background-color: #B0E9EE;
 }
 
+
 .button, .pagination button {
    pointer-events: auto; /* 이 속성이 설정되어야 클릭이 가능 */
 }
 
 .pagination button.active {
-   background-color: #66DAE4;
-   color: #fff;
-}
+    background-color: #66DAE4;
+    color: #fff;
+}  
 </style>
 </head>
 <body>
    <div class="container">
-      <div class="header">
+      <div class="header"> 
          <div class="logo">
             <a href="GoMain"><img src="img/로고.png" alt="로고"></a>
          </div>
@@ -297,9 +342,10 @@ body {
             <div></div>
             <div></div>
             <div></div>
-         </div>
-         <div class="dropdown-menu" id="dropdownMenu">
-            <a href="mypage.jsp">마이페이지</a> <a href="GoBoard">게시판</a>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="GoMypage">마이페이지</a>
+            <a href="GoBoard">게시판</a>
          </div>
          <%
          }
@@ -307,7 +353,7 @@ body {
       </div>
 
       <div class="content">
-         <h1>어떤 영양제를 찾으세요?</h1>
+         <h1 class ="h1">어떤 영양제를 찾으세요?</h1>
 
          <div class="search-bar">
             <input type="text" id="searchInput"
@@ -498,6 +544,18 @@ body {
              window.location.href = `/ST/GoSearchResultPage?vitamin=${encodedVitaminName}`;
          
          }
-      </script>
+     
+         function toggleDropdown() {
+             const dropdownMenu = document.getElementById('dropdownMenu');
+             // 현재 드롭다운이 열려 있는지 여부에 따라 열기/닫기 처리
+             if (dropdownMenu.style.display === 'block') {
+                 dropdownMenu.style.display = 'none';
+             } else {
+                 dropdownMenu.style.display = 'block';
+             }
+         }
+     </script>
+
+   
    </body>
 </html>
