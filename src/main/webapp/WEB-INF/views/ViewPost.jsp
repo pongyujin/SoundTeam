@@ -82,6 +82,14 @@ String sessionUserId = sessionUser.getUsrId();
             font-weight: bold;
             margin-bottom: 20px;
         }
+        .view-count {
+    text-align: right;
+    font-size: 0.9em;
+    color: #555;
+    margin-top: -15px;
+    margin-bottom: 20px;
+}
+        
 
         .like-container {
             display: flex;
@@ -131,6 +139,16 @@ String sessionUserId = sessionUser.getUsrId();
             height: auto;
             margin-bottom: 20px;
         }
+      
+  .post-meta {
+    margin-top: -20px; /* 마진 탑을 음수로 주어 위로 올림 */
+    margin-bottom: 10px; /* 필요 시 간격을 조정 */
+    text-align: right; /* 조회수를 오른쪽으로 정렬 */
+    font-size: 1em;
+    color: black;
+    }
+   
+        
 
         .comments-section {
             margin-top: 20px;
@@ -213,6 +231,9 @@ String sessionUserId = sessionUser.getUsrId();
                 </div>
             </div>
             <h2 class="post-title"><%= ((Board)request.getAttribute("board")).getPostTitle() %></h2>
+            <div class="view-count">
+            조회수: <%= ((Board)request.getAttribute("board")).getViewCount() %>
+        </div>
             <div class="post-content">
                 <%= ((Board)request.getAttribute("board")).getPostContent() %>
             </div>
@@ -225,7 +246,7 @@ String sessionUserId = sessionUser.getUsrId();
                     <a href="javascript:void(0);" class="delete-btn" id="deleteBtn" onclick="deletePost(event)">게시글 삭제</a>
                 <% } %>
             </div>
-        </div>
+       
 
         <div class="comments-section">
             <h3>댓글😁</h3>
