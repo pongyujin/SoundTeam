@@ -222,13 +222,18 @@ public class AiController extends HttpServlet {
 			aiDB.setInteraction(interaction);
 			aiDB.setUsrId(userId);
 
-			int suggId = aidao.insertAi(aiDB); // 삽입 후 생성된 SUGG_ID 반환
+			int cnt1 = aidao.insertAi(aiDB); // 삽입 후 생성된 SUGG_ID 반환
 
-			if (suggId > 0) {
-				System.out.println("ai DB  저장 성공");
+			if (cnt1 > 0) {
+				System.out.println("ai DB  저장 성공" );
 			} else {
 				System.out.println("ai DB 저장 실패.");
 			}
+			
+			// suggId 값 가져오는 ..
+			int suggId = aidao.getMaxSuggIdBy(userId);
+			
+			System.out.println(suggId);
 
 			ProductsDAO productsDAO = new ProductsDAO();
 

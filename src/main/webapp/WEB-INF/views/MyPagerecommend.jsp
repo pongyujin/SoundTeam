@@ -1,3 +1,6 @@
+<%@page import="com.sound.entity.Products"%>
+<%@page import="com.sound.entity.Ai_recommendation"%>
+<%@page import="com.sound.entity.Users"%>
 <%@page import="org.apache.ibatis.reflection.SystemMetaObject"%>
 <%@page import="com.fasterxml.jackson.databind.node.ArrayNode"%>
 <%@page import="com.fasterxml.jackson.databind.JsonNode"%>
@@ -95,7 +98,8 @@ body {
 	position: relative; /* 포지션 상대 */
 	padding-top: 40px;
 }
-h4{
+
+h4 {
 	margin-bottom: 0px;
 }
 
@@ -116,7 +120,6 @@ h4{
 	font-size: 0.8em; /* 텍스트 크기 */
 	line-height: 1.5em; /* 줄 간격 설정 */
 	opacity: 1; /* 처음에는 투명하게 */
-
 }
 
 .product-item:hover p {
@@ -187,29 +190,14 @@ h4{
 		</div>
 
 		<%
-		// 세션에서 데이터를 가져오기
-		List<String> nutritionNames = (List<String>) session.getAttribute("nutritionNames");
-		List<String> nutritionReasons = (List<String>) session.getAttribute("nutritionReasons");
-		List<String> foodReasons = (List<String>) session.getAttribute("foodReasons");
-		List<String> foodNames = (List<String>) session.getAttribute("food");
-		List<String> items = (List<String>) session.getAttribute("items");
-		List<String> links = (List<String>) session.getAttribute("links");
-		List<String> images = (List<String>) session.getAttribute("images");
-		String userId = (String) session.getAttribute("user_id");
-		String interaction_parsed = (String) session.getAttribute("interaction_parsed");
+		// 세션에서 userId 가져오기
+		String userId = (String) session.getAttribute("userId");
 
-		// 데이터가 제대로 로드되었는지 확인 (디버깅 용도)
-		
-		System.out.println("nutritionNames: " + nutritionNames);
-		System.out.println("nutritionReasons: " + nutritionReasons);
-		System.out.println("foodReasons: " + foodReasons);
-		System.out.println("foodNames: " + foodNames);
-		System.out.println("items: " + items);
-		System.out.println("links: " + links);
-		System.out.println("images: " + images);
-		System.out.println("interaction_parsed: " + interaction_parsed);
+		// 만약 userId가 null이면 예외 처리
+		if (userId == null) {
+			userId = "Unknown User"; // 기본 값 설정
+		}
 		%>
-
 		<div class="main-content">
 			<h2><%=userId%>님께<br> 추천된 영양제 입니다.
 			</h2>
@@ -218,43 +206,76 @@ h4{
 		</div>
 
 		<!-- 영양제 리스트 -->
-		<div class="product-item" data-title="추천된 영양제">
-			<%
-			if (links != null && images != null && items != null && nutritionReasons != null) {
-				for (int i = 0; i < links.size(); i++) {
-			%>
-			<div class="product-item zoomable-item" id="product-detail">
-				<a href="<%=links.get(i)%>"> <img src="<%=images.get(i)%>"
-					alt="영양제 이미지">
-					<h4><%=items.get(i)%></h4>
-				</a>
-				
-				<p class="nutrition-reason">
-					<%=nutritionReasons.get(i) %>
-				</p>
-				<p class="click-message">제품을 클릭해 사이트 이동하기</p>
-			</div>
-			<%
-			}
-			} else {
-			%>
-			<div class="product-item" data-title="영양제">
-				<p>추천된 영양제가 없습니다.</p>
-			</div>
-			<%
-			}
-			%>
-		</div>
+<div class="product-item" data-title="추천된 영양제">
+    <%
+    List<Products> productsResult = (List<Products>) request.getAttribute("productsResult");
+    List<Ai_recommendation> aiResult = (List<Ai_recommendation>) request.getAttribute("aiResult");
+
+    // aiResult에서 첫 번째 영양소 이름만 추출
+    String nutrId = aiResult.get(0).getNutrId();
+    String[] nutrientArray = nutrId.split(","); // 영양소들을 배열로 분리
+
+    // foodReasons에서 개별 문장만 추출
+    String foodReasonsFull = aiResult.get(0).getSuggReason();
+
+    // "식품: " 이후의 부분을 잘라내서 처리
+    String[] foodReasonParts = foodReasonsFull.split("영양성분: ")[1].split("\\d+\\. "); // 숫자와 점으로 문장을 나누기
+
+    // 영양소 관련 문장들만 추출
+    String firstReason = foodReasonParts.length > 1 ? foodReasonParts[1].trim() : "정보가 없습니다.";
+    String secondReason = foodReasonParts.length > 2 ? foodReasonParts[2].trim() : "정보가 없습니다.";
+    String thirdReason = foodReasonParts.length > 3 ? foodReasonParts[3].trim() : "정보가 없습니다.";
+
+    if (productsResult != null && aiResult != null && !productsResult.isEmpty() && !aiResult.isEmpty()) {
+        for (int i = 0; i < productsResult.size(); i++) {
+    %>
+    <div class="product-item zoomable-item" id="product-detail">
+        <a href="<%=productsResult.get(i).getProductUrl()%>"> 
+            <img src="<%=productsResult.get(i).getProductImage()%>" alt="영양제 이미지">
+            <h4><%=nutrientArray[i].trim()%></h4> <!-- 개별 영양제 이름 -->
+        </a>
+        <p class="nutrition-reason">
+            <% 
+            if (i == 0) { %>
+                <%= firstReason %>
+            <% } else if (i == 1) { %>
+                <%= secondReason %>
+            <% } else if (i == 2) { %>
+                <%= thirdReason %>
+            <% } %>
+            <!-- 영양제 설명 -->
+        </p>
+        <p class="click-message">제품을 클릭해 사이트 이동하기</p>
+    </div>
+    <%
+        }
+    %>
+    <%
+    } else {
+    %>
+    <div class="product-item" data-title="영양제">
+        <p>추천된 영양제가 없습니다.</p>
+    </div>
+    <%
+    }
+    %>
+</div>
+
 
 		<!-- 추천 식품 -->
 		<div class="product-item" data-title="추천 식품">
 			<%
-			if (foodNames != null && !foodNames.isEmpty() && foodReasons != null && !foodReasons.isEmpty()) {
-				for (int i = 0; i < foodNames.size(); i++) {
+			if (aiResult != null && !aiResult.isEmpty()) {
+				String[] foodNames = aiResult.get(0).getFoodId().split(",");
+				String[] foodReasons = aiResult.get(0).getSuggReason().split(","); // 실제로는 식품 이유와 일치하는 부분을 넣어야 함
+			%>
+			<%
+			int foodLength = Math.min(foodNames.length, foodReasons.length); // 두 배열 중 작은 길이를 선택
+			for (int i = 0; i < foodLength; i++) {
 			%>
 			<p>
-				<strong><%=foodNames.get(i)%></strong>:
-				<%=foodReasons.get(i)%>
+				<strong><%=foodNames[i].trim()%></strong>:
+				<%=foodReasons[i].trim()%>
 			</p>
 			<%
 			}
@@ -264,13 +285,6 @@ h4{
 			<%
 			}
 			%>
-		</div>
-
-		<!-- 상호작용 -->
-		<div class="product-item" data-title="상호작용">
-			<p><%=session.getAttribute("interaction_parsed") != null
-		? session.getAttribute("interaction_parsed")
-		: "상호작용 정보가 없습니다."%></p>
 		</div>
 
 	</div>

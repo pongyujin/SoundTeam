@@ -75,6 +75,18 @@
 		<description></description>
 		<servlet-class>com.sound.Board.BoardCommentController</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>MyPageController</servlet-name>
+		<display-name>MyPageController</display-name>
+		<description></description>
+		<servlet-class>com.sound.controller.MyPageController</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>GoMyPagerecommendPage</servlet-name>
+		<display-name>GoMyPagerecommendPage</display-name>
+		<description></description>
+		<servlet-class>com.sound.gopage.GoMyPagerecommendPage</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>GoMyPage</servlet-name>
@@ -124,6 +136,14 @@
 	<servlet-mapping>
 		<servlet-name>BoardCommentController</servlet-name>
 		<url-pattern>/BoardCommentController</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>MyPageController</servlet-name>
+		<url-pattern>/MyPageController</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GoMyPagerecommendPage</servlet-name>
+		<url-pattern>/GoMyPagerecommendPage</url-pattern>
 	</servlet-mapping>
 
 </web-app>

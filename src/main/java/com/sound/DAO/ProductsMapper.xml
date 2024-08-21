@@ -5,15 +5,33 @@
 	<insert id="insertProducts"
 		parameterType="com.sound.entity.Products">
 		INSERT INTO products (
+		PRODUCT_ID,  <!-- 새로운 시퀀스를 사용하여 PRODUCT_ID 생성 -->
 		PRODUCT_URL,
 		PRODUCT_IMAGE,
 		SUGG_ID
 		) VALUES (
+		PRODUCT_ID_SEQ.NEXTVAL,  <!-- 
+			PRODUCT_ID를 시퀀스로 생성 -->
 		#{productUrl},
 		#{productImage},
 		#{suggId}
 		)
 	</insert>
+
+	<select id="getProducts"
+		parameterType="com.sound.entity.Ai_recommendation"
+		resultType="com.sound.entity.Products">
+		SELECT
+		PRODUCT_ID,
+		PRODUCT_URL,
+		PRODUCT_IMAGE
+		FROM
+		PRODUCTS
+		WHERE
+		SUGG_ID = #{suggId}
+		ORDER BY
+		PRODUCT_ID ASC
+	</select>
 
 
 </mapper>
