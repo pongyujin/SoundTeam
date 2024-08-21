@@ -94,6 +94,9 @@ body {
 	position: relative; /* 포지션 상대 */
 	padding-top: 40px;
 }
+h4{
+	margin-bottom: 0px;
+}
 
 .product-item a {
 	text-decoration: none; /* 링크 밑줄 제거 */
@@ -108,13 +111,11 @@ body {
 }
 
 .product-item p {
-	margin: 10px 0 0; /* 상단 여백 추가, 하단 여백 제거 */
+	margin: 0px 0 0; /* 상단 여백 추가, 하단 여백 제거 */
 	font-size: 0.8em; /* 텍스트 크기 */
 	line-height: 1.5em; /* 줄 간격 설정 */
-	opacity: 0; /* 처음에는 투명하게 */
-	max-height: 0; /* 높이를 0으로 설정하여 숨김 효과 */
-	overflow: hidden; /* 높이가 줄어들면서 내용이 숨겨지도록 설정 */
-	transition: opacity 2s ease, max-height 2s ease; /* 부드러운 전환 효과 */
+	opacity: 1; /* 처음에는 투명하게 */
+
 }
 
 .product-item:hover p {
@@ -175,7 +176,7 @@ body {
 	<div class="container">
 		<div class="header">
 			<div class="logo">
-				<img src="img/로고.png" alt="로고">
+				<a href="GoMain"> <img src="img/로고.png" alt="로고"></a>
 			</div>
 			<div class="menu-icon">
 				<div></div>
@@ -210,14 +211,14 @@ body {
 		<div class="main-content">
 			<h2><%=userId%>님께<br> 추천된 영양제 입니다.
 			</h2>
-			<p>제품을 눌러 영양정보 확인하기</p>
+			<p>제품에 마우스를 올려주세요!</p>
 			<br> <br>
 		</div>
 
 		<!-- 영양제 리스트 -->
 		<div class="product-item" data-title="추천된 영양제">
 			<%
-			if (links != null && images != null && items != null) {
+			if (links != null && images != null && items != null && nutritionReasons != null) {
 				for (int i = 0; i < links.size(); i++) {
 			%>
 			<div class="product-item zoomable-item" id="product-detail">
@@ -225,6 +226,19 @@ body {
 					alt="영양제 이미지">
 					<h4><%=items.get(i)%></h4>
 				</a>
+				
+				<p class="nutrition-reason">
+					<%
+					// 추천 이유에서 ":" 다음의 텍스트만 추출하여 표시
+					String reason = nutritionReasons.get(i);
+					if (reason != null && reason.contains(":")) {
+						String reasonText = reason.split(":", 2)[1].trim();
+						out.print(reasonText);
+					} else {
+						out.print("추천 이유가 없습니다.");
+					}
+					%>
+				</p>
 				<p class="click-message">제품을 클릭해 사이트 이동하기</p>
 			</div>
 			<%
@@ -237,30 +251,6 @@ body {
 			<%
 			}
 			%>
-		</div>
-
-		<!-- 영양제 추천 이유 -->
-		<div class="product-item" data-title="영양제 추천 이유">
-			<%
-			if (nutritionReasons != null && !nutritionReasons.isEmpty()) {
-				for (String reason : nutritionReasons) {
-			%>
-			<p><%=reason%></p>
-			<%
-			}
-			} else {
-			%>
-			<p>추천된 영양제의 이유가 없습니다.</p>
-			<%
-			}
-			%>
-		</div>
-
-		<!-- 상호작용 -->
-		<div class="product-item" data-title="상호작용">
-			<p><%=session.getAttribute("interaction_parsed") != null
-		? session.getAttribute("interaction_parsed")
-		: "상호작용 정보가 없습니다."%></p>
 		</div>
 
 		<!-- 추천 식품 -->
@@ -282,6 +272,14 @@ body {
 			}
 			%>
 		</div>
+
+		<!-- 상호작용 -->
+		<div class="product-item" data-title="상호작용">
+			<p><%=session.getAttribute("interaction_parsed") != null
+		? session.getAttribute("interaction_parsed")
+		: "상호작용 정보가 없습니다."%></p>
+		</div>
+
 	</div>
 
 	<script>
