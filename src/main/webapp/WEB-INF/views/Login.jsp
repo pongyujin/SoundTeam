@@ -10,7 +10,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>로그인 페이지</title>
 <link rel = "stylesheet" type = "text/css" href="assets/css/all.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 <style>
+*  {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+}
+
+
 * {
 	box-sizing: border-box;
 }
@@ -49,7 +60,7 @@ body {
 }
 
 .logo img {
-    width: 100px; /* 로고 이미지 크기 조정 */
+    width: 110px; /* 로고 이미지 크기 조정 */
 }
 
 .menu a {
@@ -134,7 +145,7 @@ body {
 <body>
 	<div class="container">
 		<div class="header">
-			<div class="logo"><img src="img/로고.png" alt="로고"></div>
+			<div class="logo"><a href="GoMain"><img src="img/로고.png" alt="로고"></div>
 			<div class="menu">
 				<a href="GoJoinPage">회원가입</a>
 			</div>

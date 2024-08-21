@@ -21,7 +21,20 @@ String sessionUserId = sessionUser.getUsrId();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 보기</title>
-    <style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<style>
+*  {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+  
+  }
         /* 전체 CSS */
         body {
             font-family: Arial, sans-serif;

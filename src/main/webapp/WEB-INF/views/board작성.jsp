@@ -6,7 +6,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자유게시판</title>
+<title>메인 페이지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 <style>
+*  {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+  }
 body {
 	font-family: Arial, sans-serif;
 	background-color: #ffffff;
@@ -41,7 +54,7 @@ body {
 }
 
 .logo img {
-	width: 110px; /* 로고 이미지 크기 조정 */
+	width: 130px; /* 로고 이미지 크기 조정 */
 }
 
 .menu-icon {
@@ -58,7 +71,33 @@ body {
 	height: 4px;
 	background-color: #000;
 }
+.dropdown-menu {
+	display: none;
+	position: absolute;
+	top: 50px;
+	right: 0;
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	z-index: 1000;
+}
 
+.dropdown-menu a {
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+	color: #000;
+	border-bottom: 1px solid #ddd;
+}
+
+.dropdown-menu a:last-child {
+	border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+	background-color: #f0f0f0;
+}
 .board-title {
 	text-align: center;
 	font-size: 1.5em;
@@ -198,10 +237,13 @@ table th, table td {
 				<a href="GoMain"> <img src="img/로고.png" alt="로고">
 				</a>
 			</div>
-			<div class="menu-icon">
+			<div class="menu-icon" onclick="toggleDropdown()">
 				<div></div>
 				<div></div>
 				<div></div>
+			</div>
+			<div class="dropdown-menu" id="dropdownMenu">
+				<a href="GoMyPage">마이페이지</a> <a href="GoBoard">게시판</a><a href="">로그아웃</a>
 			</div>
 		</div>
 		<h2 class="board-title">글쓰기📝</h2>

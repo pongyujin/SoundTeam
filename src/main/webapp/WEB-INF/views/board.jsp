@@ -8,7 +8,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자유게시판</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 <style>
+*  {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+  
+  }
 /* 기존 스타일은 그대로 유지 */
 body {
 	font-family: Arial, sans-serif;
@@ -45,7 +58,7 @@ body {
 }
 
 .logo img {
-	width: 110px; /* 로고 이미지 크기 조정 */
+	width: 130px; /* 로고 이미지 크기 조정 */
 }
 
 .menu-icon {
@@ -205,7 +218,7 @@ table th {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="GoMyPage">마이페이지</a> <a href="GoBoard">게시판</a>
+				<a href="GoMyPage">마이페이지</a> <a href="GoBoard">게시판</a><a href="">로그아웃</a>
 			</div>
 		</div>
 
