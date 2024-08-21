@@ -1,7 +1,6 @@
 package com.sound.controller;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -168,8 +167,8 @@ public class AiController extends HttpServlet {
 
 						// HTML 태그 제거 및 한글 디코딩
 						productTitle = firstItem.optString("title", "").trim().replaceAll("<[^>]*>", "");
-						productTitle = StringEscapeUtils.unescapeHtml4(productTitle); // HTML 엔티티 해제
-
+						productTitle = org.apache.commons.text.StringEscapeUtils.unescapeHtml4(productTitle);
+						
 						// URL과 이미지가 유효한지 검사
 						if (!productUrl.isEmpty() && !productImage.isEmpty()) {
 							itemsArray.put(nutritionItem);
