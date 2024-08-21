@@ -42,6 +42,17 @@ body {
 .logo img {
    width: 100px; /* 로고 이미지 크기 조정 */
 }
+.menu a {
+	margin-left : 5px;
+	color: #000000; /* 링크 색상 변경 */
+	text-decoration: none; /* 밑줄 제거 */
+	
+}
+
+a:hover {
+	color: #007BFF; /* 마우스를 올렸을 때 색상 변경 */
+
+}
 
 .menu-icon {
 	width: 30px;
