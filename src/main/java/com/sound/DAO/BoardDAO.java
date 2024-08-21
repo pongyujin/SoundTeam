@@ -1,8 +1,5 @@
 package com.sound.DAO;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,125 +10,96 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import com.sound.database.FactoryManager;
 import com.sound.entity.Board;
 import com.sound.entity.Comment;
-import java.sql.Connection;
 
 public class BoardDAO {
     private SqlSessionFactory factory = FactoryManager.getSqlSessionFactory();
 
-    // 1. 게시글 목록 조회 (페이지네이션 추가)
     public List<Board> list(int offset, int limit) {
         SqlSession session = factory.openSession(true);
         Map<String, Integer> params = new HashMap<>();
-        
+
         params.put("offset", offset);
         params.put("limit", limit);
-        List<Board> list = session.selectList("listWithPagination", params);
+        List<Board> list = session.selectList("com.sound.DAO.BoardMapper.listWithPagination", params);
         session.close();
-        
-        // Null 체크 추가
-        if (list == null) {
-            System.out.println("SelectList returned null");
-        } else {
-            System.out.println("SelectList returned list of size: " + list.size());
-        }
-        
+
         return list;
     }
 
-    // 2. 게시글 작성하기
     public int writer(Board board) {
         SqlSession session = factory.openSession(true);
-        int cnt = session.insert("writer", board);
+        int cnt = session.insert("com.sound.DAO.BoardMapper.writer", board);
         session.close();
         return cnt;
     }
 
-    // 3. 게시글 상세보기
     public Board view(int postId) {
         SqlSession session = factory.openSession(true);
-        Board board = session.selectOne("view", postId);
+        Board board = session.selectOne("com.sound.DAO.BoardMapper.view", postId);
         session.close();
         return board;
     }
 
-    // 4. 게시글 검색 (검색 대상 확장 및 검증 추가)
     public List<Board> search(String search) {
         SqlSession session = factory.openSession(true);
-        List<Board> list = session.selectList("search", search);
+        List<Board> list = session.selectList("com.sound.DAO.BoardMapper.search", search);
         session.close();
         return list;
     }
 
-    // 5. 게시글 수정
     public int update(Board board) {
         SqlSession session = factory.openSession(true);
-        int cnt = session.update("update", board);
+        int cnt = session.update("com.sound.DAO.BoardMapper.update", board);
         session.close();
         return cnt;
     }
 
-    // 6. 게시글 삭제
     public int delete(int postId) {
         SqlSession session = factory.openSession(true);
-        int cnt = session.delete("delete", postId);
+        int cnt = session.delete("com.sound.DAO.BoardMapper.delete", postId);
         session.close();
         return cnt;
     }
 
-    // 7. 조회수 증가
     public int increaseViewCount(int postId) {
         SqlSession session = factory.openSession(true);
-        int cnt = session.update("increaseViewCount", postId);
+        int cnt = session.update("com.sound.DAO.BoardMapper.increaseViewCount", postId);
         session.close();
         return cnt;
     }
 
-    // 8. 좋아요 증가
     public int increaseLikes(int postId) {
         SqlSession session = factory.openSession(true);
-        int cnt = session.update("increaseLikes", postId);
+        int cnt = session.update("com.sound.DAO.BoardMapper.increaseLikes", postId);
         session.close();
         return cnt;
     }
 
-    // 9. 좋아요 수 조회
     public int getLikes(int postId) {
         SqlSession session = factory.openSession(true);
-        int likes = session.selectOne("getLikes", postId);
+        int likes = session.selectOne("com.sound.DAO.BoardMapper.getLikes", postId);
         session.close();
         return likes;
     }
 
-    // 10. 특정 postId에 대한 댓글 조회
     public List<Comment> getCommentsByPostId(int postId) {
         SqlSession session = factory.openSession(true);
-        List<Comment> comments = session.selectList("getCommentsByPostId", postId);
+        List<Comment> comments = session.selectList("com.sound.DAO.BoardMapper.getCommentsByPostId", postId);
         session.close();
         return comments;
     }
-    // 11. 게시글 목록 조회 (페이지네이션 추가)
-    public List<Board> list1(int offset, int limit) {
+
+    public int addComment(Comment comment) {
         SqlSession session = factory.openSession(true);
-        Map<String, Integer> params = new HashMap<>();
-        
-        params.put("offset", offset);
-        params.put("limit", limit);
-        List<Board> list = session.selectList("listWithPagination", params);
+        int cnt = session.insert("com.sound.DAO.BoardMapper.addComment", comment);
         session.close();
-        
-        return list;
+        return cnt;
     }
 
-    // 12. 전체 게시글 수 조회 (페이지네이션을 위해 추가)
     public int getTotalPosts() {
         SqlSession session = factory.openSession(true);
-        int totalPosts = session.selectOne("getTotalPosts");
+        int totalPosts = session.selectOne("com.sound.DAO.BoardMapper.getTotalPosts");
         session.close();
         return totalPosts;
-    
     }
-
 }
-
-
-    

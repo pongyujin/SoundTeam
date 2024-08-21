@@ -3,18 +3,19 @@ package com.sound.entity;
 import java.util.Date;
 
 public class Comment {
-    private int commentId;
+    private int cmtId;
     private int postId;
     private String usrId;
     private String content;
     private Date createdAt;
 
-    public int getCommentId() {
-        return commentId;
+    // Getters and Setters
+    public int getCmtId() {
+        return cmtId;
     }
 
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
+    public void setCmtId(int cmtId) {
+        this.cmtId = cmtId;
     }
 
     public int getPostId() {
