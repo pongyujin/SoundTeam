@@ -257,7 +257,6 @@ table th {
         <a href="GoBoardPost" class="write-btn">글쓰기</a>
 
  <!-- 페이지네이션 -->
-<!-- 페이지네이션 -->
 <div class="pagination">
     <%
     int totalPages = (int) request.getAttribute("totalPages");
