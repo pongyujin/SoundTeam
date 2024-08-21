@@ -61,7 +61,8 @@
 	<select id="login" resultType="com.sound.entity.Users"
 		parameterType="com.sound.entity.Users">
 		select * from users
-		where usr_id=#{usrId} and usr_pw=#{usrPw}
+		where usr_id=#{usrId} and
+		usr_pw=#{usrPw}
 	</select>
 
 	<!-- 개인정보 수정 -->
@@ -74,11 +75,11 @@
 		where usr_id = #{usrId}
 	</update>
 
-
 	<!-- ID 중복 체크 -->
 	<select id="check" resultType="com.sound.entity.Users">
 		select * from users
-		where usr_id = #{usrId}
+		where usr_id =
+		#{usrId}
 	</select>
 
 </mapper>
