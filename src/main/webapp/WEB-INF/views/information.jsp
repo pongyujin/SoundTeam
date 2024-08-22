@@ -51,10 +51,11 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px 0;
+	position: relative; /* 드롭다운 메뉴 위치를 설정하기 위해 relative 추가 */
 }
 
 .logo img {
-	width: 110px;
+	width: 130px;
 }
 
 .menu-icon {
@@ -75,13 +76,17 @@ body {
 .dropdown-menu {
 	display: none;
 	position: absolute;
-	top: 50px;
-	right: 0;
+	top: 30%; /* 아이콘 바로 아래에 위치하도록 설정 */
+	right: 0; /* 아이콘에 맞추어 오른쪽 정렬 */
 	background-color: #ffffff;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	border-radius: 5px;
 	overflow: hidden;
 	z-index: 1000;
+	margin-top: 10px; /* 아이콘과 드롭다운 메뉴 사이의 간격을 조금 추가 */
+	font-family: "Jua", sans-serif;
+	font-weight: 400;
+	font-style: normal;
 }
 
 .dropdown-menu a {
@@ -92,7 +97,6 @@ body {
 	border-bottom: 1px solid #ddd;
 }
 
-
 .dropdown-menu a:last-child {
 	border-bottom: none;
 }
@@ -100,7 +104,6 @@ body {
 .dropdown-menu a:hover {
 	background-color: #f0f0f0;
 }
-
 .main-header {
 	text-align: center;
 	font-size: 1.5em;
@@ -154,7 +157,19 @@ body {
 <body>
 	<div class="container">
 		<div class="header">
-			<!-- Your existing header code -->
+			<div class="logo">
+
+				<a href="GoMain"> <img src="img/로고.png" alt="로고">
+				</a>
+			</div>
+			<div class="menu-icon">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div class="dropdown-menu" id="dropdownMenu">
+				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a href="LogoutController">로그아웃</a>
+			</div>
 		</div>
 		<div class="main-header">
 			<br>회원정보 수정
@@ -210,5 +225,13 @@ body {
 	<%
         }
     %>
+    <script >document.querySelector('.menu-icon').addEventListener('click', function() {
+	    var dropdownMenu = document.getElementById('dropdownMenu');
+	    if (dropdownMenu.style.display === 'block') {
+	        dropdownMenu.style.display = 'none';
+	    } else {
+	        dropdownMenu.style.display = 'block';
+	    }
+	});</script>
 </body>
 </html>
