@@ -37,6 +37,7 @@
         SELECT COUNT(*) FROM POST
     </select>
 
+    <!-- 검색 기능을 위한 쿼리 수정 -->
     <select id="search" resultType="com.sound.entity.Board">
         select POST_ID as postId,
         POST_TITLE as postTitle, POST_CONTENT as postContent,
