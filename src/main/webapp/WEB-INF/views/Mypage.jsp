@@ -209,7 +209,7 @@ body {
 				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a><a href="LogoutController">로그아웃</a>
 			</div>
 		</div>
-		<h1 class="h1">마이페이지💕</h1>
+		<h1 class="h1">마이페이지</h1>
 
 		<!-- 사용자 이름 표시 -->
 		<h1 class="name">
