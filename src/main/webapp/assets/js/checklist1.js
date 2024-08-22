@@ -53,11 +53,10 @@ function nextPage() {
 // checklist2.jsp에서 이전 버튼을 클릭했을 때 실행되는 함수
 function previousPage() {
 	// checklist1.jsp로 이동
-	const url = window.contextPath + '/GoCheckListPage?action=next';
+	const url = window.contextPath + '/GoCheckListPage?action=next&from=checklist2';
 	window.location.replace(url);
 }
 
-// checklist2.jsp에서 제출 버튼을 클릭했을 때 실행되는 함수
 function submitSurvey() {
 	// 설문 2에서 입력받은 데이터를 가져오기
 	const fishElement = document.querySelector('input[name="fish"]:checked');
@@ -73,34 +72,49 @@ function submitSurvey() {
 	document.querySelectorAll('input[name="diet"]:checked').forEach((item) => {
 		diet.push(item.value);
 	});
-	const dietOther = document.querySelector('input[name="diet_other"]') ? document.querySelector('input[name="diet_other"]').value : '';
+	const dietOther = diet.includes("other") ? document.querySelector('input[name="diet_other"]').value.trim() : '';
 
 	const healthIssues = [];
 	document.querySelectorAll('input[name="health_issues"]:checked').forEach((item) => {
 		healthIssues.push(item.value);
 	});
-	const healthOther = document.querySelector('input[name="health_other"]') ? document.querySelector('input[name="health_other"]').value : '';
+	const healthOther = healthIssues.includes("other") ? document.querySelector('input[name="health_other"]').value.trim() : '';
 
 	const pregnancyElement = document.querySelector('input[name="pregnancy"]:checked');
 	const pregnancy = pregnancyElement ? pregnancyElement.value : null;
 
-	const medication = document.querySelector('input[name="medication"]') ? document.querySelector('input[name="medication"]').value : '';
-	const supplements = document.querySelector('input[name="supplements"]') ? document.querySelector('input[name="supplements"]').value : '';
+	const medicationElement = document.querySelector('input[name="medication_status"]:checked');
+	const medication = medicationElement && medicationElement.value === "none"
+		? "none"
+		: (document.querySelector('input[name="medication"]').value.trim() || null);
+
+	const supplementsElement = document.querySelector('input[name="supplements_status"]:checked');
+	const supplements = supplementsElement && supplementsElement.value === "none"
+		? "none"
+		: (document.querySelector('input[name="supplements"]').value.trim() || null);
 
 	const symptoms = [];
 	document.querySelectorAll('input[name="symptoms"]:checked').forEach((item) => {
 		symptoms.push(item.value);
 	});
-	const allergies = document.querySelector('input[name="allergies"]') ? document.querySelector('input[name="allergies"]').value : '';
+
+	const allergiesElement = document.querySelector('input[name="allergy_status"]:checked');
+	const allergies = allergiesElement && allergiesElement.value === "none"
+		? "none"
+		: (document.querySelector('input[name="allergies"]').value.trim() || null);
 
 	// 필수 항목이 입력되었는지 확인
-	if (!fish || !dairy || !vegetarian || (diet.length === 0 && !dietOther) ||
-		(healthIssues.length === 0 && !healthOther) || !pregnancy ||
-		!medication || !supplements || symptoms.length === 0 || !allergies) {
+	if (!fish || !dairy || !vegetarian ||
+		(diet.includes("other") && !dietOther) || // "기타" 선택 시 기타 입력 필드 필수
+		(healthIssues.includes("other") && !healthOther) || // "기타" 선택 시 기타 입력 필드 필수
+		!pregnancy ||
+		!medication ||
+		!supplements ||
+		symptoms.length === 0 ||
+		!allergies) {
 		alert("모든 항목을 선택해 주세요.");
 		return; // 빈 값이 있으면 함수 종료, 제출을 진행하지 않음
 	}
-
 
 	// 로컬 스토리지에서 surveyData를 불러오기
 	let surveyData = JSON.parse(localStorage.getItem('surveyData')) || [];

@@ -10,7 +10,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap"
+	rel="stylesheet">
 
 <style>
 body {
@@ -67,22 +69,20 @@ body {
 }
 
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 30%; /* 아이콘 바로 아래에 위치하도록 설정 */
-    right: 0; /* 아이콘에 맞추어 오른쪽 정렬 */
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    overflow: hidden;
-    z-index: 1000;
-    margin-top: 10px; /* 아이콘과 드롭다운 메뉴 사이의 간격을 조금 추가 */
-
-	 font-family: "Jua", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+	display: none;
+	position: absolute;
+	top: 30%; /* 아이콘 바로 아래에 위치하도록 설정 */
+	right: 0; /* 아이콘에 맞추어 오른쪽 정렬 */
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	z-index: 1000;
+	margin-top: 10px; /* 아이콘과 드롭다운 메뉴 사이의 간격을 조금 추가 */
+	font-family: "Jua", sans-serif;
+	font-weight: 400;
+	font-style: normal;
 }
-
 
 .dropdown-menu a {
 	display: block;
@@ -99,8 +99,6 @@ body {
 .dropdown-menu a:hover {
 	background-color: #f0f0f0;
 }
-
-
 
 .survey-title {
 	text-align: center;
@@ -201,7 +199,7 @@ body {
 }
 </style>
 <script type="text/javascript">
-    var contextPath = '<%= request.getContextPath() %>';
+    var contextPath = '<%=request.getContextPath()%>';
 </script>
 
 <script src="assets/js/checklist1.js"></script>
@@ -223,7 +221,7 @@ body {
 	<div class="container">
 		<div class="header">
 			<div class="logo">
-			
+
 				<a href="GoMain"> <img src="img/로고.png" alt="로고">
 				</a>
 			</div>
@@ -232,10 +230,10 @@ body {
 				<div></div>
 				<div></div>
 			</div>
-				<div class="dropdown-menu" id="dropdownMenu">
+			<div class="dropdown-menu" id="dropdownMenu">
 				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a hred="">로그아웃</a>
 			</div>
-			</div>
+		</div>
 		<h2 class="survey-title">영양제 추천 설문지</h2>
 
 		<h3>식습관 및 영양</h3>
@@ -342,14 +340,50 @@ body {
 			<button class="submit-btn" onclick="submitSurvey()">제출</button>
 		</div>
 	</div>
-	<script >document.querySelector('.menu-icon').addEventListener('click', function() {
+	<script>document.querySelector('.menu-icon').addEventListener('click', function() {
 	    var dropdownMenu = document.getElementById('dropdownMenu');
 	    if (dropdownMenu.style.display === 'block') {
 	        dropdownMenu.style.display = 'none';
 	    } else {
 	        dropdownMenu.style.display = 'block';
 	    }
-	});</script>
+	});
+	document.addEventListener("DOMContentLoaded", function() {
+	    function toggleInputField(radioName, inputName) {
+	        const radioNone = document.querySelector(`input[name="${radioName}"][value="none"]`);
+	        const inputField = document.querySelector(`input[name="${inputName}"]`);
+
+	        // 현재 라디오 버튼이 선택된 상태를 확인할 변수
+	        let wasChecked = false;
+
+	        radioNone.addEventListener('click', function() {
+	            // 선택된 상태에서 다시 클릭하면 해제
+	            if (wasChecked) {
+	                radioNone.checked = false;
+	                inputField.disabled = false; // 입력 필드 활성화
+	                wasChecked = false;
+	            } else {
+	                radioNone.checked = true;
+	                inputField.value = ''; // 입력 필드 비우기
+	                inputField.disabled = true; // 입력 필드 비활성화
+	                wasChecked = true;
+	            }
+	        });
+	    }
+
+	    // 17번 질문 - 복용 중인 약물
+	    toggleInputField('medication_status', 'medication');
+
+	    // 18번 질문 - 비타민이나 영양제
+	    toggleInputField('supplements_status', 'supplements');
+
+	    // 20번 질문 - 알레르기나 특정 성분 민감성
+	    toggleInputField('allergy_status', 'allergies');
+	});
+
+
+	
+	</script>
 
 
 </body>

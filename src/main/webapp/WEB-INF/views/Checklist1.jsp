@@ -81,7 +81,6 @@ body {
 	border-radius: 5px;
 	overflow: hidden;
 	z-index: 1000;
-	
 	margin-top: 10px; /* 아이콘과 드롭다운 메뉴 사이의 간격을 조금 추가 */
 	font-family: "Jua", sans-serif;
 	font-weight: 400;
@@ -386,6 +385,53 @@ body {
 	    } else {
 	        // 입력된 값이 범위 내에 있다면 오류 메시지를 숨깁니다.
 	        weightError.style.display = "none";
+	    }
+	});
+	
+	document.addEventListener("DOMContentLoaded", function() {
+	    // URL 파라미터에서 'from' 값을 확인하여 이전 페이지에서 돌아온 경우에만 데이터 복원
+	    const urlParams = new URLSearchParams(window.location.search);
+	    const fromPage = urlParams.get('from');
+
+	    if (fromPage === 'checklist2') {
+	        const savedData = JSON.parse(localStorage.getItem('surveyData'));
+
+	        if (savedData) {
+	            savedData.forEach(item => {
+	                switch (item.id) {
+	                    case 1:
+	                        document.getElementById("birth-year").value = item.response;
+	                        break;
+	                    case 2:
+	                        document.querySelector(`input[name="gender"][value="${item.response}"]`).checked = true;
+	                        break;
+	                    case 3:
+	                        document.getElementById("height").value = item.response;
+	                        break;
+	                    case 4:
+	                        document.getElementById("weight").value = item.response;
+	                        break;
+	                    case 5:
+	                        document.querySelector(`input[name="exercise"][value="${item.response}"]`).checked = true;
+	                        break;
+	                    case 6:
+	                        document.querySelector(`input[name="sleep"][value="${item.response}"]`).checked = true;
+	                        break;
+	                    case 7:
+	                        document.querySelector(`input[name="stress"][value="${item.response}"]`).checked = true;
+	                        break;
+	                    case 8:
+	                        document.querySelector(`input[name="smoking"][value="${item.response}"]`).checked = true;
+	                        break;
+	                    case 9:
+	                        document.querySelector(`input[name="alcohol"][value="${item.response}"]`).checked = true;
+	                        break;
+	                    case 10:
+	                        document.querySelector(`input[name="fruit_veggies"][value="${item.response}"]`).checked = true;
+	                        break;
+	                }
+	            });
+	        }
 	    }
 	});
 
