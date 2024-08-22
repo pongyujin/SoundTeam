@@ -1,302 +1,397 @@
 <%@page import="com.sound.entity.Users"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.sound.entity.Board" %>
-<%@ page import="com.sound.entity.Comment" %>
-<%@ page import="java.util.List" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="com.sound.entity.Board"%>
+<%@ page import="com.sound.entity.Comment"%>
+<%@ page import="java.util.List"%>
 
 <%
 // 세션에서 user 객체를 가져옴
 Users sessionUser = (Users) session.getAttribute("user");
 if (sessionUser == null) {
-    // 로그인이 되어 있지 않으면 로그인 페이지로 리다이렉트
-    response.sendRedirect("login.jsp");
-    return;
+	// 로그인이 되어 있지 않으면 로그인 페이지로 리다이렉트
+	response.sendRedirect("login.jsp");
+	return;
 }
 String sessionUserId = sessionUser.getUsrId();
 %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 보기</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
-    <style>
-        /* 전체 CSS */
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게시글 보기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap"
+	rel="stylesheet">
+<style>
+/* 전체 CSS */
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #ffffff;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	overflow: hidden;
+}
 
-        .container {
-            background-color: #ffffff;
-            width: 100%;
-            max-width: 430px;
-            height: 100%;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
+.container {
+	background-color: #ffffff;
+	width: 100%;
+	max-width: 430px;
+	height: 100%;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+}
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-        }
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start; /* 메뉴 아이콘과 로고를 위쪽에 정렬 */
+	padding: 10px 0;
+}
 
-        .logo img {
-            width: 110px;
-        }
+.logo-container {
+	display: flex;
+	flex-direction: column; /* 로고와 버튼을 수직으로 배치 */
+	align-items: flex-start; /* 왼쪽 정렬 */
+}
 
-        .menu-icon {
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+.logo {
+	margin-bottom: 10px; /* 로고와 뒤로가기 버튼 사이의 간격 */
+}
 
-        .menu-icon div {
-            width: 100%;
-            height: 4px;
-            background-color: #000;
-        }
+.back-btn {
+	margin-top: 10px; /* 로고 아래로 적당한 간격 */
+	background: none; /* 배경색 제거 */
+	border: none; /* 테두리 제거 */
+	color: #000000; /* 검은색 텍스트 */
+	font-weight: bold;
+	font-size: 1em;
+	cursor: pointer;
+	text-align: left; /* 텍스트를 왼쪽 정렬 */
+	padding-left: 0; /* 왼쪽 여백 없음 */
+}
 
-        .post-title {
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+.back-btn:hover {
+	color: #66DAE4; /* 마우스 올렸을 때 색상 변경 */
+}
 
-        .view-count {
-            text-align: right;
-            font-size: 0.9em;
-            color: #555;
-            margin-top: -15px;
-            margin-bottom: 20px;
-        }
+}
+.logo {
+	margin-bottom: 10px; /* 로고와 뒤로가기 버튼 사이의 간격 */
+	margin-top: 20px;
+}
 
-        .like-container {
-            display: flex;
-            justify-content: flex-start;
-            margin-bottom: 100px;
-            margin-top: 100px;
-        }
-        
-        .like-btn {
-            background-color: #ff6b6b;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1em;
-            display: flex;
-            align-items: center;
-        }
+.logo img {
+	width: 130px;
+	margin-top: 10px;
+}
 
-        .like-btn .icon {
-            margin-right: 5px;
-            font-size: 1.2em;
-        }
+.menu-icon {
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin-top: 55px;
+}
 
-        .delete-btn {
-            margin-left: 180px;
-            color: #ff6b6b;
-            font-size: 0.9em;
-            text-decoration: none;
-            cursor: pointer;
-        }
+.menu-icon div {
+	width: 100%;
+	height: 4px;
+	background-color: #000;
+}
 
-        .delete-btn:hover {
-            text-decoration: none;
-        }
+.dropdown-menu {
+	display: none;
+	position: absolute;
+	top: 30%; /* 아이콘 바로 아래에 위치하도록 설정 */
+	right: 0; /* 아이콘에 맞추어 오른쪽 정렬 */
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	z-index: 1000;
+	margin-top: 10px; /* 아이콘과 드롭다운 메뉴 사이의 간격을 조금 추가 */
+	font-family: "Jua", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
 
-        .post-content {
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
+.dropdown-menu a {
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+	color: #000;
+	border-bottom: 1px solid #ddd;
+}
 
-        .post-image {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 20px;
-            object-fit: contain;
-        }
+.dropdown-menu a:last-child {
+	border-bottom: none;
+}
 
-        .post-meta {
-            margin-top: -20px;
-            margin-bottom: 10px;
-            text-align: right;
-            font-size: 1em;
-            color: black;
-        }
-   
-        .comments-section {
-            margin-top: 20px;
-            flex-grow: 1;
-        }
+.dropdown-menu a:hover {
+	background-color: #f0f0f0;
+}
 
-        .comments-section h3 {
-            margin-top: -80px;
-            font-size: 1.2em;
-            margin-bottom: 0px;
-            margin-left: 10px;
-        }
+.post-title {
+	text-align: center;
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
 
-        .comment {
-            border-bottom: 1px solid #ddd;
-            padding: 10px 0;
-            margin-bottom: 10px;
-        }
+.view-count {
+	text-align: right;
+	font-size: 0.9em;
+	color: #555;
+	margin-top: -15px;
+	margin-bottom: 20px;
+}
 
-        .comment p {
-            margin: 5px 0;
-        }
+.like-container {
+	display: flex;
+	justify-content: flex-start;
+	margin-bottom: 100px;
+	margin-top: 100px;
+}
 
-        .fixed-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-sizing: border-box;
-            max-width: 430px;
-            margin: 0 auto;
-        }
+.like-btn {
+	background-color: #ff6b6b;
+	color: white;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 1em;
+	display: flex;
+	align-items: center;
+}
 
-        .comment-input {
-            flex: 1;
-            margin-right: 10px;
-        }
+.like-btn .icon {
+	margin-right: 5px;
+	font-size: 1.2em;
+	bottom: 20px;
+}
 
-        .comment-input textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            resize: none;
-        }
+.delete-btn {
+	margin-left: 180px;
+	color: #ff6b6b;
+	font-size: 0.9em;
+	text-decoration: none;
+	cursor: pointer;
+}
 
-        .submit-btn {
-            background-color: #66DAE4;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-    </style>
+.delete-btn:hover {
+	text-decoration: none;
+}
+
+.post-content {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    padding: 15px; /* 박스 내부 여백 */
+    border: 1px solid #ddd; /* 선 스타일과 색상 */
+    border-radius: 5px; /* 박스의 모서리를 둥글게 */
+    background-color:#fcfcfc; /* 약간의 배경색 추가 (선명하게 보이도록) */
+}
+
+.post-image {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+	margin-bottom: 20px;
+	object-fit: contain;
+}
+
+.post-meta {
+	margin-top: -20px;
+	margin-bottom: 10px;
+	text-align: right;
+	font-size: 1em;
+	color: black;
+}
+
+.comments-section {
+	margin-top: 20px;
+	flex-grow: 1;
+}
+
+.comments-section h3 {
+	margin-top: -80px;
+	font-size: 1.2em;
+	margin-bottom: 0px;
+	margin-left: 10px;
+}
+
+.comment {
+	border-bottom: 1px solid #ddd;
+	padding: 10px 0;
+	margin-bottom: 10px;
+}
+
+.comment p {
+	margin: 5px 0;
+}
+
+.fixed-footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #ffffff;
+	padding: 10px 20px;
+	box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	box-sizing: border-box;
+	max-width: 430px;
+	margin: 0 auto;
+}
+
+.comment-input {
+	flex: 1;
+	margin-right: 10px;
+}
+
+.comment-input textarea {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-sizing: border-box;
+	resize: none;
+}
+
+.submit-btn {
+	background-color: #66DAE4;
+	color: white;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div>
-            <div class="header">
-                <div class="logo">
-                    <a href="GoMain">
-                        <img src="img/로고.png" alt="로고">
-                    </a>
-                </div>
-                <div class="menu-icon">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
-            <h2 class="post-title"><%= ((Board)request.getAttribute("board")).getPostTitle() %></h2>
-            <div class="view-count">
-                조회수: <%= ((Board)request.getAttribute("board")).getViewCount() %>
-            </div>
-            <div class="post-content">
-                <%= ((Board)request.getAttribute("board")).getPostContent() %>
-            </div>
-            
-            <% 
-                String postFilePath = ((Board)request.getAttribute("board")).getPostFile();
-                System.out.println("Image Path: " + postFilePath); // 경로 확인 로그
-                if (postFilePath != null && !postFilePath.isEmpty()) {
-            %>
-                <img src="<%= request.getContextPath() + "/save/" + postFilePath %>" 
-                     alt="게시글 이미지" class="post-image"
-                     onerror="this.style.display='none'">
-            <% 
-                }
-            %>
+	<div class="container">
+		<div>
+			<div class="header">
+				<div class="logo-container">
+					<div class="logo">
+						<a href="GoMain"> <img src="img/로고.png" alt="로고">
+						</a>
+					</div>
+					<button class="back-btn" onclick="goBack()">뒤로가기</button>
+				</div>
+				<div class="menu-icon" onclick="toggleDropdown()">
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
 
-            <div class="like-container">
-                <button class="like-btn" id="likeBtn"><span class="icon">❤️</span> 좋아요 <%= request.getAttribute("likes") %></button>
-                
-                <% if (sessionUserId.equals(((Board)request.getAttribute("board")).getUsrId())) { %>
-                    <a href="javascript:void(0);" class="delete-btn" id="deleteBtn" onclick="deletePost(event)">게시글 삭제</a>
-                <% } %>
-            </div>
-        </div>
+				<div class="dropdown-menu" id="dropdownMenu">
+					<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a hred="">로그아웃</a>
+				</div>
 
-        <div class="comments-section">
-            <h3>댓글😁</h3>
-            <div id="commentsList">
-                <% 
-                List<Comment> comments = (List<Comment>) request.getAttribute("comments");
-                if (comments != null) {
-                    for (Comment comment : comments) { 
-                %>
-                        <div class="comment">
-                            <p><strong><%= comment.getUsrId() %>:</strong> <%= comment.getContent() %></p>
-                        </div>
-                <% 
-                    } 
-                } else { 
-                %>
-                    <p>댓글이 없습니다.</p>
-                <% 
-                } 
-                %>
-            </div>
-        </div>
-    </div>
-    
-    <div class="fixed-footer">
-        <div class="comment-input">
-            <textarea id="commentInput" placeholder="댓글을 입력하세요"></textarea>
-        </div>
-        <button class="submit-btn" onclick="addComment()">댓글 달기</button>
-    </div>
+			</div>
+			<h2 class="post-title"><%=((Board) request.getAttribute("board")).getPostTitle()%></h2>
+			<div class="view-count">
+				조회수:
+				<%=((Board) request.getAttribute("board")).getViewCount()%>
+			</div>
+			<div class="post-content">
+				<%=((Board) request.getAttribute("board")).getPostContent()%>
+			</div>
 
-    <script>
-        let likeCount = <%= request.getAttribute("likes") %>;
-        const postId = <%= ((Board)request.getAttribute("board")).getPostId() %>;
-        const sessionUserId = '<%= sessionUserId %>';
-        const boardUserId = '<%= ((Board)request.getAttribute("board")).getUsrId() %>';
+			<%
+			String postFilePath = ((Board) request.getAttribute("board")).getPostFile();
+			System.out.println("Image Path: " + postFilePath); // 경로 확인 로그
+			if (postFilePath != null && !postFilePath.isEmpty()) {
+			%>
+			<img src="<%=request.getContextPath() + "/save/" + postFilePath%>"
+				alt="게시글 이미지" class="post-image" onerror="this.style.display='none'">
+			<%
+			}
+			%>
+
+			<div class="like-container">
+				<button class="like-btn" id="likeBtn">
+					<span class="icon">❤️</span> 좋아요
+					<%=request.getAttribute("likes")%></button>
+
+				<%
+				if (sessionUserId.equals(((Board) request.getAttribute("board")).getUsrId())) {
+				%>
+				<a href="javascript:void(0);" class="delete-btn" id="deleteBtn"
+					onclick="deletePost(event)">게시글 삭제</a>
+				<%
+				}
+				%>
+			</div>
+		</div>
+
+		<div class="comments-section">
+			<h3>댓글😁</h3>
+			<div id="commentsList">
+				<%
+				List<Comment> comments = (List<Comment>) request.getAttribute("comments");
+				if (comments != null) {
+					for (Comment comment : comments) {
+				%>
+				<div class="comment">
+					<p>
+						<strong><%=comment.getUsrId()%>:</strong>
+						<%=comment.getContent()%></p>
+				</div>
+				<%
+				}
+				} else {
+				%>
+				<p>댓글이 없습니다.</p>
+				<%
+				}
+				%>
+			</div>
+		</div>
+	</div>
+
+	<div class="fixed-footer">
+		<div class="comment-input">
+			<textarea id="commentInput" placeholder="댓글을 입력하세요"></textarea>
+		</div>
+		<button class="submit-btn" onclick="addComment()">댓글 달기</button>
+	</div>
+
+	<script>
+        let likeCount = <%=request.getAttribute("likes")%>;
+        const postId = <%=((Board) request.getAttribute("board")).getPostId()%>;
+        const sessionUserId = '<%=sessionUserId%>';
+        const boardUserId = '<%=((Board) request.getAttribute("board")).getUsrId()%>';
 
         // 디버깅을 위한 로그 출력
         console.log("Session User ID:", sessionUserId);
         console.log("Board User ID:", boardUserId);
+        
+        function goBack() {
+            window.history.back();
+        }
+
 
         function renderLikes() {
             document.getElementById('likeBtn').innerHTML = `<span class="icon">❤️</span> 좋아요 ${likeCount}`;
@@ -311,6 +406,14 @@ String sessionUserId = sessionUser.getUsrId();
                 alert('좋아요는 1아이디당 3번까지 가능합니다.');
             }
         });
+        document.querySelector('.menu-icon').addEventListener('click', function() {
+    	    var dropdownMenu = document.getElementById('dropdownMenu');
+    	    if (dropdownMenu.style.display === 'block') {
+    	        dropdownMenu.style.display = 'none';
+    	    } else {
+    	        dropdownMenu.style.display = 'block';
+    	    }
+    	});
 
         function addComment() {
             const commentInput = document.getElementById('commentInput');
@@ -327,7 +430,7 @@ String sessionUserId = sessionUser.getUsrId();
         }
 
         function saveComment(postId, usrId, content) {
-            fetch('<%= request.getContextPath() %>/BoardComment', {
+            fetch('<%=request.getContextPath()%>/BoardComment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8'
@@ -365,7 +468,7 @@ String sessionUserId = sessionUser.getUsrId();
             }
             
             if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
-                fetch('<%= request.getContextPath() %>/BoardDelete', {
+                fetch('<%=request.getContextPath()%>/BoardDelete', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'

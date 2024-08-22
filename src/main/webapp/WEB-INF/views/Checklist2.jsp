@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>영양제 추천 설문지 - 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -39,10 +42,11 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px 0;
+	position: relative; /* 드롭다운 메뉴 위치를 설정하기 위해 relative 추가 */
 }
 
 .logo img {
-	width: 110px;
+	width: 130px;
 }
 
 .menu-icon {
@@ -63,14 +67,18 @@ body {
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: 50px;
-    left: 1050px; /* 또는 right: auto; */
+    top: 30%; /* 아이콘 바로 아래에 위치하도록 설정 */
+    right: 0; /* 아이콘에 맞추어 오른쪽 정렬 */
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     overflow: hidden;
     z-index: 1000;
+    margin-top: 10px; /* 아이콘과 드롭다운 메뉴 사이의 간격을 조금 추가 */
 
+	 font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 
