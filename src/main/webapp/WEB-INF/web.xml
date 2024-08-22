@@ -116,6 +116,12 @@
 		<description></description>
 		<servlet-class>com.sound.snsLogin.KakaoLoginController</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>GoLodingPage</servlet-name>
+		<display-name>GoLodingPage</display-name>
+		<description></description>
+		<servlet-class>com.sound.gopage.GoLodingPage</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>GoMyPage</servlet-name>
@@ -185,6 +191,10 @@
 	<servlet-mapping>
 		<servlet-name>LogoutController</servlet-name>
 		<url-pattern>/LogoutController</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GoLodingPage</servlet-name>
+		<url-pattern>/GoLodingPage</url-pattern>
 	</servlet-mapping>
 
 

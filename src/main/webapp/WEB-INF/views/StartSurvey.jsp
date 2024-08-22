@@ -9,13 +9,15 @@
 <title>메인 페이지</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap"
+	rel="stylesheet">
 <style>
-*  {
-  font-family: "Jua", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  }
+* {
+	font-family: "Jua", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
 
 body {
 	font-family: Arial, sans-serif;
@@ -43,13 +45,12 @@ body {
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    position: relative; /* 추가 */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 0;
+	position: relative; /* 추가 */
 }
-
 
 .logo img {
 	width: 130px; /* 로고 이미지 크기 조정 */
@@ -71,18 +72,16 @@ body {
 }
 
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 50px;
-    left: 325px; /* 또는 right: auto; */
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    overflow: hidden;
-    z-index: 1000;
-
+	display: none;
+	position: absolute;
+	top: 50px;
+	left: 325px; /* 또는 right: auto; */
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	z-index: 1000;
 }
-
 
 .dropdown-menu a {
 	display: block;
@@ -100,27 +99,34 @@ body {
 	background-color: #f0f0f0;
 }
 
+.menu a {
+	margin-left: 5px;
+	color: #000000; /* 링크 색상 변경 */
+	text-decoration: none; /* 밑줄 제거 */
+}
+
+a:hover {
+	color: #007BFF; /* 마우스를 올렸을 때 색상 변경 */
+}
 
 .image-container {
-    width: 100%;
-    height: 400px;
-    background-color: white;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    display: flex;  /* flexbox를 사용하여 자식 요소를 정렬 */
-    justify-content: center;  /* 가로 중앙 정렬 */
-    align-items: center;  /* 세로 중앙 정렬 */
+	width: 100%;
+	height: 400px;
+	background-color: white;
+	border-radius: 8px;
+	margin-bottom: 25px;
+	display: flex; /* flexbox를 사용하여 자식 요소를 정렬 */
+	justify-content: center; /* 가로 중앙 정렬 */
+	align-items: center; /* 세로 중앙 정렬 */
 }
 
 .image-container img {
- 
-    width: 500px;  /* 더 큰 너비로 설정 */
-    height: 500px;  /* 더 큰 높이로 설정 */
-    border-radius: 8px;
-    object-fit: cover;
-
-  /* 이미지의 최대 높이를 부모 요소의 80%로 설정 */
-    border-radius: 8px;
+	width: 500px; /* 더 큰 너비로 설정 */
+	height: 500px; /* 더 큰 높이로 설정 */
+	border-radius: 8px;
+	object-fit: cover;
+	/* 이미지의 최대 높이를 부모 요소의 80%로 설정 */
+	border-radius: 8px;
 }
 
 .button {
@@ -150,7 +156,7 @@ body {
 </style>
 </head>
 <body>
-	<body>
+<body>
 	<div class="container">
 		<div class="header">
 			<div class="logo">
@@ -167,8 +173,7 @@ body {
 			if (user == null) {
 			%>
 			<div class="menu">
-				<a href="Gologin">로그인</a> 
-				<a href="GoJoinPage">회원가입</a>
+				<a href="Gologin">로그인</a> <a href="GoJoinPage">회원가입</a>
 			</div>
 			<%
 			} else {
@@ -179,52 +184,70 @@ body {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a href="LogoutController">로그아웃</a>
+				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a
+					href="LogoutController">로그아웃</a>
 			</div>
 			<%
 			}
 			%>
 		</div>
-		
+
 
 		<div class="image-container">
-		    <img src="img/건강설문.png" alt="이미지 설명">
+			<img src="img/건강설문.png" alt="이미지 설명">
 		</div>
 
 		<!-- 건강설문시 로그인 했는지 확인 문구 필요함 -->
 		<%
-		
 		System.out.print("세션 값있냐?" + user);
 		System.out.println("세션 ID: " + session.getId());
 		%>
 
-		<button class="button" id="checklist_btn" <%=(user == null) ? "class='disabled'" : ""%>>
-		    건강설문 시작하기
-		</button>
+		<button class="button" id="checklist_btn"
+			<%=(user == null) ? "class='disabled'" : ""%>>건강설문 시작하기</button>
 
 	</div>
 
 	<script>
-	document.querySelector('.menu-icon').addEventListener('click', function() {
-	    var dropdownMenu = document.getElementById('dropdownMenu');
-	    if (dropdownMenu.style.display === 'block') {
-	        dropdownMenu.style.display = 'none';
-	    } else {
-	        dropdownMenu.style.display = 'block';
-	    }
-	});
-
-        document.getElementById("logo_img").addEventListener("click", function() {
-            window.location.href = "<%=request.getContextPath()%>/GoMain";
-        });
-        
-    	document.getElementById("checklist_btn").addEventListener("click", function() {
-        <%if (user == null) {%>
-            alert("로그인이 필요합니다.");
-        <%} else {%>
-            window.location.href = "<%=request.getContextPath()%>/GoCheckListPage";
+			document.addEventListener("DOMContentLoaded", function() {
+			    var checklistBtn = document.getElementById("checklist_btn");
+			    console.log(checklistBtn);  // 버튼 요소가 null이 아닌지 확인
+		
+			    if (checklistBtn) {
+			        checklistBtn.addEventListener("click", function() {
+			            <%if (user == null) {%>
+			                alert("로그인이 필요합니다.");
+			            <%} else {%>
+			                window.location.href = "<%=request.getContextPath()%>
+		/GoCheckListPage";
 	<%}%>
 		});
+							} else {
+								console.error("checklist_btn 요소를 찾을 수 없습니다.");
+							}
+
+							// 추가로 menu-icon 클릭 이벤트 리스너를 확인합니다.
+							var menuIcon = document.querySelector('.menu-icon');
+							if (menuIcon) {
+								menuIcon.addEventListener('click',
+										toggleDropdown);
+							} else {
+								console.error("menu-icon 요소를 찾을 수 없습니다.");
+							}
+
+							// toggleDropdown 함수 정의
+							function toggleDropdown() {
+								var dropdownMenu = document
+										.getElementById('dropdownMenu');
+								if (dropdownMenu) {
+									dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none'
+											: 'block';
+								} else {
+									console
+											.error("dropdownMenu 요소를 찾을 수 없습니다.");
+								}
+							}
+						});
 	</script>
 </body>
 </html>
