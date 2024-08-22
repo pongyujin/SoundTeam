@@ -201,12 +201,12 @@ body {
 }
 
 .post-content {
-    margin-bottom: 20px;
-    line-height: 1.6;
-    padding: 15px; /* 박스 내부 여백 */
-    border: 1px solid #ddd; /* 선 스타일과 색상 */
-    border-radius: 5px; /* 박스의 모서리를 둥글게 */
-    background-color:#fcfcfc; /* 약간의 배경색 추가 (선명하게 보이도록) */
+	margin-bottom: 20px;
+	line-height: 1.6;
+	padding: 15px; /* 박스 내부 여백 */
+	border: 1px solid #ddd; /* 선 스타일과 색상 */
+	border-radius: 5px; /* 박스의 모서리를 둥글게 */
+	background-color: #fcfcfc; /* 약간의 배경색 추가 (선명하게 보이도록) */
 }
 
 .post-image {
@@ -286,6 +286,8 @@ body {
 	cursor: pointer;
 	font-weight: bold;
 }
+
+
 </style>
 </head>
 <body>
@@ -294,10 +296,10 @@ body {
 			<div class="header">
 				<div class="logo-container">
 					<div class="logo">
-						<a href="GoMain"> <img src="<%=request.getContextPath()%>/img/로고.png" alt="로고">
+						<a href="GoMain"> <img
+							src="<%=request.getContextPath()%>/img/로고.png" alt="로고">
 						</a>
 					</div>
-					<button class="back-btn" onclick="goBack()">뒤로가기</button>
 				</div>
 				<div class="menu-icon" onclick="toggleDropdown()">
 					<div></div>
@@ -331,6 +333,7 @@ body {
 			%>
 
 			<div class="like-container">
+
 				<button class="like-btn" id="likeBtn">
 					<span class="icon">❤️</span> 좋아요
 					<%=request.getAttribute("likes")%></button>
@@ -345,6 +348,7 @@ body {
 				%>
 			</div>
 		</div>
+		
 
 		<div class="comments-section">
 			<h3>댓글😁</h3>
