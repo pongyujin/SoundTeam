@@ -110,35 +110,33 @@ body {
 	font-weight: bold;
 	margin-bottom: 20px;
 }
-
 .search-bar {
-	display: flex;
-	justify-content: space-between; /* 버튼과 input을 양쪽 끝으로 배치 */
-	align-items: center;
-	margin-bottom: 20px;
-	width: 100%; /* 전체 너비를 차지하도록 설정 */
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%; /* 부모 div가 가로 전체를 차지하도록 설정 */
 }
 
 .search-bar input {
-	flex-grow: 1; /* input이 가능한 넓게 차지하도록 설정 */
-	padding: 10px;
-	border: 1px solid #ddd;
-	border-radius: 15px;
-	margin-right: 10px; /* 버튼과의 간격 */
-	box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 크기 설정 */
+    width: 300px; /* 원하는 너비로 설정 */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    margin-right: 15px; /* 버튼과의 간격 */
+    margin-left: 15px;
+    box-sizing: border-box;
 }
 
 .search-bar button {
-	padding: 10px 20px;
-	background-color: #66DAE4;
-	border: none;
-	border-radius: 15px;
-	cursor: pointer;
-	color: #fff;
-	font-weight: bold;
-	flex-shrink: 0; /* 버튼이 줄어들지 않도록 설정 */
-	white-space: nowrap; /* 버튼의 텍스트가 줄바꿈되지 않도록 */
+    padding: 10px 15px;
+    background-color: #66DAE4;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
 }
+
 
 table {
 	width: 100%;
@@ -226,7 +224,7 @@ table th {
 
 		<div class="search-bar">
 			<form action="BoardSearch" method="get">
-				<input type="text" name="search" placeholder="게시글을 검색해보세요 !">
+				<input type="text" name="search" placeholder="보고싶은 게시물을 검색해주세요!">
 				<button type="submit">검색</button>
 			</form>
 		</div>
