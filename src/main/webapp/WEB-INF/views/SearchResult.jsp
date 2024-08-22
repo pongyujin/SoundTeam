@@ -53,21 +53,11 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px 0;
+	position: relative;
 }
 
 .logo img {
 	width: 130px; /* 로고 이미지 크기 조정 */
-}
-
-.menu a {
-	margin-left : 5px;
-	color: #000000; /* 링크 색상 변경 */
-	text-decoration: none; /* 밑줄 제거 */
-}
-
-a:hover {
-	color: #007BFF; /* 마우스를 올렸을 때 색상 변경 */
-
 }
 
 .menu-icon {
@@ -86,7 +76,7 @@ a:hover {
 }
 
 .dropdown-menu {
-	display: none; /* 기본적으로 숨김 */
+	display: none;
 	position: absolute;
 	top: 50px;
 	right: 0;
@@ -116,9 +106,10 @@ a:hover {
 .main-section {
 	margin: 20px 0;
 	padding: 20px;
-	background-color: #f4f4f4;
+	background-color: #fcfcfc;
 	border-radius: 8px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin-bottom:80px;
 }
 
 .result-container {
@@ -195,6 +186,26 @@ a:hover {
 	background-color: #333;
 	color: #fff;
 }
+.back-btn {
+    display: block;
+    margin: 20px auto 0 auto;
+    background-color: #66DAE4;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+    width: 100%;
+    max-width: 150px;
+}
+
+.back-btn:hover {
+    background-color: #5bc0de;
+}
+
 </style>
 </head>
 <body>
@@ -304,8 +315,10 @@ a:hover {
 			out.println("<p>비타민 이름이 제공되지 않았습니다.</p>");
 			}
 			%>
-		</div>
+	<button class="back-btn" onclick="goBack()">확인</button>
 	</div>
+		</div>
+	
 	<script >document.querySelector('.menu-icon').addEventListener('click', function() {
 	    var dropdownMenu = document.getElementById('dropdownMenu');
 	    if (dropdownMenu.style.display === 'block') {
@@ -313,6 +326,14 @@ a:hover {
 	    } else {
 	        dropdownMenu.style.display = 'block';
 	    }
-	});</script>
+	});
+	
+	
+	function goBack() {
+	    window.history.back();
+	}
+	</script>
+
+
 </body>
 </html>
