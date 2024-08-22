@@ -206,76 +206,90 @@ h4 {
 		</div>
 
 		<!-- 영양제 리스트 -->
-<div class="product-item" data-title="추천된 영양제">
-    <%
-    List<Products> productsResult = (List<Products>) request.getAttribute("productsResult");
-    List<Ai_recommendation> aiResult = (List<Ai_recommendation>) request.getAttribute("aiResult");
+		<div class="product-item" data-title="추천된 영양제">
+			<%
+			List<Products> productsResult = (List<Products>) request.getAttribute("productsResult");
+			List<Ai_recommendation> aiResult = (List<Ai_recommendation>) request.getAttribute("aiResult");
 
-    // aiResult에서 첫 번째 영양소 이름만 추출
-    String nutrId = aiResult.get(0).getNutrId();
-    String[] nutrientArray = nutrId.split(","); // 영양소들을 배열로 분리
+			// aiResult에서 첫 번째 영양소 이름만 추출
+			String nutrId = aiResult.get(0).getNutrId();
+			String[] nutrientArray = nutrId.split(","); // 영양소들을 배열로 분리
 
-    // foodReasons에서 개별 문장만 추출
-    String foodReasonsFull = aiResult.get(0).getSuggReason();
+			// foodReasons에서 개별 문장만 추출
+			String foodReasonsFull = aiResult.get(0).getSuggReason();
 
-    // "식품: " 이후의 부분을 잘라내서 처리
-    String[] foodReasonParts = foodReasonsFull.split("영양성분: ")[1].split("\\d+\\. "); // 숫자와 점으로 문장을 나누기
+			// "식품: " 이후의 부분을 잘라내서 처리
+			String[] foodReasonParts = foodReasonsFull.split("영양성분: ")[1].split("\\d+\\. "); // 숫자와 점으로 문장을 나누기
 
-    // 영양소 관련 문장들만 추출
-    String firstReason = foodReasonParts.length > 1 ? foodReasonParts[1].trim() : "정보가 없습니다.";
-    String secondReason = foodReasonParts.length > 2 ? foodReasonParts[2].trim() : "정보가 없습니다.";
-    String thirdReason = foodReasonParts.length > 3 ? foodReasonParts[3].trim() : "정보가 없습니다.";
+			// 영양소 관련 문장들만 추출
+			String firstReason = foodReasonParts.length > 1 ? foodReasonParts[1].trim() : "정보가 없습니다.";
+			String secondReason = foodReasonParts.length > 2 ? foodReasonParts[2].trim() : "정보가 없습니다.";
+			String thirdReason = foodReasonParts.length > 3 ? foodReasonParts[3].trim() : "정보가 없습니다.";
 
-    if (productsResult != null && aiResult != null && !productsResult.isEmpty() && !aiResult.isEmpty()) {
-        for (int i = 0; i < productsResult.size(); i++) {
-    %>
-    <div class="product-item zoomable-item" id="product-detail">
-        <a href="<%=productsResult.get(i).getProductUrl()%>"> 
-            <img src="<%=productsResult.get(i).getProductImage()%>" alt="영양제 이미지">
-            <h4><%=nutrientArray[i].trim()%></h4> <!-- 개별 영양제 이름 -->
-        </a>
-        <p class="nutrition-reason">
-            <% 
-            if (i == 0) { %>
-                <%= firstReason %>
-            <% } else if (i == 1) { %>
-                <%= secondReason %>
-            <% } else if (i == 2) { %>
-                <%= thirdReason %>
-            <% } %>
-            <!-- 영양제 설명 -->
-        </p>
-        <p class="click-message">제품을 클릭해 사이트 이동하기</p>
-    </div>
-    <%
-        }
-    %>
-    <%
-    } else {
-    %>
-    <div class="product-item" data-title="영양제">
-        <p>추천된 영양제가 없습니다.</p>
-    </div>
-    <%
-    }
-    %>
-</div>
+			if (productsResult != null && aiResult != null && !productsResult.isEmpty() && !aiResult.isEmpty()) {
+				for (int i = 0; i < productsResult.size(); i++) {
+			%>
+			<div class="product-item zoomable-item" id="product-detail">
+				<a href="<%=productsResult.get(i).getProductUrl()%>"> <img
+					src="<%=productsResult.get(i).getProductImage()%>" alt="영양제 이미지">
+					<h4><%=nutrientArray[i].trim()%></h4> <!-- 개별 영양제 이름 -->
+				</a>
+				<p class="nutrition-reason">
+					<%
+					if (i == 0) {
+					%>
+					<%=firstReason%>
+					<%
+					} else if (i == 1) {
+					%>
+					<%=secondReason%>
+					<%
+					} else if (i == 2) {
+					%>
+					<%=thirdReason%>
+					<%
+					}
+					%>
+					<!-- 영양제 설명 -->
+				</p>
+				<p class="click-message">제품을 클릭해 사이트 이동하기</p>
+			</div>
+			<%
+			}
+			%>
+			<%
+			} else {
+			%>
+			<div class="product-item" data-title="영양제">
+				<p>추천된 영양제가 없습니다.</p>
+			</div>
+			<%
+			}
+			%>
+		</div>
 
-
-		<!-- 추천 식품 -->
 		<div class="product-item" data-title="추천 식품">
 			<%
 			if (aiResult != null && !aiResult.isEmpty()) {
-				String[] foodNames = aiResult.get(0).getFoodId().split(",");
-				String[] foodReasons = aiResult.get(0).getSuggReason().split(","); // 실제로는 식품 이유와 일치하는 부분을 넣어야 함
-			%>
-			<%
-			int foodLength = Math.min(foodNames.length, foodReasons.length); // 두 배열 중 작은 길이를 선택
-			for (int i = 0; i < foodLength; i++) {
+				// foodId를 쉼표로 분리하여 그룹별 식품 목록을 추출
+				String foodId = aiResult.get(0).getFoodId();
+				String[] foodGroups = foodId.split(",\\s*(?=\\d+\\.\\s*)");
+
+				// 각 그룹을 순회하면서 출력
+				for (int i = 0; i < foodGroups.length; i++) {
+					String[] foodItems = foodGroups[i].split(",\\s*"); // 각 그룹 내의 식품들을 분리
+					StringBuilder foodList = new StringBuilder();
+
+					// 그룹 내 식품을 콤마로 연결하여 문자열로 생성
+					for (int j = 0; j < foodItems.length; j++) {
+				if (j > 0) {
+					foodList.append(", ");
+				}
+				foodList.append(foodItems[j].trim().replaceAll("\\d+\\.\\s*", "")); // 번호 제거
+					}
 			%>
 			<p>
-				<strong><%=foodNames[i].trim()%></strong>:
-				<%=foodReasons[i].trim()%>
+				<strong><%=(i + 1) + ". " + foodList.toString()%></strong>
 			</p>
 			<%
 			}
@@ -285,6 +299,15 @@ h4 {
 			<%
 			}
 			%>
+		</div>
+
+
+
+
+
+		<!-- 상호작용 -->
+		<div class="product-item" data-title="상호작용">
+			<p><%=aiResult.get(0).getInteraction()%></p>
 		</div>
 
 	</div>
