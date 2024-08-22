@@ -104,7 +104,7 @@ body {
     max-width: 300px; /* 카카오 로그인 크기에 맞춤 */
     padding: 12px; /* 버튼 패딩 줄임 */
     font-size: 1.2em;
-    background-color: #A3ECF2;
+    background-color: #f0f0f0;
     border: 1px solid #ddd;
     border-radius: 8px;
     cursor: pointer;
