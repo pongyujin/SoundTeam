@@ -10,18 +10,18 @@
 <title>자유게시판</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap"
+	rel="stylesheet">
 <style>
-*  {
-  font-family: "Jua", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-  
-  }
+* {
+	font-family: "Jua", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
 /* 기존 스타일은 그대로 유지 */
 body {
 	font-family: Arial, sans-serif;
@@ -112,33 +112,32 @@ body {
 }
 
 .search-bar {
-    display: flex;  /* 수평 정렬을 위해 flexbox 사용 */
-    align-items: center;  /* 수직 중앙 정렬 */
-    margin-left: 50px;  /* 원하는 만큼 오른쪽으로 이동 */
-    width: 100%;  /* 전체 폭을 사용할 수 있도록 설정 */
-    max-width: 800px; 
-    /* 최대 너비를 설정하여 전체 레이아웃에 맞춤 */
+	display: flex;
+	justify-content: space-between; /* 버튼과 input을 양쪽 끝으로 배치 */
+	align-items: center;
+	margin-bottom: 20px;
+	width: 100%; /* 전체 너비를 차지하도록 설정 */
 }
 
 .search-bar input {
-    flex-grow: 3;  /* input이 더 많은 공간을 차지하도록 설정 */
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 15px;
-    margin-right: 10px;  /* 버튼과의 간격 */
-    box-sizing: border-box;  /* 패딩과 테두리를 포함한 전체 크기 설정 */
+	flex-grow: 1; /* input이 가능한 넓게 차지하도록 설정 */
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 15px;
+	margin-right: 10px; /* 버튼과의 간격 */
+	box-sizing: border-box; /* 패딩과 테두리를 포함한 전체 크기 설정 */
 }
 
 .search-bar button {
-    padding: 10px 20px;
-    background-color: #66DAE4;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    color: #fff;
-    font-weight: bold;
-    flex-shrink: 0;  /* 버튼이 줄어들지 않도록 설정 */
-    white-space: nowrap;  /* 버튼의 텍스트가 줄바꿈되지 않도록 */
+	padding: 10px 20px;
+	background-color: #66DAE4;
+	border: none;
+	border-radius: 15px;
+	cursor: pointer;
+	color: #fff;
+	font-weight: bold;
+	flex-shrink: 0; /* 버튼이 줄어들지 않도록 설정 */
+	white-space: nowrap; /* 버튼의 텍스트가 줄바꿈되지 않도록 */
 }
 
 table {
@@ -158,10 +157,11 @@ table th {
 	top: 0;
 	background-color: #f9f9f9;
 }
-.a{
- text-decoration: none;
- color:black; /* 링크 밑줄 제거 */}
 
+.a {
+	text-decoration: none;
+	color: black; /* 링크 밑줄 제거 */
+}
 
 .write-btn {
 	display: block;
@@ -180,29 +180,29 @@ table th {
 }
 
 .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
 }
 
 .pagination a {
-    margin: 0 5px;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #000;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9; /* 기본 배경색 */
+	margin: 0 5px;
+	padding: 10px 15px;
+	text-decoration: none;
+	color: #000;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: #f9f9f9; /* 기본 배경색 */
 }
 
 .pagination a.active {
-    background-color: #66DAE4;
-    color: white;
-}
-.pagination a:hover {
-    background-color: #ddd;
+	background-color: #66DAE4;
+	color: white;
 }
 
+.pagination a:hover {
+	background-color: #ddd;
+}
 </style>
 </head>
 <body>
@@ -242,82 +242,84 @@ table th {
 			</thead>
 			<tbody>
 				<%-- 게시글 목록을 출력 --%>
-				<% 
-				List<Board> list = (List<Board>)request.getAttribute("list");
+				<%
+				List<Board> list = (List<Board>) request.getAttribute("list");
 				int no = 1; // 순차적으로 번호를 매기기 위해 초기화
 				if (list != null && !list.isEmpty()) {
-					for(Board board : list) { 
+					for (Board board : list) {
 				%>
 				<tr>
-					<td><%= no++ %></td>
-					<td><a class="a" href="BoardView?postId=<%= board.getPostId() %>"><%= board.getPostTitle() %></a></td>
-					<td><%= board.getUsrId() %></td>
-					<td><%= board.getCreatedAt() %></td>
+					<td><%=no++%></td>
+					<td><a class="a"
+						href="BoardView?postId=<%=board.getPostId()%>"><%=board.getPostTitle()%></a></td>
+					<td><%=board.getUsrId()%></td>
+					<td><%=board.getCreatedAt()%></td>
 				</tr>
-				<% 
-					}
+				<%
+				}
 				} else {
 				%>
 				<tr>
 					<td colspan="4">게시글이 없습니다.</td>
 				</tr>
 				<%
-				} 
+				}
 				%>
 			</tbody>
 		</table>
 
-        <a href="GoBoardPost" class="write-btn">글쓰기</a>
+		<a href="GoBoardPost" class="write-btn">글쓰기</a>
 
- <!-- 페이지네이션 -->
-<div class="pagination">
-    <%
-    int totalPages = (int) request.getAttribute("totalPages");
-    int currentPage = (int) request.getAttribute("currentPage");
+		<!-- 페이지네이션 -->
+		<div class="pagination">
+			<%
+			int totalPages = (int) request.getAttribute("totalPages");
+			int currentPage = (int) request.getAttribute("currentPage");
 
-    int maxPageNumbers = 5; // 한 번에 표시할 페이지 번호의 개수
-    int startPage = ((currentPage - 1) / maxPageNumbers) * maxPageNumbers + 1;
-    int endPage = Math.min(startPage + maxPageNumbers - 1, totalPages);
+			int maxPageNumbers = 5; // 한 번에 표시할 페이지 번호의 개수
+			int startPage = ((currentPage - 1) / maxPageNumbers) * maxPageNumbers + 1;
+			int endPage = Math.min(startPage + maxPageNumbers - 1, totalPages);
 
-    // "이전" 버튼
-    if (startPage > 1) {
-    %>
-        <a href="BoardList?page=<%= startPage - 1 %>">이전</a>
-    <%
-    }
+			// "이전" 버튼
+			if (startPage > 1) {
+			%>
+			<a href="BoardList?page=<%=startPage - 1%>">이전</a>
+			<%
+			}
 
-    // 페이지 번호들
-    for (int i = startPage; i <= endPage; i++) {
-        if (i == currentPage) {
-    %>
-            <a href="BoardList?page=<%= i %>" class="active"><%= i %></a>
-    <%
-        } else {
-    %>
-            <a href="BoardList?page=<%= i %>"><%= i %></a>
-    <%
-        }
-    }
+			// 페이지 번호들
+			for (int i = startPage; i <= endPage; i++) {
+			if (i == currentPage) {
+			%>
+			<a href="BoardList?page=<%=i%>" class="active"><%=i%></a>
+			<%
+			} else {
+			%>
+			<a href="BoardList?page=<%=i%>"><%=i%></a>
+			<%
+			}
+			}
 
-    // "다음" 버튼
-    if (endPage < totalPages) {
-    %>
-        <a href="BoardList?page=<%= endPage + 1 %>">다음</a>
-    <%
-    }
-    %>
-</div>
-
-       
+			// "다음" 버튼
+			if (endPage < totalPages) {
+			%>
+			<a href="BoardList?page=<%=endPage + 1%>">다음</a>
+			<%
+			}
+			%>
+		</div>
 
 
-    
 
-	<script>
-        function toggleDropdown() {
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-        }
-    </script>
+
+
+
+		<script>
+			function toggleDropdown() {
+				const dropdownMenu = document.getElementById('dropdownMenu');
+				dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none'
+						: 'block';
+			}
+		</script>
 </body>
 </html>
