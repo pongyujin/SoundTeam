@@ -261,7 +261,7 @@ a:hover {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a hred="">로그아웃</a>
+				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a href="LogoutController">로그아웃</a>
 			</div>
 			<%
 			}
