@@ -60,7 +60,7 @@ body {
 }
 
 .logo img {
-    width: 110px; /* 로고 이미지 크기 조정 */
+    width: 130px; /* 로고 이미지 크기 조정 */
 }
 
 .menu a {
@@ -104,7 +104,7 @@ body {
     max-width: 300px; /* 카카오 로그인 크기에 맞춤 */
     padding: 12px; /* 버튼 패딩 줄임 */
     font-size: 1.2em;
-    background-color: #f0f0f0;
+    background-color: #A3ECF2;
     border: 1px solid #ddd;
     border-radius: 8px;
     cursor: pointer;

@@ -400,50 +400,43 @@ font-size: 25px;
          </div>
 
          <div class="category-slider-container">
-            <div class="category-slider-wrapper">
-               <div class="category-slider">
-                  <div class="category-item" onclick="navigateToCategory('all')">
-                     <img src="img/images.png" alt="전체"> <span>전체</span>
-                  </div>
-                  <div class="category-item" onclick="navigateToCategory('immune')">
-                     <img src="img/면역력.jpg" alt="면역"> <span>면역</span>
-                  </div>
-                  <div class="category-item" onclick="navigateToCategory('diet')">
-                     <img src="img/다이어트.jpg" alt="다이어트"> <span>다이어트</span>
-                  </div>
-                  <div class="category-item" onclick="navigateToCategory('stress')">
-                     <img src="img/스트레스.jpg" alt="스트레스"> <span>스트레스</span>
-                  </div>
-                  <div class="category-item"
-                     onclick="navigateToCategory('digestive')">
-                     <img src="img/위.jpg" alt="위건강"> <span>위건강</span>
-                  </div>
-                  <div class="category-item"
-                     onclick="navigateToCategory('digestive')">
-                     <img src="img/피로함.png" alt="피로"> <span>피로</span>
-                  </div>
-                  <div class="category-item"
-                     onclick="navigateToCategory('digestive')">
-                     <img src="img/눈건강.jpg" alt="눈건강"> <span>눈건강</span>
-                  </div>
-                  <div class="category-item"
-                     onclick="navigateToCategory('digestive')">
-                     <img src="img/간건강.jpg" alt="간건강"> <span>간건강</span>
-                  </div>
-                  <div class="category-item"
-                     onclick="navigateToCategory('digestive')">
-                     <img src="img/관절.jpg" alt="관절"> <span>관절</span>
-                  </div>
-                  <div class="category-item"
-                     onclick="navigateToCategory('digestive')">
-                     <img src="img/여성건강.jpg" alt="여성건강"> <span>여성건강</span>
-                  </div>
-                  <div class="category-item"
-                     onclick="navigateToCategory('digestive')">
-                     <img src="img/남성건강.jpg" alt="남성건강"> <span>남성건강</span>
-                  </div>
-               </div>
+    <div class="category-slider-wrapper">
+        <div class="category-slider">
+            
+            <div class="category-item" onclick="redirectToShoppingApi('면역')">
+                <img src="img/면역력.jpg" alt="면역"> <span>면역</span>
             </div>
+            <div class="category-item" onclick="redirectToShoppingApi('다이어트')">
+                <img src="img/다이어트.jpg" alt="다이어트"> <span>다이어트</span>
+            </div>
+            <div class="category-item" onclick="redirectToShoppingApi('스트레스')">
+                <img src="img/스트레스.jpg" alt="스트레스"> <span>스트레스</span>
+            </div>
+            <div class="category-item" onclick="redirectToShoppingApi('위건강')">
+                <img src="img/위.jpg" alt="위건강"> <span>위건강</span>
+            </div>
+            <div class="category-item" onclick="redirectToShoppingApi('피로')">
+                <img src="img/피로함.png" alt="피로"> <span>피로</span>
+            </div>
+            <div class="category-item" onclick="redirectToShoppingApi('눈건강')">
+                <img src="img/눈건강.jpg" alt="눈건강"> <span>눈건강</span>
+            </div>
+            <div class="category-item" onclick="redirectToShoppingApi('간건강')">
+                <img src="img/간건강.jpg" alt="간건강"> <span>간건강</span>
+            </div>
+            <div class="category-item" onclick="redirectToShoppingApi('관절')">
+                <img src="img/관절.jpg" alt="관절"> <span>관절</span>
+            </div>
+            <div class="category-item" onclick="redirectToShoppingApi('여성건강')">
+                <img src="img/여성건강.jpg" alt="여성건강"> <span>여성건강</span>
+            </div>
+            <div class="category-item" onclick="redirectToShoppingApi('남성건강')">
+                <img src="img/남성건강.jpg" alt="남성건강"> <span>남성건강</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 
             <div class="slider-container">
                <div class="slider" id="slider">
