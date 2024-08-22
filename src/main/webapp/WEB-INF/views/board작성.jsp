@@ -247,7 +247,7 @@ table th, table td {
 			</div>
 		</div>
 		<h2 class="board-title">글쓰기📝</h2>
-		<form id="uploadForm" action="BoardWrite" method="post"
+		<form id="uploadForm" action="<%= request.getContextPath() %>/BoardWrite" method="post"
 			enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="title">제목</label> 
