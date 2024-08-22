@@ -324,7 +324,7 @@ body {
             System.out.println("Image Path: " + postFilePath); // 경로 확인 로그
             if (postFilePath != null && !postFilePath.isEmpty()) {
             %>
-            <img src="/save/<%=postFilePath%>"
+            <img src="save/<%=postFilePath%>"
                 alt="게시글 이미지" class="post-image" onerror="this.style.display='none'">
             <%
             }
