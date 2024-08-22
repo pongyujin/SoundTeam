@@ -12,7 +12,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>추천된 영양제</title>
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 <style>
+
+
 body {
 	font-family: Arial, sans-serif;
 	background-color: #ffffff;
@@ -45,10 +50,11 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px 0;
+	position: relative; /* 드롭다운 메뉴 위치를 설정하기 위해 relative 추가 */
 }
 
 .logo img {
-	width: 100px; /* 로고 이미지 크기 조정 */
+	width: 130px;
 }
 
 .menu-icon {
@@ -66,6 +72,38 @@ body {
 	background-color: #000;
 }
 
+.dropdown-menu {
+	display: none;
+	position: absolute;
+	top: 30%; /* 아이콘 바로 아래에 위치하도록 설정 */
+	right: 0; /* 아이콘에 맞추어 오른쪽 정렬 */
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	z-index: 1000;
+	margin-top: 10px; /* 아이콘과 드롭다운 메뉴 사이의 간격을 조금 추가 */
+	font-family: "Jua", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	
+}
+
+.dropdown-menu a {
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+	color: #000;
+	border-bottom: 1px solid #ddd;
+}
+
+.dropdown-menu a:last-child {
+	border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+	background-color: #f0f0f0;
+}
 .text-container {
 	text-align: center; /* 가로 중앙 정렬 */
 	margin-top: 50px; /* 상단 여백 조정 */
@@ -170,6 +208,28 @@ h4{
 .zoomable-item:hover .click-message {
 	display: block; /* 마우스를 올렸을 때만 보이도록 설정 */
 }
+.footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* 필요한 경우 조정하세요 */
+    margin-bottom: 10px; /* 페이지 하단과의 여백 */
+}
+
+.confirm-btn {
+    background-color: #66DAE4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1em; 
+}
+
+.confirm-btn:hover {
+    background-color: #5bc0de;
+}
+
 </style>
 </head>
 <body>
@@ -179,11 +239,16 @@ h4{
 			<div class="logo">
 				<a href="GoMain"> <img src="img/로고.png" alt="로고"></a>
 			</div>
-			<div class="menu-icon">
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
+			<div class="menu-icon" onclick="toggleDropdown()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="GoMypage">마이페이지</a>
+            <a href="GoBoard">게시판</a>
+             <a href="LogoutController">로그아웃</a>
+         </div>
 		</div>
 
 		<%
@@ -272,6 +337,9 @@ h4{
 		? session.getAttribute("interaction_parsed")
 		: "상호작용 정보가 없습니다."%></p>
 		</div>
+		<div class="footer">
+    <button class="confirm-btn" onclick="goToMain()">확인</button>
+</div>
 
 	</div>
 
@@ -285,7 +353,21 @@ h4{
 				});
 			});
 		});
+		document.querySelector('.menu-icon').addEventListener('click', function() {
+		    var dropdownMenu = document.getElementById('dropdownMenu');
+		    if (dropdownMenu.style.display === 'block') {
+		        dropdownMenu.style.display = 'none';
+		    } else {
+		        dropdownMenu.style.display = 'block';
+		    }
+		});
+		
+	    function goToMain() {
+	        window.location.href = "GoMyPage"; // 메인 페이지로 이동
+	    }
 	</script>
+
+	
 
 </body>
 </html>
