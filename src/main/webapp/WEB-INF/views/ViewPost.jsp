@@ -280,7 +280,7 @@ body {
 .submit-btn {
 	background-color: #66DAE4;
 	color: white;
-	padding: 10px 15px;
+	padding: 10px;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
@@ -294,7 +294,7 @@ body {
 			<div class="header">
 				<div class="logo-container">
 					<div class="logo">
-						<a href="GoMain"> <img src="img/로고.png" alt="로고">
+						<a href="GoMain"> <img src="<%=request.getContextPath()%>/img/로고.png" alt="로고">
 						</a>
 					</div>
 					<button class="back-btn" onclick="goBack()">뒤로가기</button>
@@ -324,7 +324,7 @@ body {
 			System.out.println("Image Path: " + postFilePath); // 경로 확인 로그
 			if (postFilePath != null && !postFilePath.isEmpty()) {
 			%>
-			<img src="<%=request.getContextPath() + "/save/" + postFilePath%>"
+			<img src="<%=request.getContextPath() + "/" + postFilePath%>"
 				alt="게시글 이미지" class="post-image" onerror="this.style.display='none'">
 			<%
 			}
