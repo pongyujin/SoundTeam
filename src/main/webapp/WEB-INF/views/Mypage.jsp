@@ -39,7 +39,7 @@ if (recommendations == null) {
 
 body {
 	font-family: Arial, sans-serif;
-	background-color: #f4f4f4;
+	background-color:  #ffffff;
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -66,19 +66,21 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px 0;
+	position: relative;
 }
 
 .logo img {
-	width: 110px;
+	width: 130px;
 }
 
 .menu-icon {
-	width: 30px;
-	height: 30px;
-	cursor: pointer;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative; /* 드롭다운 메뉴 위치를 아이콘 기준으로 설정하기 위해 추가 */
 }
 
 .menu-icon div {
@@ -204,7 +206,7 @@ body {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a>
+				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a><a href="LogoutController">로그아웃</a>
 			</div>
 		</div>
 		<h1 class="h1">마이페이지💕</h1>
