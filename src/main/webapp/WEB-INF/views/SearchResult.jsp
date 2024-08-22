@@ -14,7 +14,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Search Results</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 <style>
+*  {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+
+
+
+
+}
 body {
 	font-family: Arial, sans-serif;
 	background-color: #ffffff;
@@ -43,7 +56,18 @@ body {
 }
 
 .logo img {
-	width: 100px; /* 로고 이미지 크기 조정 */
+	width: 130px; /* 로고 이미지 크기 조정 */
+}
+
+.menu a {
+	margin-left : 5px;
+	color: #000000; /* 링크 색상 변경 */
+	text-decoration: none; /* 밑줄 제거 */
+}
+
+a:hover {
+	color: #007BFF; /* 마우스를 올렸을 때 색상 변경 */
+
 }
 
 .menu-icon {
@@ -198,7 +222,7 @@ body {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="mypage.jsp">마이페이지</a> <a href="GoBoard">게시판</a>
+				<a href="mypage.jsp">마이페이지</a> <a href="GoBoard">게시판</a><a href="LogoutController">로그아웃</a>
 			</div>
 			<%
 			}
@@ -282,5 +306,13 @@ body {
 			%>
 		</div>
 	</div>
+	<script >document.querySelector('.menu-icon').addEventListener('click', function() {
+	    var dropdownMenu = document.getElementById('dropdownMenu');
+	    if (dropdownMenu.style.display === 'block') {
+	        dropdownMenu.style.display = 'none';
+	    } else {
+	        dropdownMenu.style.display = 'block';
+	    }
+	});</script>
 </body>
 </html>
