@@ -64,6 +64,38 @@ body {
 	background-color: #000;
 }
 
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 1050px; /* 또는 right: auto; */
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1000;
+
+}
+
+
+.dropdown-menu a {
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+	color: #000;
+	border-bottom: 1px solid #ddd;
+}
+
+.dropdown-menu a:last-child {
+	border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+	background-color: #f0f0f0;
+}
+
+
+
 .survey-title {
 	text-align: center;
 	font-size: 1.5em;
@@ -150,12 +182,12 @@ body {
 	margin-right: 10px;
 }
 
-.form-group .no-label {
+.form-group .no-label { 
 	display: inline;
 	margin-left: 10px;
 }
 </style>
-<script>
+<script> 
     // contextPath 변수를 전역 변수로 설정
     window.contextPath = '<%= contextPath %>';
 </script>
@@ -169,17 +201,21 @@ body {
 		System.out.print("세션 값있냐?" + user);
 		System.out.println("세션 ID: " + session.getId());
 	%>
-	<div class="container">
+	<<div class="container">
 		<div class="header">
 			<div class="logo">
 				<a href="GoMain"> <img src="img/로고.png" alt="로고">
 				</a>
 			</div>
-			<div class="menu-icon">
+			<div class="menu-icon" onclick="toggleDropdown()">
 				<div></div>
 				<div></div>
 				<div></div>
 			</div>
+			<div class="dropdown-menu" id="dropdownMenu">
+				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a hred="">로그아웃</a>
+			</div>
+		
 		</div>
 		<h2 class="survey-title">영양제 추천 설문지</h2>
 		<p>이 설문지는 귀하의 건강 상태와 생활 습관을 파악하여 적절한 영양제를 추천하는 데 도움이 됩니다. 가능한 정확하고
@@ -270,6 +306,21 @@ body {
 
 		<button class="submit-btn" onclick="nextPage()">다음</button>
 	</div>
+	<script >
+	
+	document.querySelector('.menu-icon').addEventListener('click', function() {
+	    var dropdownMenu = document.getElementById('dropdownMenu');
+	    if (dropdownMenu.style.display === 'block') {
+	        dropdownMenu.style.display = 'none';
+	    } else {
+	        dropdownMenu.style.display = 'block';
+	    }
+	});
+
+	
+	
+	
+	</script>
 
 
 

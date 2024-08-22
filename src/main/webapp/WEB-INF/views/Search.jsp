@@ -48,10 +48,11 @@ body {
 }
 
 .header {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    position: relative; /* 드롭다운 메뉴가 이 요소를 기준으로 위치하도록 설정 */
 }
 
 .logo img {
@@ -62,7 +63,6 @@ body {
 	margin-left : 5px;
 	color: #000000; /* 링크 색상 변경 */
 	text-decoration: none; /* 밑줄 제거 */
-	
 }
 
 a:hover {
@@ -71,12 +71,14 @@ a:hover {
 }
 
 .menu-icon {
-	width: 30px;
-	height: 30px;
-	cursor: pointer;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative; /* 부모 요소의 위치를 기준으로 드롭다운 위치를 설정 */
+
 }
 
 .menu-icon div {
@@ -86,16 +88,21 @@ a:hover {
 }
 
 .dropdown-menu {
-	display: none;
-	position: absolute;
-	top: 50px;
-	right: 0;
-	background-color: #ffffff;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	border-radius: 5px;
-	overflow: hidden;
-	z-index: 1000;
+    display: none;
+    position: absolute;
+    top: 40%; /* top 값을 100%로 조정하여 버튼 바로 아래에 나오도록 설정 */
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1000;
+    margin-top: 0; /* margin-top 값을 제거하거나 0으로 설정 */
 }
+
+
+
+
 
 .dropdown-menu a {
 	display: block;
@@ -112,6 +119,7 @@ a:hover {
 .dropdown-menu a:hover {
 	background-color: #f0f0f0;
 }
+
 
 .main-section {
    margin: 20px 0;
@@ -286,6 +294,7 @@ font-size: 25px;
     left: 10px;
     white-space: nowrap;
     
+    
     .vitamin-item {
     position: relative; 
     background-color: #ffffff;
@@ -374,6 +383,7 @@ font-size: 25px;
         <div class="dropdown-menu" id="dropdownMenu">
             <a href="GoMypage">마이페이지</a>
             <a href="GoBoard">게시판</a>
+             <a hred="">로그아웃</a>
          </div>
          <%
          }

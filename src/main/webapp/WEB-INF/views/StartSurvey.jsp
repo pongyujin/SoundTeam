@@ -43,10 +43,11 @@ body {
 }
 
 .header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    position: relative; /* 추가 */
 }
 
 .logo img {
@@ -69,16 +70,18 @@ body {
 }
 
 .dropdown-menu {
-	display: none; /* 기본적으로 숨김 */
-	position: absolute;
-	top: 50px;
-	right: 0;
-	background-color: #ffffff;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	border-radius: 5px;
-	overflow: hidden;
-	z-index: 1000;
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 325px; /* 또는 right: auto; */
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1000;
+
 }
+
 
 .dropdown-menu a {
 	display: block;
@@ -180,6 +183,15 @@ body {
 	</div>
 
 	<script>
+	document.querySelector('.menu-icon').addEventListener('click', function() {
+	    var dropdownMenu = document.getElementById('dropdownMenu');
+	    if (dropdownMenu.style.display === 'block') {
+	        dropdownMenu.style.display = 'none';
+	    } else {
+	        dropdownMenu.style.display = 'block';
+	    }
+	});
+
         document.getElementById("logo_img").addEventListener("click", function() {
             window.location.href = "<%=request.getContextPath()%>/GoMain";
         });
