@@ -74,8 +74,8 @@ body {
 .dropdown-menu {
 	display: none;
 	position: absolute;
-	top: 50px;
-	left: 1050px; /* 또는 right: auto; */
+	top: 30%; /* 아이콘 바로 아래에 위치하도록 설정 */
+	right: 0; /* 아이콘에 맞추어 오른쪽 정렬 */
 	background-color: #ffffff;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	border-radius: 5px;
@@ -220,7 +220,7 @@ body {
 	System.out.print("세션 값있냐?" + user);
 	System.out.println("세션 ID: " + session.getId());
 	%>
-	<
+	
 	<div class="container">
 		<div class="header">
 			<div class="logo">
@@ -233,7 +233,7 @@ body {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a hred="">로그아웃</a>
+				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a href="LogoutController">로그아웃</a>
 			</div>
 
 		</div>
@@ -437,15 +437,14 @@ body {
 
 
 
-		document.querySelector('.menu-icon').addEventListener('click',
-				function() {
-					var dropdownMenu = document.getElementById('dropdownMenu');
-					if (dropdownMenu.style.display === 'block') {
-						dropdownMenu.style.display = 'none';
-					} else {
-						dropdownMenu.style.display = 'block';
-					}
-				});
+	document.querySelector('.menu-icon').addEventListener('click', function() {
+	    var dropdownMenu = document.getElementById('dropdownMenu');
+	    if (dropdownMenu.style.display === 'block') {
+	        dropdownMenu.style.display = 'none';
+	    } else {
+	        dropdownMenu.style.display = 'block';
+	    }
+	});
 	</script>
 
 

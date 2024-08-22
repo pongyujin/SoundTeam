@@ -57,6 +57,7 @@ body {
     justify-content: space-between;
     align-items: flex-start; /* 메뉴 아이콘과 로고를 위쪽에 정렬 */
     padding: 10px 0;
+    position: relative;
 }
 
 .logo-container {
@@ -95,53 +96,56 @@ body {
     margin-top: 10px;
 }
 
+
+
 .menu-icon {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-top: 55px;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin-top:80px;
 }
 
 .menu-icon div {
-    width: 100%;
-    height: 4px;
-    background-color: #000;
+	width: 100%;
+	height: 4px;
+	background-color: #000;
 }
 
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 30%; /* 아이콘 바로 아래에 위치하도록 설정 */
-    right: 0; /* 아이콘에 맞추어 오른쪽 정렬 */
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    overflow: hidden;
-    z-index: 1000;
-    margin-top: 10px; /* 아이콘과 드롭다운 메뉴 사이의 간격을 조금 추가 */
-    font-family: "Jua", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+	display: none;
+	position: absolute;
+	top: 30%; /* 아이콘 바로 아래에 위치하도록 설정 */
+	right: 0; /* 아이콘에 맞추어 오른쪽 정렬 */
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	z-index: 1000;
+	margin-top: 10px; /* 아이콘과 드롭다운 메뉴 사이의 간격을 조금 추가 */
+	font-family: "Jua", sans-serif;
+	font-weight: 400;
+	font-style: normal;
 }
 
 .dropdown-menu a {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    color: #000;
-    border-bottom: 1px solid #ddd;
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+	color: #000;
+	border-bottom: 1px solid #ddd;
 }
 
 .dropdown-menu a:last-child {
-    border-bottom: none;
+	border-bottom: none;
 }
 
 .dropdown-menu a:hover {
-    background-color: #f0f0f0;
+	background-color: #f0f0f0;
 }
+
 
 .post-title {
     text-align: center;
@@ -302,7 +306,7 @@ body {
                 </div>
 
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a hred="">로그아웃</a>
+                    <a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a href="LogoutController">로그아웃</a>
                 </div>
 
             </div>
