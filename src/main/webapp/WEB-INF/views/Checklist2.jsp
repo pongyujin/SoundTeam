@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>영양제 추천 설문지 - 2</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -190,6 +193,10 @@ body {
 	gap: 10px; /* 버튼 사이 간격 추가 */
 }
 </style>
+<script type="text/javascript">
+    var contextPath = '<%= request.getContextPath() %>';
+</script>
+
 <script src="assets/js/checklist1.js"></script>
 </head>
 <body>

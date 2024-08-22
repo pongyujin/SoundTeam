@@ -1,6 +1,7 @@
 <%@page import="com.sound.entity.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
 <%
 String contextPath = request.getContextPath();
 %>
@@ -11,6 +12,9 @@ String contextPath = request.getContextPath();
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>영양제 추천 설문지 - 1</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -65,18 +69,16 @@ body {
 }
 
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 50px;
-    left: 1050px; /* 또는 right: auto; */
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    overflow: hidden;
-    z-index: 1000;
-
+	display: none;
+	position: absolute;
+	top: 50px;
+	left: 1050px; /* 또는 right: auto; */
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	z-index: 1000;
 }
-
 
 .dropdown-menu a {
 	display: block;
@@ -93,8 +95,6 @@ body {
 .dropdown-menu a:hover {
 	background-color: #f0f0f0;
 }
-
-
 
 .survey-title {
 	text-align: center;
@@ -182,26 +182,39 @@ body {
 	margin-right: 10px;
 }
 
-.form-group .no-label { 
+.form-group .no-label {
 	display: inline;
 	margin-left: 10px;
 }
+
+#heightError {
+	color: red;
+	display: none;
+	font-size: 14px;
+}
+
+#weightError {
+	color: red;
+	display: none;
+	font-size: 14px;
+}
 </style>
-<script> 
-    // contextPath 변수를 전역 변수로 설정
-    window.contextPath = '<%= contextPath %>';
+<script type="text/javascript">
+    var contextPath = '<%= request.getContextPath() %>';
 </script>
+
 <script src="assets/js/checklist1.js"></script>
 
 </head>
 <body>
 
 	<%
-		Users user = (Users) session.getAttribute("user");
-		System.out.print("세션 값있냐?" + user);
-		System.out.println("세션 ID: " + session.getId());
+	Users user = (Users) session.getAttribute("user");
+	System.out.print("세션 값있냐?" + user);
+	System.out.println("세션 ID: " + session.getId());
 	%>
-	<<div class="container">
+	<
+	<div class="container">
 		<div class="header">
 			<div class="logo">
 				<a href="GoMain"> <img src="img/로고.png" alt="로고">
@@ -215,7 +228,7 @@ body {
 			<div class="dropdown-menu" id="dropdownMenu">
 				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a hred="">로그아웃</a>
 			</div>
-		
+
 		</div>
 		<h2 class="survey-title">영양제 추천 설문지</h2>
 		<p>이 설문지는 귀하의 건강 상태와 생활 습관을 파악하여 적절한 영양제를 추천하는 데 도움이 됩니다. 가능한 정확하고
@@ -241,11 +254,14 @@ body {
 		</div>
 		<div class="form-group">
 			<label for="height">3. 키</label> <input type="number" id="height"
-				placeholder="cm" min="100" max="250">
+				placeholder="cm" min="100" max="250"> <span id="heightError">제대로
+				된 숫자를 입력해주세요 (100-250 cm)</span>
 		</div>
 		<div class="form-group">
 			<label for="weight">4. 몸무게</label> <input type="number" id="weight"
-				placeholder="kg" min="10" max="200">
+				placeholder="kg" min="10" max="200"> <span id="weightError">제대로
+				된 숫자를 입력해주세요 (10-200 kg)</span>
+
 		</div>
 
 		<h3>건강 및 생활 습관</h3>
@@ -306,20 +322,76 @@ body {
 
 		<button class="submit-btn" onclick="nextPage()">다음</button>
 	</div>
-	<script >
-	
-	document.querySelector('.menu-icon').addEventListener('click', function() {
-	    var dropdownMenu = document.getElementById('dropdownMenu');
-	    if (dropdownMenu.style.display === 'block') {
-	        dropdownMenu.style.display = 'none';
-	    } else {
-	        dropdownMenu.style.display = 'block';
+	<script>
+	// heightInput 변수에 input 요소를 저장합니다.
+	const heightInput = document.getElementById("height");
+	// heightError 변수에 span 요소를 저장합니다.
+	const heightError = document.getElementById("heightError");
+
+	// 키 입력 필드에서 키를 입력할 때마다 이벤트가 발생합니다.
+	heightInput.addEventListener("input", function() {
+	    // 입력된 값의 길이를 확인합니다.
+	    if (heightInput.value.length > 3) {
+	        // 값이 3자리 이상이면 마지막 입력을 제거하여 3자리로 유지합니다.
+	        heightInput.value = heightInput.value.slice(0, 3);
 	    }
 	});
 
+	// 키 입력 필드에서 포커스를 벗어날 때 (blur 이벤트) 이벤트가 발생합니다.
+	heightInput.addEventListener("blur", function() {
+	    // 현재 입력된 값을 가져옵니다.
+	    const value = heightInput.value;
+
+	    // 입력된 값이 100보다 작거나 250보다 큰지 확인합니다.
+	    if (value < 100 || value > 250) {
+	        // 오류 메시지를 표시합니다.
+	        heightError.style.display = "inline";
+	    } else {
+	        // 입력된 값이 범위 내에 있다면 오류 메시지를 숨깁니다.
+	        heightError.style.display = "none";
+	    }
+	});
 	
-	
-	
+	// weightInput 변수에 input 요소를 저장합니다.
+	const weightInput = document.getElementById("weight");
+	// weightError 변수에 span 요소를 저장합니다.
+	const weightError = document.getElementById("weightError");
+
+	// 몸무게 입력 필드에서 키를 입력할 때마다 이벤트가 발생합니다.
+	weightInput.addEventListener("input", function() {
+	    // 입력된 값의 길이를 확인합니다.
+	    if (weightInput.value.length > 3) {
+	        // 값이 3자리 이상이면 마지막 입력을 제거하여 3자리로 유지합니다.
+	        weightInput.value = weightInput.value.slice(0, 3);
+	    }
+	});
+
+	// 몸무게 입력 필드에서 포커스를 벗어날 때 (blur 이벤트) 이벤트가 발생합니다.
+	weightInput.addEventListener("blur", function() {
+	    // 현재 입력된 값을 가져옵니다.
+	    const value = weightInput.value;
+
+	    // 입력된 값이 10보다 작거나 200보다 큰지 확인합니다.
+	    if (value < 10 || value > 200) {
+	        // 오류 메시지를 표시합니다.
+	        weightError.style.display = "inline";
+	    } else {
+	        // 입력된 값이 범위 내에 있다면 오류 메시지를 숨깁니다.
+	        weightError.style.display = "none";
+	    }
+	});
+
+
+
+		document.querySelector('.menu-icon').addEventListener('click',
+				function() {
+					var dropdownMenu = document.getElementById('dropdownMenu');
+					if (dropdownMenu.style.display === 'block') {
+						dropdownMenu.style.display = 'none';
+					} else {
+						dropdownMenu.style.display = 'block';
+					}
+				});
 	</script>
 
 
