@@ -50,6 +50,7 @@ body {
     position: relative; /* 추가 */
 }
 
+
 .logo img {
 	width: 130px; /* 로고 이미지 크기 조정 */
 }
@@ -149,15 +150,41 @@ body {
 </style>
 </head>
 <body>
+	<body>
 	<div class="container">
 		<div class="header">
 			<div class="logo">
-				<img src="img/로고.png" id="logo_img" alt="로고">
+				<a href="GoMain"> <img src="img/로고.png" alt="로고">
+				</a>
+			</div>
 
-wn-menu" id="dropdownMenu">
-				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a hred="LogoutController">로그아웃</a>
+			<%
+			// 세션값 가져오기
+			Users user = (Users) session.getAttribute("user");
+			%>
+
+			<%
+			if (user == null) {
+			%>
+			<div class="menu">
+				<a href="Gologin">로그인</a> 
+				<a href="GoJoinPage">회원가입</a>
 			</div>
+			<%
+			} else {
+			%>
+			<div class="menu-icon" onclick="toggleDropdown()">
+				<div></div>
+				<div></div>
+				<div></div>
 			</div>
+			<div class="dropdown-menu" id="dropdownMenu">
+				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a href="LogoutController">로그아웃</a>
+			</div>
+			<%
+			}
+			%>
+		</div>
 		
 
 		<div class="image-container">
@@ -166,7 +193,7 @@ wn-menu" id="dropdownMenu">
 
 		<!-- 건강설문시 로그인 했는지 확인 문구 필요함 -->
 		<%
-		Users user = (Users) session.getAttribute("user");
+		
 		System.out.print("세션 값있냐?" + user);
 		System.out.println("세션 ID: " + session.getId());
 		%>
