@@ -34,7 +34,22 @@ public class BoardSearchController extends HttpServlet {
         
         // 검색 결과를 JSP로 전달
         request.setAttribute("list", list);
-        request.getRequestDispatcher("/WEB-INF/views/board.jsp").forward(request, response);
+
+        // 페이지네이션 처리
+        int totalPosts = list.size();
+        int postsPerPage = 10;  // 한 페이지에 보여줄 게시글 수
+        int totalPages = (int) Math.ceil((double) totalPosts / postsPerPage);
+        int currentPage = 1;  // 기본적으로 1페이지
+
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
+
+        if (list != null && !list.isEmpty()) {
+            request.getRequestDispatcher("/WEB-INF/views/board.jsp").forward(request, response);
+        } else {
+            request.setAttribute("error", "검색 결과가 없습니다.");
+            request.getRequestDispatcher("/WEB-INF/views/board.jsp").forward(request, response);
+        }
         System.out.println("디버깅용 테스트");
     }
 }
