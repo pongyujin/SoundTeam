@@ -32,7 +32,7 @@ public class KakaoCallbackController extends HttpServlet {
 		String clientSecret = "rOBQj5Gj8cvoaW5TAG5YBnAhB3ipTF3g"; // 애플리케이션 클라이언트 시크릿값
 		String code = request.getParameter("code");
 		String state = request.getParameter("state");
-		String redirectURI = URLEncoder.encode("http://localhost:8081/SoundTeam/kakaocallback", "UTF-8");
+		String redirectURI = URLEncoder.encode("http://localhost:8081/ST/kakaocallback", "UTF-8");
 		String apiURL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code" + "&client_id=" + clientId
 				+ "&client_secret=" + clientSecret + "&redirect_uri=" + redirectURI + "&code=" + code + "&state="
 				+ state;
@@ -118,7 +118,6 @@ public class KakaoCallbackController extends HttpServlet {
 							System.out.println("카카오 회원가입 실패...");
 						}
 					} else {
-						// 이미 네이버로 회원가입이 된 상태
 						// 창 넘어가기
 						session.setAttribute("user", users);
 						response.sendRedirect("GoMain");

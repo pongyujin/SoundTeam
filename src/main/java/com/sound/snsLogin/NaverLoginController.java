@@ -19,7 +19,7 @@ public class NaverLoginController extends HttpServlet {
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String clientId = "LowTSePK6d7ObwHcqBN0";//애플리케이션 클라이언트 아이디값";
-		String redirectURI =URLEncoder.encode("http://localhost:8081/SoundTeam/NaverCallbackController", "UTF-8");
+		String redirectURI =URLEncoder.encode("http://localhost:8081/ST/NaverCallbackController", "UTF-8");
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString();
 		String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
