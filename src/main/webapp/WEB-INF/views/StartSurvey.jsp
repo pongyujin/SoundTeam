@@ -153,13 +153,8 @@ body {
 		<div class="header">
 			<div class="logo">
 				<img src="img/로고.png" id="logo_img" alt="로고">
-			</div>
-			<div class="menu-icon">
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
-				<div class="dropdown-menu" id="dropdownMenu">
+
+wn-menu" id="dropdownMenu">
 				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a hred="LogoutController">로그아웃</a>
 			</div>
 			</div>

@@ -51,6 +51,7 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px 0;
+	position: relative;
 }
 
 .logo img {
@@ -71,6 +72,7 @@ body {
 	height: 4px;
 	background-color: #000;
 }
+
 .dropdown-menu {
 	display: none;
 	position: absolute;
@@ -243,7 +245,7 @@ table th, table td {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="GoMyPage">마이페이지</a> <a href="GoBoard">게시판</a><a href="">로그아웃</a>
+				<a href="GoMyPage">마이페이지</a> <a href="GoBoard">게시판</a><a href="LogoutController">로그아웃</a>
 			</div>
 		</div>
 		<h2 class="board-title">글쓰기📝</h2>
@@ -264,5 +266,10 @@ table th, table td {
 			<button type="submit" class="upload-btn">업로드</button>
 		</form>
 	</div>
+	<script>function toggleDropdown() {
+		const dropdownMenu = document.getElementById('dropdownMenu');
+		dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none'
+				: 'block';
+	}</script>
 </body>
 </html>
