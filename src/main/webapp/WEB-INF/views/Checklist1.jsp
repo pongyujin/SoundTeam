@@ -1,7 +1,7 @@
 <%@page import="com.sound.entity.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+
 <%
 String contextPath = request.getContextPath();
 %>
@@ -13,7 +13,9 @@ String contextPath = request.getContextPath();
 
 <title>영양제 추천 설문지 - 1</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap"
+	rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <style>
 body {
@@ -47,10 +49,11 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px 0;
+	position: relative; /* 드롭다운 메뉴 위치를 설정하기 위해 relative 추가 */
 }
 
 .logo img {
-	width: 110px;
+	width: 130px;
 }
 
 .menu-icon {
@@ -78,6 +81,11 @@ body {
 	border-radius: 5px;
 	overflow: hidden;
 	z-index: 1000;
+	
+	margin-top: 10px; /* 아이콘과 드롭다운 메뉴 사이의 간격을 조금 추가 */
+	font-family: "Jua", sans-serif;
+	font-weight: 400;
+	font-style: normal;
 }
 
 .dropdown-menu a {
@@ -200,7 +208,7 @@ body {
 }
 </style>
 <script type="text/javascript">
-    var contextPath = '<%= request.getContextPath() %>';
+    var contextPath = '<%=request.getContextPath()%>';
 </script>
 
 <script src="assets/js/checklist1.js"></script>

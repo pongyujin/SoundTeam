@@ -22,8 +22,8 @@
 	<servlet>
 		<servlet-name>SearchController</servlet-name>
 		<display-name>SearchController</display-name>
-			<description></description>
-			<servlet-class>com.sound.controller.SearchController</servlet-class>
+		<description></description>
+		<servlet-class>com.sound.controller.SearchController</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -39,59 +39,82 @@
 		<description></description>
 		<servlet-class>com.sound.controller.SearchNaverApiController</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>Test</servlet-name>
 		<display-name>Test</display-name>
 		<description></description>
 		<servlet-class>com.sound.controller.Test</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>ApiTestServlet</servlet-name>
 		<display-name>ApiTestServlet</display-name>
 		<description></description>
 		<servlet-class>com.sound.controller.ApiTestServlet</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>NaverApiController1</servlet-name>
 		<display-name>NaverApiController1</display-name>
 		<description></description>
 		<servlet-class>com.sound.controller.NaverApiController1</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>BoardUpdateLikeController</servlet-name>
 		<display-name>BoardUpdateLikeController</display-name>
 		<description></description>
 		<servlet-class>com.sound.Board.BoardUpdateLikeController</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>BoardLikeController</servlet-name>
 		<display-name>BoardLikeController</display-name>
 		<description></description>
 		<servlet-class>com.sound.Board.BoardLikeController</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>BoardCommentController</servlet-name>
 		<display-name>BoardCommentController</display-name>
 		<description></description>
 		<servlet-class>com.sound.Board.BoardCommentController</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>MyPageController</servlet-name>
 		<display-name>MyPageController</display-name>
 		<description></description>
 		<servlet-class>com.sound.controller.MyPageController</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>GoMyPagerecommendPage</servlet-name>
 		<display-name>GoMyPagerecommendPage</display-name>
 		<description></description>
 		<servlet-class>com.sound.gopage.GoMyPagerecommendPage</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>LogoutController</servlet-name>
 		<display-name>LogoutController</display-name>
 		<description></description>
 		<servlet-class>com.sound.controller.LogoutController</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>KakaoCallbackController</servlet-name>
+		<display-name>KakaoCallbackController</display-name>
+		<description></description>
+		<servlet-class>com.sound.snsLogin.KakaoCallbackController</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>KakaoLoginController</servlet-name>
+		<display-name>KakaoLoginController</display-name>
+		<description></description>
+		<servlet-class>com.sound.snsLogin.KakaoLoginController</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -114,46 +137,56 @@
 		<url-pattern>/GoSearchResultPage</url-pattern>
 	</servlet-mapping>
 
-	<!-- 하나의 매핑만 유지 -->
 	<servlet-mapping>
 		<servlet-name>SearchNaverApiController</servlet-name>
 		<url-pattern>/SearchNaverApiController</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>Test</servlet-name>
 		<url-pattern>/Test</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>ApiTestServlet</servlet-name>
 		<url-pattern>/ApiTestServlet</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>NaverApiController1</servlet-name>
 		<url-pattern>/NaverApiController1</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>BoardUpdateLikeController</servlet-name>
 		<url-pattern>/BoardUpdateLikeController</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>BoardLikeController</servlet-name>
 		<url-pattern>/BoardLikeController</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>BoardCommentController</servlet-name>
 		<url-pattern>/BoardCommentController</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>MyPageController</servlet-name>
 		<url-pattern>/MyPageController</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>GoMyPagerecommendPage</servlet-name>
 		<url-pattern>/GoMyPagerecommendPage</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>LogoutController</servlet-name>
 		<url-pattern>/LogoutController</url-pattern>
 	</servlet-mapping>
+
+
 
 </web-app>

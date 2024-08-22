@@ -4,11 +4,11 @@ let surveyData = [];
 // checklist1.jsp에서 다음 버튼을 클릭했을 때 실행되는 함수
 function nextPage() {
 	// 설문 1에서 입력받은 데이터를 가져오기
-	const birthYear = document.getElementById("birth-year").value;
+	const birthYear = document.getElementById("birth-year").value.trim(); // 공백 제거
 	const genderElement = document.querySelector('input[name="gender"]:checked');
 	const gender = genderElement ? genderElement.value : null;
-	const height = document.getElementById("height").value;
-	const weight = document.getElementById("weight").value;
+	const height = document.getElementById("height").value.trim(); // 공백 제거
+	const weight = document.getElementById("weight").value.trim(); // 공백 제거
 	const exerciseElement = document.querySelector('input[name="exercise"]:checked');
 	const exercise = exerciseElement ? exerciseElement.value : null;
 	const sleepElement = document.querySelector('input[name="sleep"]:checked');
@@ -22,6 +22,14 @@ function nextPage() {
 	const fruitVeggiesElement = document.querySelector('input[name="fruit_veggies"]:checked');
 	const fruitVeggies = fruitVeggiesElement ? fruitVeggiesElement.value : null;
 
+	console.log("birthYear:", birthYear);
+	console.log("gender:", gender);
+
+	// 필수 항목이 입력되었는지 확인
+	if (!birthYear || !gender || !height || !weight || !exercise || !sleep || !stress || !smoking || !alcohol || !fruitVeggies) {
+		alert("모든 항목을 입력해 주세요.");
+		return; // 빈 값이 있으면 함수 종료, 다음 페이지로 이동하지 않음
+	}
 	// surveyData 배열에 저장
 	surveyData.push({ id: 1, response: birthYear });
 	surveyData.push({ id: 2, response: gender });
@@ -45,7 +53,7 @@ function nextPage() {
 // checklist2.jsp에서 이전 버튼을 클릭했을 때 실행되는 함수
 function previousPage() {
 	// checklist1.jsp로 이동
-	const url = window.contextPath + '/GoChecklist2?action=next';
+	const url = window.contextPath + '/GoCheckListPage?action=next';
 	window.location.replace(url);
 }
 
@@ -84,6 +92,15 @@ function submitSurvey() {
 		symptoms.push(item.value);
 	});
 	const allergies = document.querySelector('input[name="allergies"]') ? document.querySelector('input[name="allergies"]').value : '';
+
+	// 필수 항목이 입력되었는지 확인
+	if (!fish || !dairy || !vegetarian || (diet.length === 0 && !dietOther) ||
+		(healthIssues.length === 0 && !healthOther) || !pregnancy ||
+		!medication || !supplements || symptoms.length === 0 || !allergies) {
+		alert("모든 항목을 선택해 주세요.");
+		return; // 빈 값이 있으면 함수 종료, 제출을 진행하지 않음
+	}
+
 
 	// 로컬 스토리지에서 surveyData를 불러오기
 	let surveyData = JSON.parse(localStorage.getItem('surveyData')) || [];
