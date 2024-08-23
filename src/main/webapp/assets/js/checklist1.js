@@ -58,8 +58,6 @@ function previousPage() {
 }
 
 function submitSurvey() {
-
-    
 	// 설문 2에서 입력받은 데이터를 가져오기
 	const fishElement = document.querySelector('input[name="fish"]:checked');
 	const fish = fishElement ? fishElement.value : null;
@@ -118,7 +116,6 @@ function submitSurvey() {
 		return; // 빈 값이 있으면 함수 종료, 제출을 진행하지 않음
 	}
 
-
 	// 로컬 스토리지에서 surveyData를 불러오기
 	let surveyData = JSON.parse(localStorage.getItem('surveyData')) || [];
 
@@ -148,7 +145,8 @@ function submitSurvey() {
 					const responseData = JSON.parse(xhr.responseText);
 					console.log('AI 결과:', responseData);
 					alert('설문이 완료되었습니다! AI 분석 결과를 확인하세요.');
-					
+
+					// 다른 페이지로 리디렉션
 					window.location.href = 'http://localhost:8081/ST/GoRecommendPage';
 
 				} catch (e) {
