@@ -148,6 +148,8 @@ function submitSurvey() {
 					const responseData = JSON.parse(xhr.responseText);
 					console.log('AI 결과:', responseData);
 					alert('설문이 완료되었습니다! AI 분석 결과를 확인하세요.');
+					
+					window.location.href = 'http://localhost:8081/ST/GoRecommendPage';
 
 				} catch (e) {
 					// JSON 파싱 오류 처리 (HTML 페이지가 반환된 경우)
