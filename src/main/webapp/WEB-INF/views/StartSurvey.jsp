@@ -51,6 +51,7 @@ body {
 	padding: 10px 0;
 	position: relative; /* 추가 */
 }
+
 .menu a {
 	margin-left : 5px;
 	color: #000000; /* 링크 색상 변경 */
@@ -59,7 +60,6 @@ body {
 
 a:hover {
 	color: #007BFF; /* 마우스를 올렸을 때 색상 변경 */
-
 }
 
 .logo img {
@@ -107,16 +107,6 @@ a:hover {
 
 .dropdown-menu a:hover {
 	background-color: #f0f0f0;
-}
-
-.menu a {
-	margin-left: 5px;
-	color: #000000; /* 링크 색상 변경 */
-	text-decoration: none; /* 밑줄 제거 */
-}
-
-a:hover {
-	color: #007BFF; /* 마우스를 올렸을 때 색상 변경 */
 }
 
 .image-container {
@@ -188,13 +178,13 @@ a:hover {
 			<%
 			} else {
 			%>
-			<div class="menu-icon" onclick="toggleDropdown()">
+			<div class="menu-icon">
 				<div></div>
 				<div></div>
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a
+				<a href="GoMyPage1">마이페이지</a><a href="GoBoard">게시판</a> <a
 					href="LogoutController">로그아웃</a>
 			</div>
 			<%
@@ -219,45 +209,39 @@ a:hover {
 	</div>
 
 	<script>
-			document.addEventListener("DOMContentLoaded", function() {
-			    var checklistBtn = document.getElementById("checklist_btn");
-			    console.log(checklistBtn);  // 버튼 요소가 null이 아닌지 확인
-		
-			    if (checklistBtn) {
-			        checklistBtn.addEventListener("click", function() {
-			            <%if (user == null) {%>
-			                alert("로그인이 필요합니다.");
-			            <%} else {%>
-			                window.location.href = "<%=request.getContextPath()%>
-		/GoCheckListPage";
-	<%}%>
+		document.addEventListener("DOMContentLoaded", function() {
+		    var checklistBtn = document.getElementById("checklist_btn");
+
+		    if (checklistBtn) {
+		        checklistBtn.addEventListener("click", function() {
+		            <%if (user == null) {%>
+		                alert("로그인이 필요합니다.");
+		            <%} else {%>
+		                window.location.href = "<%=request.getContextPath()%>/GoCheckListPage";
+		            <%}%>
+		        });
+		    } else {
+		        console.error("checklist_btn 요소를 찾을 수 없습니다.");
+		    }
+
+		    // menu-icon 클릭 이벤트 리스너 설정
+		    var menuIcon = document.querySelector('.menu-icon');
+		    if (menuIcon) {
+		        menuIcon.addEventListener('click', function() {
+		            toggleDropdown();
+		        });
+		    } else {
+		        console.error("menu-icon 요소를 찾을 수 없습니다.");
+		    }
 		});
-							} else {
-								console.error("checklist_btn 요소를 찾을 수 없습니다.");
-							}
 
-							// 추가로 menu-icon 클릭 이벤트 리스너를 확인합니다.
-							var menuIcon = document.querySelector('.menu-icon');
-							if (menuIcon) {
-								menuIcon.addEventListener('click',
-										toggleDropdown);
-							} else {
-								console.error("menu-icon 요소를 찾을 수 없습니다.");
-							}
-
-							// toggleDropdown 함수 정의
-							function toggleDropdown() {
-								var dropdownMenu = document
-										.getElementById('dropdownMenu');
-								if (dropdownMenu) {
-									dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none'
-											: 'block';
-								} else {
-									console
-											.error("dropdownMenu 요소를 찾을 수 없습니다.");
-								}
-							}
-						});
+		// toggleDropdown 함수 정의
+		function toggleDropdown() {
+		    const dropdown = document.getElementById('dropdownMenu');
+		    if (dropdown) {
+		        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+		    }
+		}
 	</script>
 </body>
 </html>
