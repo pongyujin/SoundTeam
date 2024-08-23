@@ -296,6 +296,7 @@ a:hover {
 				<div class="category-button" onclick="showVitaminList('gut')">장건강</div>
 				<div class="category-button" onclick="showVitaminList('joint')">관절</div>
 				<div class="category-button" onclick="showVitaminList('fatigue')">피로</div>
+				<div class="category-button" onclick="showVitaminList('immune')">면역</div>
 				<div class="category-button" onclick="showVitaminList('liver')">간건강</div>
 				<div class="category-button" onclick="showVitaminList('stomach')">위건강</div>
 				<div class="category-button" onclick="showVitaminList('women')">여성건강</div>
@@ -379,6 +380,15 @@ a:hover {
             '코엔자임 Q10 - 에너지 생성 촉진.'
           ];
           break;
+        case 'immune':
+            vitamins = [
+                '비타민 C - 면역 체계 강화 및 감염 저항력 증진.',
+                '비타민 D - 면역 기능 조절 및 항바이러스 효과.',
+                '아연(Zinc) - 면역 세포 성장 및 기능 지원.',
+             
+            ];
+            break;
+
         case 'liver':
           vitamins = [
             '밀크씨슬 - 간 보호 및 해독.',
