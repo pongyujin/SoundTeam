@@ -57,6 +57,23 @@ body {
 	margin-bottom: 1.5em;
 	line-height: 1.4em; /* 줄 간격 조정 */
 }
+.logo img {
+   width: 130px; /* 로고 이미지 크기 조정 */
+   margin-top:30px;
+}
+.menu  {
+	margin-left : 5px;
+	color: #000000; /* 링크 색상 변경 */
+	text-decoration: none; /* 밑줄 제거 */
+	margin-top:30px;
+	 margin-bottom: 20px; /* 추가된 부분 */
+	
+}
+a:hover {
+	color: #007BFF; /* 마우스를 올렸을 때 색상 변경 */
+
+}
+
 
 
 .input-group {
