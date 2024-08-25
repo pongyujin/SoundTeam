@@ -197,6 +197,36 @@ body {
 	margin-top: 20px;
 	gap: 10px; /* 버튼 사이 간격 추가 */
 }
+
+#loadingScreen {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 9999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.loading-container {
+	text-align: center;
+}
+
+.loading-image {
+	display: block;
+	margin: 0 auto;
+}
+
+.loading-text {
+	margin-top: 10px; /* 이미지와 텍스트 사이 간격 조절 */
+	color: white;
+	font-size: 2em;
+	text-align: center;
+}
 </style>
 <script type="text/javascript">
     var contextPath = '<%=request.getContextPath()%>';
@@ -218,6 +248,7 @@ body {
 	</script>
 
 
+
 	<div class="container">
 		<div class="header">
 			<div class="logo">
@@ -231,7 +262,8 @@ body {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a href="LogoutController">로그아웃</a>
+				<a href="GoMyPage1">마이페이지</a> <a href="GoBoard">게시판</a> <a
+					href="LogoutController">로그아웃</a>
 			</div>
 		</div>
 		<h2 class="survey-title">영양제 추천 설문지</h2>
@@ -340,7 +372,24 @@ body {
 			<button class="submit-btn" onclick="submitSurvey()">제출</button>
 		</div>
 	</div>
-	<script>document.querySelector('.menu-icon').addEventListener('click', function() {
+
+	<div id="loadingScreen">
+		<div class="loading-container">
+			<img src="img/로딩중.gif" alt="Loading..." class="loading-image">
+			<div class="loading-text">잠시만 기다려 주세요...</div>
+		</div>
+	</div>
+
+
+	<script>
+	
+	document.addEventListener("DOMContentLoaded", function() {
+	    // 로딩 화면을 기본적으로 숨김 처리
+	    document.getElementById("loadingScreen").style.display = "none";
+	});
+
+	
+	document.querySelector('.menu-icon').addEventListener('click', function() {
 	    var dropdownMenu = document.getElementById('dropdownMenu');
 	    if (dropdownMenu.style.display === 'block') {
 	        dropdownMenu.style.display = 'none';

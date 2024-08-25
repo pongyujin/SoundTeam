@@ -57,7 +57,9 @@ public class AiController extends HttpServlet {
 
 			// ai 실행 메서드
 			String[] aiData = null;
+			
 			for (int i = 0; i < retries; i++) {
+				
 				aiData = ai_access(prompt);
 				if (aiData != null && aiData[0] != null) {
 					break;
@@ -67,6 +69,7 @@ public class AiController extends HttpServlet {
 			if (aiData == null || aiData[0] == null) {
 				throw new RuntimeException("AI 응답이 없습니다.");
 			}
+			
 
 			System.out.println("ai응답결과: " + aiData);
 			// userid값 가져오기
@@ -216,6 +219,7 @@ public class AiController extends HttpServlet {
 			Ai_recommendation aiDB = new Ai_recommendation();
 			Ai_recommendationDAO aidao = new Ai_recommendationDAO();
 
+			System.out.println("userId : "+ userId);
 			aiDB.setSuggReason(aiData[1]);
 			aiDB.setNutrId(String.join(", ", nutritionNames)); // 영양 성분을 콤마로 연결하여 저장
 			aiDB.setFoodId(String.join(", ", foodNames)); // 식품을 콤마로 연결하여 저장
@@ -294,6 +298,7 @@ public class AiController extends HttpServlet {
 			// 세션에 resultNode 저장
 			HttpSession session = request.getSession();
 			session.setAttribute("resultNode", resultNode);
+			
 
 			// 클라이언트에 JSON 반환
 			response.setContentType("application/json;charset=UTF-8");

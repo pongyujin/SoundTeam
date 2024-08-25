@@ -87,7 +87,9 @@ public class ChecklistController extends HttpServlet {
 
 		int checkId = user_checkDAO.getNextCheckId();
 
+		// user_check 테이블에 저장 하기
 		for (JsonNode node : surveyData) {
+			
 			int listIdent = node.get("id").asInt();
 			String responseText = node.get("response").asText();
 
@@ -229,6 +231,8 @@ public class ChecklistController extends HttpServlet {
 
 			// 이후 클라이언트에서 페이지 리디렉션 처리
 			response.getWriter().write("{\"status\":\"success\"}");
+			
+			
 
 		} catch (MismatchedInputException e) {
 			System.out.println("JSON 파싱 오류: 입력 데이터가 비어있습니다.");

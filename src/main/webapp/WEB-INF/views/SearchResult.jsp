@@ -16,18 +16,16 @@
 <title>Search Results</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@500&display=swap"
+	rel="stylesheet">
 <style>
-*  {
-  font-family: "Jua", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-
-
-
-
-
+* {
+	font-family: "Jua", sans-serif;
+	font-weight: 400;
+	font-style: normal;
 }
+
 body {
 	font-family: Arial, sans-serif;
 	background-color: #ffffff;
@@ -38,6 +36,16 @@ body {
 	flex-direction: column;
 	padding-left: 20px;
 	padding-right: 20px;
+}
+
+.menu a {
+	margin-left: 5px;
+	color: #000000; /* 링크 색상 변경 */
+	text-decoration: none; /* 밑줄 제거 */
+}
+
+a:hover {
+	color: #007BFF; /* 마우스를 올렸을 때 색상 변경 */
 }
 
 .container {
@@ -109,7 +117,7 @@ body {
 	background-color: #fcfcfc;
 	border-radius: 8px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	margin-bottom:80px;
+	margin-bottom: 80px;
 }
 
 .result-container {
@@ -128,7 +136,6 @@ body {
 
 .product-item img {
 	max-width: 100px; /* 이미지 크기 조정 */
-	
 	border-radius: 8px;
 	margin-right: 10px;
 }
@@ -186,26 +193,26 @@ body {
 	background-color: #333;
 	color: #fff;
 }
+
 .back-btn {
-    display: block;
-    margin: 20px auto 0 auto;
-    background-color: #66DAE4;
-    color: #ffffff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1em;
-    width: 100%;
-    max-width: 150px;
+	display: block;
+	margin: 20px auto 0 auto;
+	background-color: #66DAE4;
+	color: #ffffff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1em;
+	width: 100%;
+	max-width: 150px;
 }
 
 .back-btn:hover {
-    background-color: #5bc0de;
+	background-color: #5bc0de;
 }
-
 </style>
 </head>
 <body>
@@ -233,7 +240,8 @@ body {
 				<div></div>
 			</div>
 			<div class="dropdown-menu" id="dropdownMenu">
-				<a href="mypage.jsp">마이페이지</a> <a href="GoBoard">게시판</a><a href="LogoutController">로그아웃</a>
+				<a href="mypage.jsp">마이페이지</a> <a href="GoBoard">게시판</a><a
+					href="LogoutController">로그아웃</a>
 			</div>
 			<%
 			}
@@ -277,7 +285,9 @@ body {
 			%>
 
 			<div class="result-container">
-				<h2><%=vitaminName%> 검색 결과</h2>
+				<h2><%=vitaminName%>
+					검색 결과
+				</h2>
 				<%
 				for (int i = 0; i < items.length(); i++) {
 					JSONObject item = items.getJSONObject(i);
@@ -295,7 +305,9 @@ body {
 							</h3>
 						</div>
 						<div class="product-price">
-							<p><%=price%> 원</p>
+							<p><%=price%>
+								원
+							</p>
 						</div>
 					</div>
 				</div>
@@ -315,23 +327,24 @@ body {
 			out.println("<p>비타민 이름이 제공되지 않았습니다.</p>");
 			}
 			%>
-	<button class="back-btn" onclick="goBack()">확인</button>
-	</div>
+			<button class="back-btn" onclick="goBack()">확인</button>
 		</div>
-	
-	<script >document.querySelector('.menu-icon').addEventListener('click', function() {
-	    var dropdownMenu = document.getElementById('dropdownMenu');
-	    if (dropdownMenu.style.display === 'block') {
-	        dropdownMenu.style.display = 'none';
-	    } else {
-	        dropdownMenu.style.display = 'block';
-	    }
-	});
-	
-	
-	function goBack() {
-	    window.history.back();
-	}
+	</div>
+
+	<script>
+		document.querySelector('.menu-icon').addEventListener('click',
+				function() {
+					var dropdownMenu = document.getElementById('dropdownMenu');
+					if (dropdownMenu.style.display === 'block') {
+						dropdownMenu.style.display = 'none';
+					} else {
+						dropdownMenu.style.display = 'block';
+					}
+				});
+
+		function goBack() {
+			window.history.back();
+		}
 	</script>
 
 

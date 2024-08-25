@@ -58,6 +58,9 @@ function previousPage() {
 }
 
 function submitSurvey() {
+	// 로딩 화면 표시
+	document.getElementById("loadingScreen").style.display = "flex";
+
 	// 설문 2에서 입력받은 데이터를 가져오기
 	const fishElement = document.querySelector('input[name="fish"]:checked');
 	const fish = fishElement ? fishElement.value : null;
@@ -113,6 +116,7 @@ function submitSurvey() {
 		symptoms.length === 0 ||
 		!allergies) {
 		alert("모든 항목을 선택해 주세요.");
+		document.getElementById("loadingScreen").style.display = "none"; // 로딩 화면 숨김
 		return; // 빈 값이 있으면 함수 종료, 제출을 진행하지 않음
 	}
 
@@ -136,7 +140,6 @@ function submitSurvey() {
 	xhr.open('POST', 'ChecklistController', true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 
-
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
@@ -144,28 +147,28 @@ function submitSurvey() {
 					// JSON 응답을 처리
 					const responseData = JSON.parse(xhr.responseText);
 					console.log('AI 결과:', responseData);
-					alert('설문이 완료되었습니다! AI 분석 결과를 확인하세요.');
 
-					// 다른 페이지로 리디렉션
+					// recommend.jsp 페이지로 리디렉션
 					window.location.href = 'http://localhost:8081/ST/GoRecommendPage';
 
 				} catch (e) {
 					// JSON 파싱 오류 처리 (HTML 페이지가 반환된 경우)
 					console.error('응답이 JSON 형식이 아닙니다: ', xhr.responseText);
 					alert('서버에서 잘못된 응답을 받았습니다. 다시 시도해주세요.');
+					document.getElementById("loadingScreen").style.display = "none"; // 로딩 화면 숨김
 				}
 			} else {
 				console.error('서버 오류:', xhr.status, xhr.responseText);
 				alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
+				document.getElementById("loadingScreen").style.display = "none"; // 로딩 화면 숨김
 			}
 		}
 	};
 
-
-
 	xhr.onerror = function() {
 		console.error('요청 중 오류 발생');
 		alert('요청 중 오류가 발생했습니다. 네트워크 상태를 확인하세요.');
+		document.getElementById("loadingScreen").style.display = "none"; // 로딩 화면 숨김
 	};
 
 	console.log("Sending data to server:", surveyData);
