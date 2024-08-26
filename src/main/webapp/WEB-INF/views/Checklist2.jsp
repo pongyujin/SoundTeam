@@ -299,7 +299,7 @@ body {
 		<div class="form-group">
 			<label>14. 현재 특별한 식단을 따르고 있나요? (해당하는 것 모두 선택)</label> <label
 				class="inline"><input type="checkbox" name="diet"
-				value="none"> 없음</label> <label class="inline"><input
+				value="none" id="diet_none"> 없음</label> <label class="inline"><input
 				type="checkbox" name="diet" value="low_carb"> 저탄수화물 식단</label> <label
 				class="inline"><input type="checkbox" name="diet"
 				value="low_fat"> 저지방 식단</label> <label class="inline"><input
@@ -313,7 +313,7 @@ body {
 		<div class="form-group">
 			<label>15. 현재 진단받은 건강 문제가 있나요? (해당하는 것 모두 선택)</label> <label
 				class="inline"><input type="checkbox" name="health_issues"
-				value="none"> 없음</label> <label class="inline"><input
+				value="none" id="health_none"> 없음</label> <label class="inline"><input
 				type="checkbox" name="health_issues" value="hypertension">
 				고혈압</label> <label class="inline"><input type="checkbox"
 				name="health_issues" value="diabetes"> 당뇨</label> <label
@@ -324,9 +324,10 @@ body {
 				value="thyroid"> 갑상선 문제</label> <label class="inline"><input
 				type="checkbox" name="health_issues" value="heart_disease">
 				심장 질환</label> <label class="inline"><input type="checkbox"
-				name="health_issues" value="other"> 기타<input type="text"
+				name="health_issues" value="other"> 기타 <input type="text"
 				name="health_other" placeholder="기타 질병 입력"></label>
 		</div>
+
 		<div class="form-group">
 			<label>16. 임신 중이거나 수유 중이신가요?</label> <label class="inline"><input
 				type="radio" name="pregnancy" value="yes"> 예</label> <label
@@ -345,10 +346,11 @@ body {
 				class="inline no-label"><input type="radio"
 				name="supplements_status" value="none"> 아니오</label>
 		</div>
+
 		<div class="form-group">
 			<label>19. 최근 6개월 내에 다음 증상을 경험한 적이 있나요? (해당하는 것 모두 선택)</label> <label
 				class="inline"><input type="checkbox" name="symptoms"
-				value="none"> 없음</label> <label class="inline"><input
+				value="none" id="symptoms_none"> 없음</label> <label class="inline"><input
 				type="checkbox" name="symptoms" value="fatigue"> 만성 피로</label> <label
 				class="inline"><input type="checkbox" name="symptoms"
 				value="digestive"> 소화 문제</label> <label class="inline"><input
@@ -360,6 +362,7 @@ body {
 				value="skin_issues"> 피부 문제</label> <label class="inline"><input
 				type="checkbox" name="symptoms" value="mood_changes"> 기분 변화</label>
 		</div>
+
 		<div class="form-group">
 			<label>20. 알레르기나 특정 성분에 대한 민감성이 있나요? (있다면 기재해 주세요)</label> <input
 				type="text" name="allergies" placeholder="예: 알레르기 입력"> <label
@@ -382,13 +385,51 @@ body {
 
 
 	<script>
-	
 	document.addEventListener("DOMContentLoaded", function() {
 	    // 로딩 화면을 기본적으로 숨김 처리
 	    document.getElementById("loadingScreen").style.display = "none";
 	});
-
 	
+	// 체크박스 그룹 제어 함수
+    function toggleCheckboxGroup(noneCheckboxId, groupName) {
+        const noneCheckbox = document.getElementById(noneCheckboxId);
+        const checkboxes = document.querySelectorAll(`input[name="${groupName}"]`);
+
+        noneCheckbox.addEventListener('change', function() {
+            if (noneCheckbox.checked) {
+                checkboxes.forEach(function(checkbox) {
+                    if (checkbox !== noneCheckbox) {
+                        checkbox.checked = false;
+                        checkbox.disabled = true; // 다른 체크박스를 비활성화
+                    }
+                });
+            } else {
+                checkboxes.forEach(function(checkbox) {
+                    checkbox.disabled = false; // 다른 체크박스를 다시 활성화
+                });
+            }
+        });
+
+        // 초기 상태 확인 (페이지 로드 시)
+        if (noneCheckbox.checked) {
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox !== noneCheckbox) {
+                    checkbox.disabled = true;
+                }
+            });
+        }
+    }
+
+    // 14번 질문 - 현재 특별한 식단
+    toggleCheckboxGroup('diet_none', 'diet');
+
+    // 15번 질문 - 현재 진단받은 건강 문제
+    toggleCheckboxGroup('health_none', 'health_issues');
+
+    // 19번 질문 - 최근 6개월 내 증상
+    toggleCheckboxGroup('symptoms_none', 'symptoms');
+
+
 	document.querySelector('.menu-icon').addEventListener('click', function() {
 	    var dropdownMenu = document.getElementById('dropdownMenu');
 	    if (dropdownMenu.style.display === 'block') {
@@ -397,6 +438,7 @@ body {
 	        dropdownMenu.style.display = 'block';
 	    }
 	});
+
 	document.addEventListener("DOMContentLoaded", function() {
 	    function toggleInputField(radioName, inputName) {
 	        const radioNone = document.querySelector(`input[name="${radioName}"][value="none"]`);
@@ -430,8 +472,6 @@ body {
 	    toggleInputField('allergy_status', 'allergies');
 	});
 
-
-	
 	</script>
 
 
