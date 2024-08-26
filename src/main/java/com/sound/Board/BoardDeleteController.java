@@ -30,6 +30,14 @@ public class BoardDeleteController extends HttpServlet {
 
         BoardDAO dao = new BoardDAO();
         Board board = dao.view(postId);
+        if (board == null) {
+            // 게시물이 존재하지 않을 경우 처리
+            request.setAttribute("error", "존재하지 않는 게시물입니다.");
+            RequestDispatcher rd = request.getRequestDispatcher("Board.jsp");
+            rd.forward(request, response);
+            return;
+        }
+        
         String boardUserId = board.getUsrId();
 
         String url = "";

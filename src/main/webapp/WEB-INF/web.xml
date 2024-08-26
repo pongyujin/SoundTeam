@@ -122,6 +122,12 @@
 		<description></description>
 		<servlet-class>com.sound.gopage.GoLodingPage</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>UserDeleteController</servlet-name>
+		<display-name>UserDeleteController</display-name>
+		<description></description>
+		<servlet-class>com.sound.controller.UserDeleteController</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>GoMyPage</servlet-name>
@@ -195,6 +201,10 @@
 	<servlet-mapping>
 		<servlet-name>GoLodingPage</servlet-name>
 		<url-pattern>/GoLodingPage</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UserDeleteController</servlet-name>
+		<url-pattern>/UserDeleteController</url-pattern>
 	</servlet-mapping>
 
 
