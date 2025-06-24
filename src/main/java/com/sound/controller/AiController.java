@@ -315,7 +315,6 @@ public class AiController extends HttpServlet {
 	// ai 실행 메서드
 	public String[] ai_access(String prompt) {
 
-		String API_KEY = "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";
 		String API_URL = "https://api.anthropic.com/v1/messages";
 
 		// OkHttpClient를 생성할 때 타임아웃을 설정합니다.
