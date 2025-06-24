@@ -25,9 +25,9 @@ public class NaverApiController extends HttpServlet {
          return;
       }
 
-      String CLIENT_ID = "g5siLwJYkgE_dazRmlS5";
-      String CLIENT_SECRET = "ik50JL1LnT";
-      String API_URL = "https://openapi.naver.com/v1/search/shop.json";
+      String CLIENT_ID = "";
+      String CLIENT_SECRET = "";
+      String API_URL = "";
 
       OkHttpClient client = new OkHttpClient();
 
